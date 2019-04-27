@@ -10,6 +10,8 @@ import (
 func ipToWire(family int, ipAddr string) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch family {
 	case 1:
 		return net.ParseIP(ipAddr).To4(), nil
@@ -21,11 +23,15 @@ func ipToWire(family int, ipAddr string) ([]byte, error) {
 func uint16ToWire(data uint16) []byte {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := make([]byte, 2)
 	binary.BigEndian.PutUint16(buf, uint16(data))
 	return buf
 }
 func portToWire(portStr string) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	port, err := strconv.ParseUint(portStr, 10, 16)

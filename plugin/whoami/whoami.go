@@ -13,6 +13,8 @@ type Whoami struct{}
 func (wh Whoami) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
 	a := new(dns.Msg)
 	a.SetReply(r)
@@ -42,6 +44,8 @@ func (wh Whoami) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg)
 	return 0, nil
 }
 func (wh Whoami) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "whoami"

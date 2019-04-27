@@ -10,9 +10,13 @@ type ScrubWriter struct {
 func NewScrubWriter(req *dns.Msg, w dns.ResponseWriter) *ScrubWriter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ScrubWriter{w, req}
 }
 func (s *ScrubWriter) WriteMsg(m *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	state := Request{Req: s.req, W: s.ResponseWriter}

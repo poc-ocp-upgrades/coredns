@@ -46,6 +46,8 @@ type templateData struct {
 func (h Handler) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r, Context: ctx}
 	zone := plugin.Zones(h.Zones).Matches(state.Name())
 	if zone == "" {
@@ -100,9 +102,13 @@ func (h Handler) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg)
 func (h Handler) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "template"
 }
 func executeRRTemplate(server, section string, template *gotmpl.Template, data templateData) (dns.RR, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	buffer := &bytes.Buffer{}
@@ -119,6 +125,8 @@ func executeRRTemplate(server, section string, template *gotmpl.Template, data t
 	return rr, nil
 }
 func (t template) match(state request.Request, zone string) (templateData, bool, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	q := state.Req.Question[0]

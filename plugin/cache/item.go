@@ -22,6 +22,8 @@ type item struct {
 func newItem(m *dns.Msg, now time.Time, d time.Duration) *item {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := new(item)
 	i.Rcode = m.Rcode
 	i.Authoritative = m.Authoritative
@@ -45,6 +47,8 @@ func newItem(m *dns.Msg, now time.Time, d time.Duration) *item {
 	return i
 }
 func (i *item) toMsg(m *dns.Msg, now time.Time) *dns.Msg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m1 := new(dns.Msg)
@@ -72,6 +76,8 @@ func (i *item) toMsg(m *dns.Msg, now time.Time) *dns.Msg {
 	return m1
 }
 func (i *item) ttl(now time.Time) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ttl := int(i.origTTL) - int(now.UTC().Sub(i.stored).Seconds())

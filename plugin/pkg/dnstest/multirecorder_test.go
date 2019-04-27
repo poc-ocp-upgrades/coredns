@@ -8,6 +8,8 @@ import (
 func TestMultiWriteMsg(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := &responseWriter{}
 	record := NewMultiRecorder(w)
 	responseTestName := "testmsg.example.org."
@@ -23,6 +25,8 @@ func TestMultiWriteMsg(t *testing.T) {
 	}
 }
 func TestMultiWrite(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	w := &responseWriter{}

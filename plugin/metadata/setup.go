@@ -9,9 +9,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("metadata", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m, err := metadataParse(c)
@@ -34,6 +38,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func metadataParse(c *caddy.Controller) (*Metadata, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := &Metadata{}

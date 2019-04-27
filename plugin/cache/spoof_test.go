@@ -12,6 +12,8 @@ import (
 func TestSpoof(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := New()
 	c.Next = spoofHandler(true)
 	req := new(dns.Msg)
@@ -33,6 +35,8 @@ func TestSpoof(t *testing.T) {
 func TestResponse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := New()
 	c.Next = spoofHandler(false)
 	req := new(dns.Msg)
@@ -46,6 +50,8 @@ func TestResponse(t *testing.T) {
 func spoofHandler(response bool) plugin.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return plugin.HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 		m := new(dns.Msg)
 		m.SetQuestion("example.net.", dns.TypeA)
@@ -56,6 +62,8 @@ func spoofHandler(response bool) plugin.Handler {
 	})
 }
 func spoofHandlerType() plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return plugin.HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {

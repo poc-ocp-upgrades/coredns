@@ -13,6 +13,8 @@ import (
 func fakeStubServerExampleNet(t *testing.T) (*dns.Server, string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server, addr, err := test.UDPServer("127.0.0.1:0")
 	if err != nil {
 		t.Fatalf("Failed to create a UDP server: %s", err)
@@ -26,6 +28,8 @@ func fakeStubServerExampleNet(t *testing.T) (*dns.Server, string) {
 	return server, addr
 }
 func TestStubLookup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	server, addr := fakeStubServerExampleNet(t)

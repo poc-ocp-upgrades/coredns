@@ -16,9 +16,13 @@ var log = clog.NewWithPlugin("hosts")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("hosts", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h, err := hostsParse(c)
@@ -52,6 +56,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func hostsParse(c *caddy.Controller) (Hosts, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var h = Hosts{Hostsfile: &Hostsfile{path: "/etc/hosts", hmap: newHostsMap()}}

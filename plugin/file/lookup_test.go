@@ -19,6 +19,8 @@ const (
 func TestLookup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbMiekNL), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expected no error when reading zone, got %q", err)
@@ -40,6 +42,8 @@ func TestLookup(t *testing.T) {
 func TestLookupNil(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fm := File{Next: test.ErrorHandler(), Zones: Zones{Z: map[string]*Zone{testzone: nil}, Names: []string{testzone}}}
 	ctx := context.TODO()
 	m := dnsTestCases[0].Msg()
@@ -47,6 +51,8 @@ func TestLookupNil(t *testing.T) {
 	fm.ServeDNS(ctx, rec, m)
 }
 func BenchmarkFileLookup(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbMiekNL), testzone, "stdin", 0)

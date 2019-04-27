@@ -11,6 +11,8 @@ import (
 func TestAllowedDomain(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	upstream := &staticUpstream{from: "miek.nl.", IgnoredSubDomains: []string{"download.miek.nl.", "static.miek.nl."}}
 	tests := []struct {
 		name		string
@@ -24,6 +26,8 @@ func TestAllowedDomain(t *testing.T) {
 	}
 }
 func TestProxyParse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rmFunc, cert, key, ca := getPEMFiles(t)
@@ -105,6 +109,8 @@ proxy . 8.8.8.8:53 {
 func TestResolvParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		inputUpstreams	string
 		filedata	string
@@ -166,6 +172,8 @@ junky resolv.conf
 func TestMaxTo(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := `proxy . 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1`
 	c := caddy.NewTestController("dns", config)
 	_, err := NewStaticUpstreams(&c.Dispenser)
@@ -174,6 +182,8 @@ func TestMaxTo(t *testing.T) {
 	}
 }
 func getPEMFiles(t *testing.T) (rmFunc func(), cert, key, ca string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tempDir, rmFunc, err := test.WritePEMFiles("")

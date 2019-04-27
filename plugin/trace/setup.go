@@ -12,9 +12,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("trace", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t, err := traceParse(c)
@@ -29,6 +33,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func traceParse(c *caddy.Controller) (*trace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -89,6 +95,8 @@ func traceParse(c *caddy.Controller) (*trace, error) {
 	return tr, err
 }
 func normalizeEndpoint(epType, ep string) (string, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if _, ok := supportedProviders[epType]; !ok {

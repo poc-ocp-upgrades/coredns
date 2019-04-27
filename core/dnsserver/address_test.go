@@ -5,6 +5,8 @@ import "testing"
 func TestNormalizeZone(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, test := range []struct {
 		input		string
 		expected	string
@@ -26,6 +28,8 @@ func TestNormalizeZone(t *testing.T) {
 func TestNormalizeZoneReverse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, test := range []struct {
 		input		string
 		expected	string
@@ -45,6 +49,8 @@ func TestNormalizeZoneReverse(t *testing.T) {
 	}
 }
 func TestSplitProtocolHostPort(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i, test := range []struct {
@@ -87,6 +93,8 @@ type checkCall struct {
 type checkTest struct{ sequence []checkCall }
 
 func TestOverlapAddressChecker(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i, test := range []checkTest{{sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, true, false, ""}}}, {sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, true, "dns://.:53"}}}, {sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, true, false, ""}}}, {sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "128.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "129.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, true, "dns://.:53 on 129.0.0.1"}}}, {sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: "com.", Address: "127.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: "com.", Address: "", Port: "53"}, false, true, "dns://com.:53 on 127.0.0.1"}}}} {

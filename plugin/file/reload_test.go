@@ -14,6 +14,8 @@ import (
 func TestZoneReload(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fileName, rm, err := test.TempFile(".", reloadZoneTest)
 	if err != nil {
 		t.Fatalf("Failed to create zone: %s", err)
@@ -55,6 +57,8 @@ func TestZoneReload(t *testing.T) {
 	}
 }
 func TestZoneReloadSOAChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, err := Parse(strings.NewReader(reloadZoneTest), "miek.nl.", "stdin", 1460175181)

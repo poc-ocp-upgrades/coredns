@@ -9,6 +9,8 @@ import (
 func TestFileParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zoneFileName1, rm, err := test.TempFile(".", dbMiekNL)
 	if err != nil {
 		t.Fatal(err)

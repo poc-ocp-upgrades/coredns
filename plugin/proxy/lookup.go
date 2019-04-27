@@ -14,9 +14,13 @@ import (
 func NewLookup(hosts []string) Proxy {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NewLookupWithOption(hosts, Options{})
 }
 func NewLookupWithOption(hosts []string, opts Options) Proxy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	p := Proxy{Next: nil}
@@ -32,6 +36,8 @@ func NewLookupWithOption(hosts []string, opts Options) Proxy {
 func (p Proxy) Lookup(state request.Request, name string, typ uint16) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := new(dns.Msg)
 	req.SetQuestion(name, typ)
 	state.SizeAndDo(req)
@@ -41,9 +47,13 @@ func (p Proxy) Lookup(state request.Request, name string, typ uint16) (*dns.Msg,
 func (p Proxy) Forward(state request.Request) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.lookup(state)
 }
 func (p Proxy) lookup(state request.Request) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	upstream := p.match(state)

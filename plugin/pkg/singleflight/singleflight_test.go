@@ -12,6 +12,8 @@ import (
 func TestDo(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var g Group
 	v, err := g.Do(1, func() (interface{}, error) {
 		return "bar", nil
@@ -24,6 +26,8 @@ func TestDo(t *testing.T) {
 	}
 }
 func TestDoErr(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var g Group
@@ -39,6 +43,8 @@ func TestDoErr(t *testing.T) {
 	}
 }
 func TestDoDupSuppress(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var g Group

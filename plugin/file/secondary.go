@@ -9,6 +9,8 @@ import (
 func (z *Zone) TransferIn() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(z.TransferFrom) == 0 {
 		return nil
 	}
@@ -57,6 +59,8 @@ Transfer:
 func (z *Zone) shouldTransfer() (bool, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := new(dns.Client)
 	c.Net = "tcp"
 	m := new(dns.Msg)
@@ -89,12 +93,16 @@ Transfer:
 func less(a, b uint32) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if a < b {
 		return (b - a) <= MaxSerialIncrement
 	}
 	return (a - b) > MaxSerialIncrement
 }
 func (z *Zone) Update() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for z.Apex.SOA == nil {
@@ -158,6 +166,8 @@ Restart:
 	}
 }
 func jitter(n int) time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r := rand.Intn(n)

@@ -17,6 +17,8 @@ type dnsHc struct{ c *dns.Client }
 func NewHealthChecker(trans string) HealthChecker {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch trans {
 	case transport.DNS, transport.TLS:
 		c := new(dns.Client)
@@ -31,10 +33,14 @@ func NewHealthChecker(trans string) HealthChecker {
 func (h *dnsHc) SetTLSConfig(cfg *tls.Config) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.c.Net = "tcp-tls"
 	h.c.TLSConfig = cfg
 }
 func (h *dnsHc) Check(p *Proxy) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err := h.send(p.addr)
@@ -47,6 +53,8 @@ func (h *dnsHc) Check(p *Proxy) error {
 	return nil
 }
 func (h *dnsHc) send(addr string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ping := new(dns.Msg)

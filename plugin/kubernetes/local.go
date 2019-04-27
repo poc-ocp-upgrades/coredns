@@ -7,6 +7,8 @@ import (
 func localPodIP() net.IP {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		return nil
@@ -22,6 +24,8 @@ func localPodIP() net.IP {
 	return nil
 }
 func (k *Kubernetes) localNodeName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	localIP := k.interfaceAddrsFunc()

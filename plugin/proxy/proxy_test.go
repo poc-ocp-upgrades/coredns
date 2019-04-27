@@ -18,6 +18,8 @@ import (
 func TestStop(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := "proxy . %s {\n health_check /healthcheck:%s %dms \n}"
 	tests := []struct {
 		intervalInMilliseconds	int
@@ -57,6 +59,8 @@ func TestStop(t *testing.T) {
 	}
 }
 func TestProxyRefused(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {

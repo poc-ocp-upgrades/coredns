@@ -13,6 +13,8 @@ var dnsPreserveCaseCases = []test.Case{{Qname: "not-a-service.testns.svc.ClUsTeR
 func TestPreserveCase(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := New([]string{"cluster.local."})
 	k.APIConn = &APIConnServeTest{}
 	k.opts.ignoreEmptyService = true

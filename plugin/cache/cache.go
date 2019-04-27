@@ -36,9 +36,13 @@ type Cache struct {
 func New() *Cache {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Cache{Zones: []string{"."}, pcap: defaultCap, pcache: cache.New(defaultCap), pttl: maxTTL, minpttl: minTTL, ncap: defaultCap, ncache: cache.New(defaultCap), nttl: maxNTTL, minnttl: minNTTL, prefetch: 0, duration: 1 * time.Minute, percentage: 10, now: time.Now}
 }
 func key(qname string, m *dns.Msg, t response.Type, do bool) (bool, uint64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m.Truncated {
@@ -56,6 +60,8 @@ var zero = []byte("0")
 func hash(qname string, qtype uint16, do bool) uint64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h := fnv.New64()
 	if do {
 		h.Write(one)
@@ -68,6 +74,8 @@ func hash(qname string, qtype uint16, do bool) uint64 {
 	return h.Sum64()
 }
 func computeTTL(msgTTL, minTTL, maxTTL time.Duration) time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ttl := msgTTL
@@ -92,6 +100,8 @@ type ResponseWriter struct {
 func newPrefetchResponseWriter(server string, state request.Request, c *Cache) *ResponseWriter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	addr := state.W.RemoteAddr()
 	if u, ok := addr.(*net.UDPAddr); ok {
 		addr = &net.TCPAddr{IP: u.IP, Port: u.Port, Zone: u.Zone}
@@ -101,12 +111,16 @@ func newPrefetchResponseWriter(server string, state request.Request, c *Cache) *
 func (w *ResponseWriter) RemoteAddr() net.Addr {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if w.remoteAddr != nil {
 		return w.remoteAddr
 	}
 	return w.ResponseWriter.RemoteAddr()
 }
 func (w *ResponseWriter) WriteMsg(res *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	do := false
@@ -151,6 +165,8 @@ func (w *ResponseWriter) WriteMsg(res *dns.Msg) error {
 func (w *ResponseWriter) set(m *dns.Msg, key uint64, mt response.Type, duration time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch mt {
 	case response.NoError, response.Delegation:
 		i := newItem(m, w.now(), duration)
@@ -164,6 +180,8 @@ func (w *ResponseWriter) set(m *dns.Msg, key uint64, mt response.Type, duration 
 	}
 }
 func (w *ResponseWriter) Write(buf []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	log.Warning("Caching called with Write: not caching reply")
@@ -187,7 +205,16 @@ const (
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

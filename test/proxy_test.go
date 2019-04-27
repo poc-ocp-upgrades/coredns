@@ -11,6 +11,8 @@ import (
 func TestLookupProxy(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	name, rm, err := test.TempFile(".", exampleOrg)
 	if err != nil {
@@ -45,6 +47,8 @@ func TestLookupProxy(t *testing.T) {
 func TestLookupDnsWithForcedTcp(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	name, rm, err := test.TempFile(".", exampleOrg)
 	if err != nil {
@@ -77,6 +81,8 @@ func TestLookupDnsWithForcedTcp(t *testing.T) {
 	}
 }
 func BenchmarkProxyLookup(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t := new(testing.T)

@@ -8,6 +8,8 @@ import (
 func TestSetupReload(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := caddy.NewTestController("dns", `reload`)
 	if err := setup(c); err != nil {
 		t.Fatalf("Expected no errors, but got: %v", err)

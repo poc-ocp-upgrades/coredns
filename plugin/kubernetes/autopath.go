@@ -9,6 +9,8 @@ import (
 func (k *Kubernetes) AutoPath(state request.Request) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone := plugin.Zones(k.Zones).Matches(state.Name())
 	if zone == "" {
 		return nil
@@ -36,6 +38,8 @@ func (k *Kubernetes) AutoPath(state request.Request) []string {
 	return search
 }
 func (k *Kubernetes) podWithIP(ip string) *object.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ps := k.APIConn.PodIndex(ip)

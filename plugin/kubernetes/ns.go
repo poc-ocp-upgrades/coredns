@@ -10,9 +10,13 @@ import (
 func isDefaultNS(name, zone string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Index(name, defaultNSName) == 0 && strings.Index(name, zone) == len(defaultNSName)
 }
 func (k *Kubernetes) nsAddr() *dns.A {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (

@@ -15,6 +15,8 @@ var log = clog.NewWithPlugin("reload")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("reload", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 
@@ -23,6 +25,8 @@ var once sync.Once
 var shutOnce sync.Once
 
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c.Next()

@@ -7,6 +7,8 @@ import (
 func TestExtractAddressFromReverse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		reverseName	string
 		expectedAddress	string
@@ -19,6 +21,8 @@ func TestExtractAddressFromReverse(t *testing.T) {
 	}
 }
 func TestIsReverse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

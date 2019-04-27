@@ -8,6 +8,8 @@ import (
 func TestTemplateUpstream(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `.:0 {
  		# CNAME
 		template IN ANY cname.example.net. {

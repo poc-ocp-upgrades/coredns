@@ -13,9 +13,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("federation", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fed, err := federationParse(c)
@@ -39,6 +43,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func federationParse(c *caddy.Controller) (*Federation, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fed := New()

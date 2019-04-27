@@ -26,6 +26,8 @@ type (
 func (f File) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r, Context: ctx}
 	qname := state.Name()
 	zone := plugin.Zones(f.Zones.Names).Matches(qname)
@@ -86,6 +88,8 @@ func (f File) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (i
 func (f File) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "file"
 }
 
@@ -99,9 +103,13 @@ type serialErr struct {
 func (s *serialErr) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s for origin %s in file %s, with serial %d", s.err, s.origin, s.zone, s.serial)
 }
 func Parse(f io.Reader, origin, fileName string, serial int64) (*Zone, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zp := dns.NewZoneParser(f, dns.Fqdn(origin), fileName)

@@ -10,6 +10,8 @@ import (
 func TestCached(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {
 		ret := new(dns.Msg)
 		ret.SetReply(r)
@@ -43,6 +45,8 @@ func TestCached(t *testing.T) {
 func TestCleanupByTimer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {
 		ret := new(dns.Msg)
 		ret.SetReply(r)
@@ -72,6 +76,8 @@ func TestCleanupByTimer(t *testing.T) {
 	tr.Yield(c4)
 }
 func TestPartialCleanup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {
@@ -116,6 +122,8 @@ func TestPartialCleanup(t *testing.T) {
 	tr.Yield(c8)
 }
 func TestCleanupAll(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {

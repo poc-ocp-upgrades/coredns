@@ -9,6 +9,8 @@ import (
 func MinimalTTL(m *dns.Msg, mt response.Type) time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if mt != response.NoError && mt != response.NameError && mt != response.NoData {
 		return MinimalDefaultTTL
 	}

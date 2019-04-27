@@ -13,6 +13,8 @@ import (
 func TestKubernetesXFR(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := New([]string{"cluster.local."})
 	k.APIConn = &APIConnServeTest{}
 	k.TransferTo = []string{"10.240.0.1:53"}
@@ -81,6 +83,8 @@ func TestKubernetesXFR(t *testing.T) {
 func TestKubernetesXFRNotAllowed(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := New([]string{"cluster.local."})
 	k.APIConn = &APIConnServeTest{}
 	k.TransferTo = []string{"1.2.3.4:53"}
@@ -105,6 +109,8 @@ func TestKubernetesXFRNotAllowed(t *testing.T) {
 func difference(testRRs []dns.RR, gotRRs []dns.RR) []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedRRs := map[string]struct{}{}
 	for _, rr := range testRRs {
 		expectedRRs[rr.String()] = struct{}{}
@@ -118,6 +124,8 @@ func difference(testRRs []dns.RR, gotRRs []dns.RR) []dns.RR {
 	return foundRRs
 }
 func TestEndpointsEquivalent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	epA := object.Endpoints{Subsets: []object.EndpointSubset{{Addresses: []object.EndpointAddress{{IP: "1.2.3.4", Hostname: "foo"}}}}}

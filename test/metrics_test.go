@@ -17,6 +17,8 @@ import (
 func TestMetricsServer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `example.org:0 {
 	chaos CoreDNS-001 miek@miek.nl
 	prometheus localhost:0
@@ -34,6 +36,8 @@ example.com:0 {
 	defer srv.Stop()
 }
 func TestMetricsRefused(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	metricName := "coredns_dns_response_rcode_count_total"
@@ -65,6 +69,8 @@ func TestMetricsRefused(t *testing.T) {
 	}
 }
 func TestMetricsCache(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cacheSizeMetricName := "coredns_cache_size"
@@ -109,6 +115,8 @@ func TestMetricsCache(t *testing.T) {
 	}
 }
 func TestMetricsAuto(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tmpdir, err := ioutil.TempDir(os.TempDir(), "coredns")
@@ -158,6 +166,8 @@ func TestMetricsAuto(t *testing.T) {
 	}
 }
 func TestMetricsSeveralBlocs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cacheSizeMetricName := "coredns_cache_size"

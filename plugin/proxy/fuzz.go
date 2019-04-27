@@ -8,6 +8,8 @@ import (
 func Fuzz(data []byte) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := caddy.NewTestController("dns", "proxy . 8.8.8.8:53")
 	up, err := NewStaticUpstreams(&c.Dispenser)
 	if err != nil {

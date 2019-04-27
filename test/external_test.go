@@ -11,6 +11,8 @@ import (
 func testExternalPluginCompile(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := addExamplePlugin(); err != nil {
 		t.Fatal(err)
 	}
@@ -35,6 +37,8 @@ func testExternalPluginCompile(t *testing.T) {
 func run(t *testing.T, c *exec.Cmd) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.Dir = ".."
 	out, err := c.Output()
 	if err != nil {
@@ -43,6 +47,8 @@ func run(t *testing.T, c *exec.Cmd) ([]byte, error) {
 	return out, nil
 }
 func addExamplePlugin() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	f, err := os.OpenFile("../plugin.cfg", os.O_APPEND|os.O_WRONLY, os.ModeAppend)

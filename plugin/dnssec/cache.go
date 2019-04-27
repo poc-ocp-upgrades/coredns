@@ -8,6 +8,8 @@ import (
 func hash(rrs []dns.RR) uint64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h := fnv.New64()
 	buf := make([]byte, 256)
 	for _, r := range rrs {

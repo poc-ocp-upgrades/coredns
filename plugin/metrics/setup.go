@@ -19,9 +19,13 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("prometheus", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m, err := prometheusParse(c)
@@ -48,6 +52,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func prometheusParse(c *caddy.Controller) (*Metrics, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var met = New(defaultAddr)

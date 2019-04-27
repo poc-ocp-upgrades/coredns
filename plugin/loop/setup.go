@@ -14,9 +14,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("loop", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l, err := parse(c)
@@ -55,6 +59,8 @@ func setup(c *caddy.Controller) error {
 func parse(c *caddy.Controller) (*Loop, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := 0
 	zone := "."
 	for c.Next() {
@@ -72,6 +78,8 @@ func parse(c *caddy.Controller) (*Loop, error) {
 	return New(zone), nil
 }
 func qname(zone string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l1 := strconv.Itoa(r.Int())

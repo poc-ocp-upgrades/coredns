@@ -10,6 +10,8 @@ import (
 func TestRequestDo(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	st := testRequest()
 	st.Do()
 	if st.do == nil {
@@ -17,6 +19,8 @@ func TestRequestDo(t *testing.T) {
 	}
 }
 func TestRequestRemote(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	st := testRequest()
@@ -32,6 +36,8 @@ func TestRequestRemote(t *testing.T) {
 	}
 }
 func TestRequestMalformed(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)
@@ -58,6 +64,8 @@ func TestRequestMalformed(t *testing.T) {
 func TestRequestScrubAnswer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("large.example.com.", dns.TypeSRV)
 	req := Request{W: &test.ResponseWriter{}, Req: m}
@@ -75,6 +83,8 @@ func TestRequestScrubAnswer(t *testing.T) {
 	}
 }
 func TestRequestScrubExtra(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)
@@ -96,6 +106,8 @@ func TestRequestScrubExtra(t *testing.T) {
 func TestRequestScrubExtraEdns0(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("large.example.com.", dns.TypeSRV)
 	m.SetEdns0(4096, true)
@@ -114,6 +126,8 @@ func TestRequestScrubExtraEdns0(t *testing.T) {
 	}
 }
 func TestRequestScrubExtraRegression(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)
@@ -137,6 +151,8 @@ func TestRequestScrubExtraRegression(t *testing.T) {
 	}
 }
 func TestTruncation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for bufsize := 1024; bufsize <= 4096; bufsize += 12 {
@@ -165,6 +181,8 @@ func TestTruncation(t *testing.T) {
 func TestRequestScrubAnswerExact(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("large.example.com.", dns.TypeSRV)
 	m.SetEdns0(867, false)
@@ -180,6 +198,8 @@ func TestRequestScrubAnswerExact(t *testing.T) {
 	}
 }
 func TestRequestMatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	st := testRequest()
@@ -201,6 +221,8 @@ func TestRequestMatch(t *testing.T) {
 func BenchmarkRequestDo(b *testing.B) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	st := testRequest()
 	for i := 0; i < b.N; i++ {
 		st.Do()
@@ -209,12 +231,16 @@ func BenchmarkRequestDo(b *testing.B) {
 func BenchmarkRequestSize(b *testing.B) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	st := testRequest()
 	for i := 0; i < b.N; i++ {
 		st.Size()
 	}
 }
 func BenchmarkRequestScrub(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	st := testRequest()
@@ -234,12 +260,16 @@ func BenchmarkRequestScrub(b *testing.B) {
 func testRequest() Request {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("example.com.", dns.TypeA)
 	m.SetEdns0(4096, true)
 	return Request{W: &test.ResponseWriter{}, Req: m}
 }
 func TestRequestClear(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	st := testRequest()

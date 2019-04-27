@@ -25,6 +25,8 @@ PrivateKey: f03VplaIEA+KHI9uizlemUSbUJH86hPBPjmcUninPoM=
 func TestReadme(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	port := 30053
 	caddy.Quiet = true
 	dnsserver.Quiet = true
@@ -57,6 +59,8 @@ func TestReadme(t *testing.T) {
 	}
 }
 func corefileFromReadme(readme string) ([]*Input, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	f, err := os.Open(readme)
@@ -92,11 +96,15 @@ func corefileFromReadme(readme string) ([]*Input, error) {
 func create(c map[string]string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for name, content := range c {
 		ioutil.WriteFile(name, []byte(content), 0644)
 	}
 }
 func remove(c map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for name := range c {

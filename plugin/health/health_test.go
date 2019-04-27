@@ -12,6 +12,8 @@ import (
 func TestHealth(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h := newHealth(":0")
 	h.h = append(h.h, &erratic.Erratic{})
 	if err := h.OnStartup(); err != nil {
@@ -49,6 +51,8 @@ func TestHealth(t *testing.T) {
 	}
 }
 func TestHealthLameduck(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h := newHealth(":0")

@@ -28,6 +28,8 @@ type watchlist map[int64]pb.DnsService_WatchServer
 func NewWatcher(plugins []Watchable) *Manager {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := &Manager{changes: make(Chan), stopper: make(chan bool), watches: make(map[string]watchlist), plugins: plugins}
 	for _, p := range plugins {
 		p.SetWatchChan(w.changes)
@@ -38,6 +40,8 @@ func NewWatcher(plugins []Watchable) *Manager {
 func (w *Manager) nextID() int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.mutex.Lock()
 	w.counter++
 	id := w.counter
@@ -45,6 +49,8 @@ func (w *Manager) nextID() int64 {
 	return id
 }
 func (w *Manager) Watch(stream pb.DnsService_WatchServer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for {
@@ -112,6 +118,8 @@ func (w *Manager) Watch(stream pb.DnsService_WatchServer) error {
 func (w *Manager) process() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		select {
 		case <-w.stopper:
@@ -136,6 +144,8 @@ func (w *Manager) process() {
 	}
 }
 func (w *Manager) Stop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	w.stopper <- true

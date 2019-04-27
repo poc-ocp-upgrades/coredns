@@ -17,6 +17,8 @@ import (
 func TestUnhealthy(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := "proxy . %s {\n health_check /healthcheck:%s 10s \nfail_timeout 100ms\n}"
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		r.Body.Close()

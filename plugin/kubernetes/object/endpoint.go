@@ -37,9 +37,13 @@ type EndpointPort struct {
 func EndpointsKey(name, namespace string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return name + "." + namespace
 }
 func ToEndpoints(obj interface{}) interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	end, ok := obj.(*api.Endpoints)
@@ -81,6 +85,8 @@ func ToEndpoints(obj interface{}) interface{} {
 func (e *Endpoints) CopyWithoutSubsets() *Endpoints {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e1 := &Endpoints{Version: e.Version, Name: e.Name, Namespace: e.Namespace, Index: e.Index, IndexIP: make([]string, len(e.IndexIP))}
 	copy(e1.IndexIP, e.IndexIP)
 	return e1
@@ -89,6 +95,8 @@ func (e *Endpoints) CopyWithoutSubsets() *Endpoints {
 var _ runtime.Object = &Endpoints{}
 
 func (e *Endpoints) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	e1 := &Endpoints{Version: e.Version, Name: e.Name, Namespace: e.Namespace, Index: e.Index, IndexIP: make([]string, len(e.IndexIP)), Subsets: make([]EndpointSubset, len(e.Subsets))}
@@ -110,13 +118,19 @@ func (e *Endpoints) DeepCopyObject() runtime.Object {
 func (e *Endpoints) GetNamespace() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.Namespace
 }
 func (e *Endpoints) SetNamespace(namespace string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (e *Endpoints) GetName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return e.Name
@@ -124,8 +138,12 @@ func (e *Endpoints) GetName() string {
 func (e *Endpoints) SetName(name string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (e *Endpoints) GetResourceVersion() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return e.Version
@@ -133,11 +151,22 @@ func (e *Endpoints) GetResourceVersion() string {
 func (e *Endpoints) SetResourceVersion(version string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

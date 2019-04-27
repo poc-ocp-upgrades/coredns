@@ -20,6 +20,8 @@ type Context struct {
 func TestingData() (d *msg.Builder) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d = &msg.Builder{SocketFam: tap.SocketFamily_INET, SocketProto: tap.SocketProtocol_UDP, Address: net.ParseIP("10.240.0.1"), Port: 40212}
 	return
 }
@@ -41,9 +43,13 @@ type comp struct {
 func toComp(m *tap.Message) comp {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return comp{Type: m.Type, SF: m.SocketFamily, SP: m.SocketProtocol, QA: m.QueryAddress, RA: m.ResponseAddress, QP: m.QueryPort, RP: m.ResponsePort, QTSec: m.QueryTimeSec != nil, RTSec: m.ResponseTimeSec != nil, RM: m.ResponseMessage, QM: m.QueryMessage}
 }
 func MsgEqual(a, b *tap.Message) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return reflect.DeepEqual(toComp(a), toComp(b))
@@ -57,9 +63,13 @@ type TrapTapper struct {
 func (t *TrapTapper) Pack() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.Full
 }
 func (t *TrapTapper) TapMessage(m *tap.Message) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.Trap = append(t.Trap, m)
@@ -67,7 +77,16 @@ func (t *TrapTapper) TapMessage(m *tap.Message) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

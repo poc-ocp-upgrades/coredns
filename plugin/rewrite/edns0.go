@@ -33,6 +33,8 @@ type edns0NsidRule struct {
 func setupEdns0Opt(r *dns.Msg) *dns.OPT {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := r.IsEdns0()
 	if o == nil {
 		r.SetEdns0(4096, false)
@@ -41,6 +43,8 @@ func setupEdns0Opt(r *dns.Msg) *dns.OPT {
 	return o
 }
 func (rule *edns0NsidRule) Rewrite(ctx context.Context, state request.Request) Result {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := setupEdns0Opt(state.Req)
@@ -61,14 +65,20 @@ func (rule *edns0NsidRule) Rewrite(ctx context.Context, state request.Request) R
 func (rule *edns0NsidRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.mode
 }
 func (rule *edns0NsidRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ResponseRule{}
 }
 func (rule *edns0LocalRule) Rewrite(ctx context.Context, state request.Request) Result {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := setupEdns0Opt(state.Req)
@@ -91,14 +101,20 @@ func (rule *edns0LocalRule) Rewrite(ctx context.Context, state request.Request) 
 func (rule *edns0LocalRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.mode
 }
 func (rule *edns0LocalRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ResponseRule{}
 }
 func newEdns0Rule(mode string, args ...string) (Rule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(args) < 2 {
@@ -139,6 +155,8 @@ func newEdns0Rule(mode string, args ...string) (Rule, error) {
 func newEdns0LocalRule(mode, action, code, data string) (*edns0LocalRule, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := strconv.ParseUint(code, 0, 16)
 	if err != nil {
 		return nil, err
@@ -156,6 +174,8 @@ func newEdns0LocalRule(mode, action, code, data string) (*edns0LocalRule, error)
 func newEdns0VariableRule(mode, action, code, variable string) (*edns0VariableRule, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := strconv.ParseUint(code, 0, 16)
 	if err != nil {
 		return nil, err
@@ -167,6 +187,8 @@ func newEdns0VariableRule(mode, action, code, variable string) (*edns0VariableRu
 	return &edns0VariableRule{mode: mode, action: action, code: uint16(c), variable: variable}, nil
 }
 func (rule *edns0VariableRule) ruleData(ctx context.Context, state request.Request) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch rule.variable {
@@ -197,6 +219,8 @@ func (rule *edns0VariableRule) ruleData(ctx context.Context, state request.Reque
 func (rule *edns0VariableRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := rule.ruleData(ctx, state)
 	if err != nil || data == nil {
 		return RewriteIgnored
@@ -222,14 +246,20 @@ func (rule *edns0VariableRule) Rewrite(ctx context.Context, state request.Reques
 func (rule *edns0VariableRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.mode
 }
 func (rule *edns0VariableRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ResponseRule{}
 }
 func isValidVariable(variable string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch variable {
@@ -252,6 +282,8 @@ type edns0SubnetRule struct {
 func newEdns0SubnetRule(mode, action, v4BitMaskLen, v6BitMaskLen string) (*edns0SubnetRule, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v4Len, err := strconv.ParseUint(v4BitMaskLen, 0, 16)
 	if err != nil {
 		return nil, err
@@ -269,6 +301,8 @@ func newEdns0SubnetRule(mode, action, v4BitMaskLen, v6BitMaskLen string) (*edns0
 	return &edns0SubnetRule{mode: mode, action: action, v4BitMaskLen: uint8(v4Len), v6BitMaskLen: uint8(v6Len)}, nil
 }
 func (rule *edns0SubnetRule) fillEcsData(state request.Request, ecs *dns.EDNS0_SUBNET) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	family := state.Family()
@@ -295,6 +329,8 @@ func (rule *edns0SubnetRule) fillEcsData(state request.Request, ecs *dns.EDNS0_S
 func (rule *edns0SubnetRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := setupEdns0Opt(state.Req)
 	for _, s := range o.Option {
 		if e, ok := s.(*dns.EDNS0_SUBNET); ok {
@@ -318,9 +354,13 @@ func (rule *edns0SubnetRule) Rewrite(ctx context.Context, state request.Request)
 func (rule *edns0SubnetRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.mode
 }
 func (rule *edns0SubnetRule) GetResponseRule() ResponseRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ResponseRule{}

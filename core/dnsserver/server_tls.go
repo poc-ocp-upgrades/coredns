@@ -17,6 +17,8 @@ type ServerTLS struct {
 func NewServerTLS(addr string, group []*Config) (*ServerTLS, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, err := NewServer(addr, group)
 	if err != nil {
 		return nil, err
@@ -28,6 +30,8 @@ func NewServerTLS(addr string, group []*Config) (*ServerTLS, error) {
 	return &ServerTLS{Server: s, tlsConfig: tlsConfig}, nil
 }
 func (s *ServerTLS) Serve(l net.Listener) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.m.Lock()
@@ -44,9 +48,13 @@ func (s *ServerTLS) Serve(l net.Listener) error {
 func (s *ServerTLS) ServePacket(p net.PacketConn) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (s *ServerTLS) Listen() (net.Listener, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l, err := net.Listen("tcp", s.Addr[len(transport.TLS+"://"):])
@@ -58,9 +66,13 @@ func (s *ServerTLS) Listen() (net.Listener, error) {
 func (s *ServerTLS) ListenPacket() (net.PacketConn, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (s *ServerTLS) OnStartupComplete() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if Quiet {

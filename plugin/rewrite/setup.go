@@ -12,9 +12,13 @@ var log = clog.NewWithPlugin("rewrite")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("rewrite", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rewrites, err := rewriteParse(c)
@@ -27,6 +31,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func rewriteParse(c *caddy.Controller) ([]Rule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var rules []Rule

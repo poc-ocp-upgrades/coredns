@@ -9,6 +9,8 @@ import (
 func getPEMFiles(t *testing.T) (rmFunc func(), cert, key, ca string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tempDir, rmFunc, err := test.WritePEMFiles("")
 	if err != nil {
 		t.Fatalf("Could not write PEM files: %s", err)
@@ -21,6 +23,8 @@ func getPEMFiles(t *testing.T) (rmFunc func(), cert, key, ca string) {
 func TestNewTLSConfig(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rmFunc, cert, key, ca := getPEMFiles(t)
 	defer rmFunc()
 	_, err := NewTLSConfig(cert, key, ca)
@@ -31,6 +35,8 @@ func TestNewTLSConfig(t *testing.T) {
 func TestNewTLSClientConfig(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rmFunc, _, _, ca := getPEMFiles(t)
 	defer rmFunc()
 	_, err := NewTLSClientConfig(ca)
@@ -39,6 +45,8 @@ func TestNewTLSClientConfig(t *testing.T) {
 	}
 }
 func TestNewTLSConfigFromArgs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rmFunc, cert, key, ca := getPEMFiles(t)
@@ -77,6 +85,8 @@ func TestNewTLSConfigFromArgs(t *testing.T) {
 	}
 }
 func TestNewHTTPSTransport(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rmFunc, _, _, ca := getPEMFiles(t)

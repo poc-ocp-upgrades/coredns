@@ -27,10 +27,14 @@ type Transport struct {
 func newTransport(addr string) *Transport {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &Transport{avgDialTime: int64(maxDialTimeout / 2), conns: make(map[string][]*persistConn), expire: defaultExpire, addr: addr, dial: make(chan string), yield: make(chan *dns.Conn), ret: make(chan *dns.Conn), stop: make(chan bool)}
 	return t
 }
 func (t *Transport) len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := 0
@@ -40,6 +44,8 @@ func (t *Transport) len() int {
 	return l
 }
 func (t *Transport) connManager() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ticker := time.NewTicker(t.expire)
@@ -82,11 +88,15 @@ Wait:
 func closeConns(conns []*persistConn) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, pc := range conns {
 		pc.c.Close()
 	}
 }
 func (t *Transport) cleanup(all bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	staleTime := time.Now().Add(-t.expire)
@@ -112,9 +122,13 @@ func (t *Transport) cleanup(all bool) {
 func (t *Transport) Yield(c *dns.Conn) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.yield <- c
 }
 func (t *Transport) Start() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	go t.connManager()
@@ -122,14 +136,20 @@ func (t *Transport) Start() {
 func (t *Transport) Stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(t.stop)
 }
 func (t *Transport) SetExpire(expire time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.expire = expire
 }
 func (t *Transport) SetTLSConfig(cfg *tls.Config) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.tlsConfig = cfg

@@ -10,6 +10,8 @@ var TickTime = 1 * time.Second
 func (z *Zone) Reload() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if z.ReloadInterval == 0 {
 		return nil
 	}
@@ -51,6 +53,8 @@ func (z *Zone) Reload() error {
 	return nil
 }
 func (z *Zone) SOASerialIfDefined() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	z.reloadMu.Lock()

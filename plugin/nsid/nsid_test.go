@@ -14,6 +14,8 @@ import (
 func TestNsid(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	em := Nsid{Data: "NSID"}
 	tests := []struct {
 		next		plugin.Handler

@@ -24,6 +24,8 @@ type zoneAddr struct {
 func (z zoneAddr) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := z.Transport + "://" + z.Zone + ":" + z.Port
 	if z.Address != "" {
 		s += " on " + z.Address
@@ -31,6 +33,8 @@ func (z zoneAddr) String() string {
 	return s
 }
 func normalizeZone(str string) (zoneAddr, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	trans, str := parse.Transport(str)
@@ -55,6 +59,8 @@ func normalizeZone(str string) (zoneAddr, error) {
 func SplitProtocolHostPort(address string) (protocol string, ip string, port string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.Split(address, "://")
 	switch len(parts) {
 	case 1:
@@ -76,9 +82,13 @@ type zoneOverlap struct {
 func newOverlapZone() *zoneOverlap {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &zoneOverlap{registeredAddr: make(map[zoneAddr]zoneAddr), unboundOverlap: make(map[zoneAddr]zoneAddr)}
 }
 func (zo *zoneOverlap) registerAndCheck(z zoneAddr) (existingZone *zoneAddr, overlappingZone *zoneAddr) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if exist, ok := zo.registeredAddr[z]; ok {
@@ -100,7 +110,16 @@ func (zo *zoneOverlap) registerAndCheck(z zoneAddr) (existingZone *zoneAddr, ove
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

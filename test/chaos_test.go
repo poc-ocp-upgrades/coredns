@@ -10,6 +10,8 @@ import (
 func TestChaos(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `.:0 {
 		chaos
 }

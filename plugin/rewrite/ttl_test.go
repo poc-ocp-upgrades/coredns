@@ -13,6 +13,8 @@ import (
 func TestNewTtlRule(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		next		string
 		args		[]string
@@ -51,6 +53,8 @@ func TestNewTtlRule(t *testing.T) {
 func TestTtlRewrite(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rules := []Rule{}
 	ruleset := []struct {
 		args		[]string
@@ -70,6 +74,8 @@ func TestTtlRewrite(t *testing.T) {
 	doTtlTests(rules, t)
 }
 func doTtlTests(rules []Rule, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

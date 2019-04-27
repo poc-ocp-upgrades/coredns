@@ -26,6 +26,8 @@ var cacheTestCases = []cacheTestCase{{RecursionAvailable: true, AuthenticatedDat
 func cacheMsg(m *dns.Msg, tc cacheTestCase) *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.RecursionAvailable = tc.RecursionAvailable
 	m.AuthenticatedData = tc.AuthenticatedData
 	m.Authoritative = tc.Authoritative
@@ -38,6 +40,8 @@ func cacheMsg(m *dns.Msg, tc cacheTestCase) *dns.Msg {
 func newTestCache(ttl time.Duration) (*Cache, *ResponseWriter) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := New()
 	c.pttl = ttl
 	c.nttl = ttl
@@ -45,6 +49,8 @@ func newTestCache(ttl time.Duration) (*Cache, *ResponseWriter) {
 	return c, crr
 }
 func TestCache(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	now, _ := time.Parse(time.UnixDate, "Fri Apr 21 10:51:21 BST 2017")
@@ -86,6 +92,8 @@ func TestCache(t *testing.T) {
 func TestCacheZeroTTL(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := New()
 	c.minpttl = 0
 	c.minnttl = 0
@@ -102,6 +110,8 @@ func TestCacheZeroTTL(t *testing.T) {
 	}
 }
 func BenchmarkCacheResponse(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c := New()
@@ -124,6 +134,8 @@ func BenchmarkCacheResponse(b *testing.B) {
 func BackendHandler() plugin.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return plugin.HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 		m := new(dns.Msg)
 		m.SetReply(r)
@@ -138,6 +150,8 @@ func BackendHandler() plugin.Handler {
 func zeroTTLBackend() plugin.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return plugin.HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 		m := new(dns.Msg)
 		m.SetReply(r)
@@ -148,6 +162,8 @@ func zeroTTLBackend() plugin.Handler {
 	})
 }
 func TestComputeTTL(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

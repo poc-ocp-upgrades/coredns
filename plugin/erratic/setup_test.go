@@ -8,6 +8,8 @@ import (
 func TestSetup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := caddy.NewTestController("dns", `erratic {
 		drop
 	}`)
@@ -26,6 +28,8 @@ func TestSetup(t *testing.T) {
 	}
 }
 func TestParseErratic(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

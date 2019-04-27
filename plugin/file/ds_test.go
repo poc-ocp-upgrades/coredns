@@ -14,6 +14,8 @@ var dsTestCases = []test.Case{{Qname: "a.delegated.miek.nl.", Qtype: dns.TypeDS,
 func TestLookupDS(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbMiekNLDelegation), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expected no error when reading zone, got %q", err)

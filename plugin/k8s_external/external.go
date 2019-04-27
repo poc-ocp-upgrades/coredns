@@ -25,10 +25,14 @@ type External struct {
 func New() *External {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := &External{hostmaster: "hostmaster", ttl: 5, apex: "dns"}
 	return e
 }
 func (e *External) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
@@ -76,6 +80,8 @@ func (e *External) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Ms
 	return 0, nil
 }
 func (e *External) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "k8s_external"

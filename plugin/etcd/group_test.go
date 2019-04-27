@@ -11,6 +11,8 @@ import (
 func TestGroupLookup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	etc := newEtcdPlugin()
 	for _, serv := range servicesGroup {
 		set(t, etc, serv.Key, 0, serv)

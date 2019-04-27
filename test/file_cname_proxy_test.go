@@ -11,6 +11,8 @@ import (
 func TestZoneExternalCNAMELookupWithoutProxy(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	name, rm, err := TempFile(".", exampleOrg)
 	if err != nil {
@@ -37,6 +39,8 @@ func TestZoneExternalCNAMELookupWithoutProxy(t *testing.T) {
 	}
 }
 func TestZoneExternalCNAMELookupWithProxy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.Parallel()

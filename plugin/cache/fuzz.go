@@ -7,5 +7,7 @@ import (
 func Fuzz(data []byte) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fuzz.Do(New(), data)
 }

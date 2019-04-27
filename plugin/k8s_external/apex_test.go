@@ -12,6 +12,8 @@ import (
 func TestApex(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := kubernetes.New([]string{"cluster.local."})
 	k.Namespaces = map[string]struct{}{"testns": struct{}{}}
 	k.APIConn = &external{}

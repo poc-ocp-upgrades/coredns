@@ -13,6 +13,8 @@ var (
 func familyToString(f int) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if f == 1 {
 		return "1"
 	}

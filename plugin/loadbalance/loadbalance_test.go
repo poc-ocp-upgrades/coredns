@@ -12,6 +12,8 @@ import (
 func TestLoadBalance(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rm := RoundRobin{Next: handler()}
 	tests := []struct {
 		answer		[]dns.RR
@@ -65,6 +67,8 @@ func TestLoadBalance(t *testing.T) {
 func TestLoadBalanceXFR(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rm := RoundRobin{Next: handler()}
 	answer := []dns.RR{test.SOA("skydns.test.	30	IN	SOA	ns.dns.skydns.test. hostmaster.skydns.test. 1542756695 7200 1800 86400 30"), test.MX("mx.region2.skydns.test.			300	IN	MX		1	mx1.region2.skydns.test."), test.A("endpoint.region2.skydns.test.		300	IN	A			10.240.0.1"), test.A("endpoint.region2.skydns.test.		300	IN	A			10.240.0.2"), test.MX("mx.region2.skydns.test.			300	IN	MX		1	mx2.region2.skydns.test."), test.CNAME("cname2.region2.skydns.test.	300	IN	CNAME		cname3.region2.skydns.test."), test.A("endpoint.region2.skydns.test.		300	IN	A			10.240.0.3"), test.MX("mx.region2.skydns.test.			300	IN	MX		1	mx3.region2.skydns.test."), test.SOA("skydns.test.	30	IN	SOA	ns.dns.skydns.test. hostmaster.skydns.test. 1542756695 7200 1800 86400 30")}
 	for _, xfrtype := range []uint16{dns.TypeIXFR, dns.TypeAXFR} {
@@ -86,6 +90,8 @@ func TestLoadBalanceXFR(t *testing.T) {
 	}
 }
 func countRecords(result []dns.RR) (cname int, address int, mx int, sorted bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const (
@@ -121,6 +127,8 @@ func countRecords(result []dns.RR) (cname int, address int, mx int, sorted bool)
 	return
 }
 func handler() plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return plugin.HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {

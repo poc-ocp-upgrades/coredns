@@ -28,10 +28,14 @@ var log = clog.NewWithPlugin("kubernetes")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag.Set("logtostderr", "true")
 	caddy.RegisterPlugin("kubernetes", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	os.Stderr = os.Stdout
@@ -51,6 +55,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func (k *Kubernetes) RegisterKubeCache(c *caddy.Controller) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c.OnStartup(func() error {
@@ -81,6 +87,8 @@ func (k *Kubernetes) RegisterKubeCache(c *caddy.Controller) {
 func kubernetesParse(c *caddy.Controller) (*Kubernetes, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		k8s	*Kubernetes
 		err	error
@@ -99,6 +107,8 @@ func kubernetesParse(c *caddy.Controller) (*Kubernetes, error) {
 	return k8s, nil
 }
 func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	k8s := New([]string{""})
@@ -266,6 +276,8 @@ func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
 	return k8s, nil
 }
 func searchFromResolvConf() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rc, err := dns.ClientConfigFromFile("/etc/resolv.conf")

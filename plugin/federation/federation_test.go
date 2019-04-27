@@ -12,6 +12,8 @@ import (
 func TestIsNameFederation(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		fed		string
 		qname		string
@@ -26,6 +28,8 @@ func TestIsNameFederation(t *testing.T) {
 	}
 }
 func TestFederationKubernetes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []test.Case{{Qname: "svc1.testns.prod.svc.cluster.local.", Qtype: dns.TypeA, Rcode: dns.RcodeSuccess, Answer: []dns.RR{test.A("svc1.testns.prod.svc.cluster.local.      303       IN      A       10.0.0.1")}}, {Qname: "svc0.testns.prod.svc.cluster.local.", Qtype: dns.TypeA, Rcode: dns.RcodeSuccess, Answer: []dns.RR{test.CNAME("svc0.testns.prod.svc.cluster.local.  303       IN      CNAME   svc0.testns.prod.svc.fd-az.fd-r.federal.example.")}}}
@@ -50,6 +54,8 @@ func TestFederationKubernetes(t *testing.T) {
 	}
 }
 func TestFederationKubernetesMissingLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []test.Case{{Qname: "svc0.testns.prod.svc.cluster.local.", Qtype: dns.TypeA, Rcode: dns.RcodeSuccess, Answer: []dns.RR{test.CNAME("svc0.testns.prod.svc.cluster.local.  303       IN      CNAME   svc0.testns.prod.svc.fd-az.fd-r.federal.example.")}}}

@@ -17,9 +17,13 @@ var log = clog.NewWithPlugin("cache")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("cache", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ca, err := cacheParse(c)
@@ -37,6 +41,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func cacheParse(c *caddy.Controller) (*Cache, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ca := New()

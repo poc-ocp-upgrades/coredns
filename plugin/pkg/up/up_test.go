@@ -10,6 +10,8 @@ import (
 func TestUp(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pr := New()
 	wg := sync.WaitGroup{}
 	hits := int32(0)

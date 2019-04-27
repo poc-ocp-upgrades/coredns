@@ -9,6 +9,8 @@ import (
 func TestInclude(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, rm, err := test.TempFile(".", "foo\tIN\tA\t127.0.0.1\n")
 	if err != nil {
 		t.Fatalf("Unable to create tmpfile %q: %s", name, err)

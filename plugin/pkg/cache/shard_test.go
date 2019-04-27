@@ -5,6 +5,8 @@ import "testing"
 func TestShardAddAndGet(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := newShard(4)
 	s.Add(1, 1)
 	if _, found := s.Get(1); !found {
@@ -12,6 +14,8 @@ func TestShardAddAndGet(t *testing.T) {
 	}
 }
 func TestShardLen(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := newShard(4)
@@ -31,6 +35,8 @@ func TestShardLen(t *testing.T) {
 func TestShardEvict(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := newShard(1)
 	s.Add(1, 1)
 	s.Add(2, 2)
@@ -39,6 +45,8 @@ func TestShardEvict(t *testing.T) {
 	}
 }
 func TestShardLenEvict(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := newShard(4)

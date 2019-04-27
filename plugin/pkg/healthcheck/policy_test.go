@@ -13,6 +13,8 @@ var workableServer *httptest.Server
 func TestMain(m *testing.M) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	workableServer = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	}))
 	r := m.Run()
@@ -25,15 +27,21 @@ type customPolicy struct{}
 func (r *customPolicy) Select(pool HostPool) *UpstreamHost {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return pool[0]
 }
 func testPool() HostPool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pool := []*UpstreamHost{{Name: workableServer.URL}, {Name: "http://shouldnot.resolve:85"}, {Name: "http://C"}}
 	return HostPool(pool)
 }
 func TestRegisterPolicy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	name := "custom"
@@ -46,6 +54,8 @@ func TestRegisterPolicy(t *testing.T) {
 	}
 }
 func TestHealthCheck(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	u := &HealthCheck{Hosts: testPool(), Path: "/", FailTimeout: 10 * time.Second, MaxFails: 1}
@@ -64,6 +74,8 @@ func TestHealthCheck(t *testing.T) {
 func TestHealthCheckDisabled(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u := &HealthCheck{Hosts: testPool(), FailTimeout: 10 * time.Second, MaxFails: 1}
 	for i, h := range u.Hosts {
 		u.Hosts[i].CheckURL = u.normalizeCheckURL(h.Name)
@@ -77,6 +89,8 @@ func TestHealthCheckDisabled(t *testing.T) {
 	}
 }
 func TestRoundRobinPolicy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pool := testPool()
@@ -97,6 +111,8 @@ func TestRoundRobinPolicy(t *testing.T) {
 func TestLeastConnPolicy(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pool := testPool()
 	lcPolicy := &LeastConn{}
 	pool[0].Conns = 10
@@ -114,6 +130,8 @@ func TestLeastConnPolicy(t *testing.T) {
 func TestCustomPolicy(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pool := testPool()
 	customPolicy := &customPolicy{}
 	h := customPolicy.Select(pool)
@@ -122,6 +140,8 @@ func TestCustomPolicy(t *testing.T) {
 	}
 }
 func TestFirstPolicy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pool := testPool()

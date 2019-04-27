@@ -23,6 +23,8 @@ const (
 func newReplacer(r *dns.Msg) replacer.Replacer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return replacer.New(context.TODO(), r, nil, "")
 }
 
@@ -33,9 +35,13 @@ var conditions = map[string]condition{Is: isFunc, Not: notFunc, Has: hasFunc, No
 func isFunc(a, b string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a == b
 }
 func notFunc(a, b string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return a != b
@@ -43,9 +49,13 @@ func notFunc(a, b string) bool {
 func hasFunc(a, b string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Contains(a, b)
 }
 func notHasFunc(a, b string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return !strings.Contains(a, b)
@@ -53,9 +63,13 @@ func notHasFunc(a, b string) bool {
 func startsWithFunc(a, b string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.HasPrefix(a, b)
 }
 func endsWithFunc(a, b string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return strings.HasSuffix(a, b)
@@ -63,10 +77,14 @@ func endsWithFunc(a, b string) bool {
 func matchFunc(a, b string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	matched, _ := regexp.MatchString(b, a)
 	return matched
 }
 func notMatchFunc(a, b string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	matched, _ := regexp.MatchString(b, a)
@@ -82,6 +100,8 @@ type If struct {
 func (i If) True(r *dns.Msg) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c, ok := conditions[i.Operator]; ok {
 		a, b := i.A, i.B
 		if r != nil {
@@ -94,6 +114,8 @@ func (i If) True(r *dns.Msg) bool {
 	return false
 }
 func NewIf(a, operator, b string) (If, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if _, ok := conditions[operator]; !ok {

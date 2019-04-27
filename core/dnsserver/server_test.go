@@ -13,14 +13,20 @@ type testPlugin struct{}
 func (tp testPlugin) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 0, nil
 }
 func (tp testPlugin) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "testplugin"
 }
 func testConfig(transport string, p plugin.Handler) *Config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c := &Config{Zone: "example.com.", Transport: transport, ListenHosts: []string{"127.0.0.1"}, Port: "53", Debug: false}
@@ -30,6 +36,8 @@ func testConfig(transport string, p plugin.Handler) *Config {
 	return c
 }
 func TestNewServer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, err := NewServer("127.0.0.1:53", []*Config{testConfig("dns", testPlugin{})})
@@ -48,6 +56,8 @@ func TestNewServer(t *testing.T) {
 func TestIncrementDepthAndCheck(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := context.Background()
 	var err error
 	for i := 0; i <= maxreentries; i++ {
@@ -62,6 +72,8 @@ func TestIncrementDepthAndCheck(t *testing.T) {
 	}
 }
 func BenchmarkCoreServeDNS(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s, err := NewServer("127.0.0.1:53", []*Config{testConfig("dns", testPlugin{})})

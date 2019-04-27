@@ -10,6 +10,8 @@ import (
 func TestHostPortOrFile(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		in		string
 		expected	string
@@ -35,6 +37,8 @@ func TestHostPortOrFile(t *testing.T) {
 	}
 }
 func TestParseHostPort(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

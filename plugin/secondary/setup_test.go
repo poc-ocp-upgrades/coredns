@@ -8,6 +8,8 @@ import (
 func TestSecondaryParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		inputFileRules	string
 		shouldErr	bool

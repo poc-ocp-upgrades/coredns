@@ -10,6 +10,8 @@ import (
 func (f *Forward) Forward(state request.Request) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if f == nil {
 		return nil, ErrNoForward
 	}
@@ -45,6 +47,8 @@ func (f *Forward) Forward(state request.Request) (*dns.Msg, error) {
 func (f *Forward) Lookup(state request.Request, name string, typ uint16) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if f == nil {
 		return nil, ErrNoForward
 	}
@@ -55,6 +59,8 @@ func (f *Forward) Lookup(state request.Request, name string, typ uint16) (*dns.M
 	return f.Forward(state2)
 }
 func NewLookup(addr []string) *Forward {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	f := New()

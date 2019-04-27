@@ -13,6 +13,8 @@ var dnsEmptyServiceTestCases = []test.Case{{Qname: "svcempty.testns.svc.cluster.
 func TestServeDNSEmptyService(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := New([]string{"cluster.local."})
 	k.APIConn = &APIConnServeTest{}
 	k.opts.ignoreEmptyService = true

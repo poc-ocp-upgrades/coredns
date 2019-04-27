@@ -9,6 +9,8 @@ import (
 func TestSetup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, test := range []struct {
 		config		string
 		expected	[]string

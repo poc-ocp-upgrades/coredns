@@ -15,6 +15,8 @@ import (
 func testCase(t *testing.T, ex Exchanger, q, r *dns.Msg, datq, datr *msg.Builder) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tapq, _ := datq.ToOutsideQuery(tap.Message_FORWARDER_QUERY)
 	tapr, _ := datr.ToOutsideResponse(tap.Message_FORWARDER_RESPONSE)
 	ctx := test.Context{}
@@ -35,6 +37,8 @@ func testCase(t *testing.T, ex Exchanger, q, r *dns.Msg, datq, datr *msg.Builder
 func TestDnstap(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q := mwtest.Case{Qname: "example.org", Qtype: dns.TypeA}.Msg()
 	r := mwtest.Case{Qname: "example.org.", Qtype: dns.TypeA, Answer: []dns.RR{mwtest.A("example.org. 3600	IN	A 10.0.0.1")}}.Msg()
 	tapq, tapr := test.TestingData(), test.TestingData()
@@ -44,6 +48,8 @@ func TestDnstap(t *testing.T) {
 	testCase(t, newDNSExWithOption(Options{ForceTCP: true}), q, r, tapq, tapr)
 }
 func TestNoDnstap(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err := toDnstap(context.TODO(), "", nil, request.Request{}, nil, time.Now())

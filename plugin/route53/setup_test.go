@@ -10,6 +10,8 @@ import (
 func TestSetupRoute53(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f := func(credential *credentials.Credentials) route53iface.Route53API {
 		return fakeRoute53{}
 	}

@@ -16,6 +16,8 @@ import (
 func testCase(t *testing.T, tapq, tapr *tap.Message, q, r *dns.Msg) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := writer{t: t}
 	w.queue = append(w.queue, tapq, tapr)
 	h := Dnstap{Next: mwtest.HandlerFunc(func(_ context.Context, w dns.ResponseWriter, _ *dns.Msg) (int, error) {
@@ -35,6 +37,8 @@ type writer struct {
 func (w *writer) Dnstap(e tap.Dnstap) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(w.queue) == 0 {
 		w.t.Error("Message not expected.")
 	}
@@ -44,6 +48,8 @@ func (w *writer) Dnstap(e tap.Dnstap) {
 	w.queue = w.queue[1:]
 }
 func TestDnstap(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	q := mwtest.Case{Qname: "example.org", Qtype: dns.TypeA}.Msg()
@@ -58,8 +64,12 @@ type noWriter struct{}
 func (n noWriter) Dnstap(d tap.Dnstap) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func endWith(c int, err error) plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return mwtest.HandlerFunc(func(_ context.Context, w dns.ResponseWriter, _ *dns.Msg) (int, error) {
@@ -73,9 +83,13 @@ type badAddr struct{}
 func (bad badAddr) Network() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "bad network"
 }
 func (bad badAddr) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "bad address"
@@ -86,9 +100,13 @@ type badRW struct{ dns.ResponseWriter }
 func (bad *badRW) RemoteAddr() net.Addr {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return badAddr{}
 }
 func TestError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h := Dnstap{Next: endWith(0, nil), IO: noWriter{}, JoinRawMessage: false}

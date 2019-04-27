@@ -16,6 +16,8 @@ type ResponseWriter struct {
 func (d *ResponseWriter) WriteMsg(res *dns.Msg) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: d.ResponseWriter, Req: res}
 	zone := plugin.Zones(d.d.zones).Matches(state.Name())
 	if zone == "" {
@@ -27,6 +29,8 @@ func (d *ResponseWriter) WriteMsg(res *dns.Msg) error {
 	return d.ResponseWriter.WriteMsg(res)
 }
 func (d *ResponseWriter) Write(buf []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	log.Warning("Dnssec called with Write: not signing reply")

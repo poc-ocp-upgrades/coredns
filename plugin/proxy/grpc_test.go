@@ -15,9 +15,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	grpclog.SetLoggerV2(discardV2{})
 }
 func buildPool(size int) ([]*healthcheck.UpstreamHost, func(), error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ups := make([]*healthcheck.UpstreamHost, size)
@@ -48,6 +52,8 @@ func buildPool(size int) ([]*healthcheck.UpstreamHost, func(), error) {
 	return ups, stopIt, nil
 }
 func TestGRPCStartupShutdown(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pool, closePool, err := buildPool(2)
@@ -81,6 +87,8 @@ func TestGRPCStartupShutdown(t *testing.T) {
 func TestGRPCRunAQuery(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pool, closePool, err := buildPool(2)
 	if err != nil {
 		t.Fatalf("Error creating the pool of upstream for the test : %s", err)
@@ -107,6 +115,8 @@ func TestGRPCRunAQuery(t *testing.T) {
 	}
 }
 func TestGRPCRunAQueryOnSecureLinkWithInvalidCert(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pool, closePool, err := buildPool(1)
@@ -146,52 +156,78 @@ type discardV2 struct{}
 func (d discardV2) Info(args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (d discardV2) Infoln(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (d discardV2) Infof(format string, args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (d discardV2) Warning(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (d discardV2) Warningln(args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (d discardV2) Warningf(format string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (d discardV2) Error(args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (d discardV2) Errorln(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (d discardV2) Errorf(format string, args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (d discardV2) Fatal(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (d discardV2) Fatalln(args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (d discardV2) Fatalf(format string, args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (d discardV2) V(l int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return true

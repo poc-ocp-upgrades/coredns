@@ -14,6 +14,8 @@ var atoomTestCases = []test.Case{{Qname: atoom, Qtype: dns.TypeNS, Do: true, Ans
 func TestLookupGlue(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbAtoomNetSigned), atoom, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expected no error when reading zone, got %q", err)

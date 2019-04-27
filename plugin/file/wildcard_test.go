@@ -15,6 +15,8 @@ var dnssexAuth = []dns.RR{test.NS("dnssex.nl.	1800	IN	NS	linode.atoom.net."), te
 func TestLookupWildcard(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbDnssexNLSigned), testzone1, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expect no error when reading zone, got %q", err)
@@ -40,6 +42,8 @@ var exampleAuth = []dns.RR{test.NS("example.org.	3600	IN	NS	a.iana-servers.net."
 func TestLookupDoubleWildcard(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(exampleOrg), "example.org.", "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expect no error when reading zone, got %q", err)
@@ -61,6 +65,8 @@ func TestLookupDoubleWildcard(t *testing.T) {
 func TestReplaceWithAsteriskLabel(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct{ in, out string }{{".", ""}, {"miek.nl.", "*.nl."}, {"www.miek.nl.", "*.miek.nl."}}
 	for _, tc := range tests {
 		got := replaceWithAsteriskLabel(tc.in)
@@ -73,6 +79,8 @@ func TestReplaceWithAsteriskLabel(t *testing.T) {
 var apexWildcardTestCases = []test.Case{{Qname: "foo.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.A(`foo.example.org. 3600	IN	A 127.0.0.54`)}, Ns: []dns.RR{test.NS(`example.org. 3600 IN NS b.iana-servers.net.`)}}, {Qname: "bar.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.A(`bar.example.org. 3600	IN	A 127.0.0.53`)}, Ns: []dns.RR{test.NS(`example.org. 3600 IN NS b.iana-servers.net.`)}}}
 
 func TestLookupApexWildcard(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const name = "example.org."
@@ -98,6 +106,8 @@ func TestLookupApexWildcard(t *testing.T) {
 var multiWildcardTestCases = []test.Case{{Qname: "foo.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.A(`foo.example.org. 3600	IN	A 127.0.0.54`)}, Ns: []dns.RR{test.NS(`example.org. 3600 IN NS b.iana-servers.net.`)}}, {Qname: "bar.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.A(`bar.example.org. 3600	IN	A 127.0.0.53`)}, Ns: []dns.RR{test.NS(`example.org. 3600 IN NS b.iana-servers.net.`)}}, {Qname: "bar.intern.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.A(`bar.intern.example.org. 3600	IN	A 127.0.1.52`)}, Ns: []dns.RR{test.NS(`example.org. 3600 IN NS b.iana-servers.net.`)}}}
 
 func TestLookupMultiWildcard(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const name = "example.org."

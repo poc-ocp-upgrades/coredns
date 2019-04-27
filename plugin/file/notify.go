@@ -11,6 +11,8 @@ import (
 func (z *Zone) isNotify(state request.Request) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if state.Req.Opcode != dns.OpcodeNotify {
 		return false
 	}
@@ -32,9 +34,13 @@ func (z *Zone) isNotify(state request.Request) bool {
 func (z *Zone) Notify() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go notify(z.origin, z.TransferTo)
 }
 func notify(zone string, to []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)
@@ -53,6 +59,8 @@ func notify(zone string, to []string) error {
 	return nil
 }
 func notifyAddr(c *dns.Client, m *dns.Msg, s string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error

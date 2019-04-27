@@ -15,6 +15,8 @@ var auth = []dns.RR{test.NS("miek.nl.	1800	IN	NS	ext.ns.whyscream.net."), test.N
 func TestLookupDNSSEC(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbMiekNLSigned), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expected no error when reading zone, got %q", err)
@@ -34,6 +36,8 @@ func TestLookupDNSSEC(t *testing.T) {
 	}
 }
 func BenchmarkFileLookupDNSSEC(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbMiekNLSigned), testzone, "stdin", 0)

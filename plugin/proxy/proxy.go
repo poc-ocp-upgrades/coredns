@@ -39,6 +39,8 @@ var tryDuration = 16 * time.Second
 func (p Proxy) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var span, child ot.Span
 	span = ot.SpanFromContext(ctx)
 	state := request.Request{W: w, Req: r}
@@ -102,6 +104,8 @@ func (p Proxy) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (
 func (p Proxy) match(state request.Request) (u Upstream) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.Upstreams == nil {
 		return nil
 	}
@@ -119,6 +123,8 @@ func (p Proxy) match(state request.Request) (u Upstream) {
 	return u
 }
 func (p Proxy) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "proxy"

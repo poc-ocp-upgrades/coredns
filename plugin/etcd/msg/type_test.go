@@ -8,6 +8,8 @@ import (
 func TestType(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		serv		Service
 		expectedType	uint16

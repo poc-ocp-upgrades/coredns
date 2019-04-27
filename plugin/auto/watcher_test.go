@@ -10,6 +10,8 @@ import (
 func TestWatcher(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tempdir, err := createFiles()
 	if err != nil {
 		if tempdir != "" {
@@ -39,6 +41,8 @@ func TestWatcher(t *testing.T) {
 	}
 }
 func TestSymlinks(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tempdir, err := createFiles()

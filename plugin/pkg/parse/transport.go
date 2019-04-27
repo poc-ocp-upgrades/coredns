@@ -8,6 +8,8 @@ import (
 func Transport(s string) (trans string, addr string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case strings.HasPrefix(s, transport.TLS+"://"):
 		s = s[len(transport.TLS+"://"):]

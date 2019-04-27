@@ -13,6 +13,8 @@ var kubeApexCases = []test.Case{{Qname: "cluster.local.", Qtype: dns.TypeSOA, Rc
 func TestServeDNSApex(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := New([]string{"cluster.local."})
 	k.APIConn = &APIConnServeTest{}
 	k.Next = test.NextHandler(dns.RcodeSuccess, nil)

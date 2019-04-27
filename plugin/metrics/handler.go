@@ -13,6 +13,8 @@ import (
 func (m *Metrics) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
 	qname := state.QName()
 	zone := plugin.Zones(m.ZoneNames()).Matches(qname)
@@ -25,6 +27,8 @@ func (m *Metrics) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg
 	return status, err
 }
 func (m *Metrics) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "prometheus"

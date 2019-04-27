@@ -9,14 +9,20 @@ import (
 func (k *Kubernetes) SetWatchChan(c watch.Chan) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k.APIConn.SetWatchChan(c)
 }
 func (k *Kubernetes) Watch(qname string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return k.APIConn.Watch(qname)
 }
 func (k *Kubernetes) StopWatching(qname string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	k.APIConn.StopWatching(qname)
@@ -25,6 +31,8 @@ func (k *Kubernetes) StopWatching(qname string) {
 var _ watch.Watchable = &Kubernetes{}
 
 func (dns *dnsControl) sendServiceUpdates(s *object.Service) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i := range dns.zones {
@@ -37,6 +45,8 @@ func (dns *dnsControl) sendServiceUpdates(s *object.Service) {
 func (dns *dnsControl) sendPodUpdates(p *object.Pod) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range dns.zones {
 		name := podFQDN(p, dns.zones[i])
 		if _, ok := dns.watched[name]; ok {
@@ -45,6 +55,8 @@ func (dns *dnsControl) sendPodUpdates(p *object.Pod) {
 	}
 }
 func (dns *dnsControl) sendEndpointsUpdates(ep *object.Endpoints) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, zone := range dns.zones {
@@ -60,6 +72,8 @@ func (dns *dnsControl) sendEndpointsUpdates(ep *object.Endpoints) {
 	}
 }
 func endpointsSubsetDiffs(a, b *object.Endpoints) *object.Endpoints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c := b.CopyWithoutSubsets()
@@ -79,6 +93,8 @@ func endpointsSubsetDiffs(a, b *object.Endpoints) *object.Endpoints {
 	return c
 }
 func (dns *dnsControl) sendUpdates(oldObj, newObj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if newObj != nil && oldObj != nil && (oldObj.(meta.Object).GetResourceVersion() == newObj.(meta.Object).GetResourceVersion()) {
@@ -114,9 +130,13 @@ func (dns *dnsControl) sendUpdates(oldObj, newObj interface{}) {
 func (dns *dnsControl) Add(obj interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dns.sendUpdates(nil, obj)
 }
 func (dns *dnsControl) Delete(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dns.sendUpdates(obj, nil)
@@ -124,9 +144,13 @@ func (dns *dnsControl) Delete(obj interface{}) {
 func (dns *dnsControl) Update(oldObj, newObj interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dns.sendUpdates(oldObj, newObj)
 }
 func subsetsEquivalent(sa, sb object.EndpointSubset) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(sa.Addresses) != len(sb.Addresses) {
@@ -159,6 +183,8 @@ func subsetsEquivalent(sa, sb object.EndpointSubset) bool {
 	return true
 }
 func endpointsEquivalent(a, b *object.Endpoints) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(a.Subsets) != len(b.Subsets) {

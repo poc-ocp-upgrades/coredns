@@ -12,6 +12,8 @@ import (
 func TestChaos(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	em := Chaos{Version: version, Authors: map[string]struct{}{"Miek Gieben": struct{}{}}}
 	tests := []struct {
 		next		plugin.Handler

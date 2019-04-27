@@ -11,6 +11,8 @@ const mode = bu23
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if mode != td234 && mode != bu23 {
 		panic("tree: unknown mode")
 	}
@@ -36,12 +38,16 @@ type Tree struct {
 func (n *Node) color() Color {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if n == nil {
 		return black
 	}
 	return n.Color
 }
 func (n *Node) rotateLeft() (root *Node) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	root = n.Right
@@ -54,6 +60,8 @@ func (n *Node) rotateLeft() (root *Node) {
 func (n *Node) rotateRight() (root *Node) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	root = n.Left
 	n.Left = root.Right
 	root.Right = n
@@ -64,11 +72,15 @@ func (n *Node) rotateRight() (root *Node) {
 func (n *Node) flipColors() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n.Color = !n.Color
 	n.Left.Color = !n.Left.Color
 	n.Right.Color = !n.Right.Color
 }
 func (n *Node) fixUp() *Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if n.Right.color() == red {
@@ -88,6 +100,8 @@ func (n *Node) fixUp() *Node {
 func (n *Node) moveRedLeft() *Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n.flipColors()
 	if n.Right.Left.color() == red {
 		n.Right = n.Right.rotateRight()
@@ -102,6 +116,8 @@ func (n *Node) moveRedLeft() *Node {
 func (n *Node) moveRedRight() *Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n.flipColors()
 	if n.Left.Left.color() == red {
 		n = n.rotateRight()
@@ -112,9 +128,13 @@ func (n *Node) moveRedRight() *Node {
 func (t *Tree) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.Count
 }
 func (t *Tree) Search(qname string) (*Elem, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if t.Root == nil {
@@ -127,6 +147,8 @@ func (t *Tree) Search(qname string) (*Elem, bool) {
 	return n.Elem, res
 }
 func (n *Node) search(qname string) (*Node, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for n != nil {
@@ -144,12 +166,16 @@ func (n *Node) search(qname string) (*Node, bool) {
 func (t *Tree) Insert(rr dns.RR) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var d int
 	t.Root, d = t.Root.insert(rr)
 	t.Count += d
 	t.Root.Color = black
 }
 func (n *Node) insert(rr dns.RR) (root *Node, d int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if n == nil {
@@ -188,6 +214,8 @@ func (n *Node) insert(rr dns.RR) (root *Node, d int) {
 func (t *Tree) DeleteMin() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.Root == nil {
 		return
 	}
@@ -202,6 +230,8 @@ func (t *Tree) DeleteMin() {
 func (n *Node) deleteMin() (root *Node, d int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if n.Left == nil {
 		return nil, -1
 	}
@@ -213,6 +243,8 @@ func (n *Node) deleteMin() (root *Node, d int) {
 	return
 }
 func (t *Tree) DeleteMax() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if t.Root == nil {
@@ -229,6 +261,8 @@ func (t *Tree) DeleteMax() {
 func (n *Node) deleteMax() (root *Node, d int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if n.Left != nil && n.Left.color() == red {
 		n = n.rotateRight()
 	}
@@ -243,6 +277,8 @@ func (n *Node) deleteMax() (root *Node, d int) {
 	return
 }
 func (t *Tree) Delete(rr dns.RR) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if t.Root == nil {
@@ -262,6 +298,8 @@ func (t *Tree) Delete(rr dns.RR) {
 func (t *Tree) deleteNode(rr dns.RR) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.Root == nil {
 		return
 	}
@@ -274,6 +312,8 @@ func (t *Tree) deleteNode(rr dns.RR) {
 	t.Root.Color = black
 }
 func (n *Node) delete(rr dns.RR) (root *Node, d int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if Less(n.Elem, rr.Header().Name) < 0 {
@@ -308,6 +348,8 @@ func (n *Node) delete(rr dns.RR) (root *Node, d int) {
 func (t *Tree) Min() *Elem {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.Root == nil {
 		return nil
 	}
@@ -316,11 +358,15 @@ func (t *Tree) Min() *Elem {
 func (n *Node) min() *Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for ; n.Left != nil; n = n.Left {
 	}
 	return n
 }
 func (t *Tree) Max() *Elem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if t.Root == nil {
@@ -331,11 +377,15 @@ func (t *Tree) Max() *Elem {
 func (n *Node) max() *Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for ; n.Right != nil; n = n.Right {
 	}
 	return n
 }
 func (t *Tree) Prev(qname string) (*Elem, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if t.Root == nil {
@@ -348,6 +398,8 @@ func (t *Tree) Prev(qname string) (*Elem, bool) {
 	return n.Elem, true
 }
 func (n *Node) floor(qname string) *Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if n == nil {
@@ -368,6 +420,8 @@ func (n *Node) floor(qname string) *Node {
 func (t *Tree) Next(qname string) (*Elem, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.Root == nil {
 		return nil, false
 	}
@@ -378,6 +432,8 @@ func (t *Tree) Next(qname string) (*Elem, bool) {
 	return n.Elem, true
 }
 func (n *Node) ceil(qname string) *Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if n == nil {

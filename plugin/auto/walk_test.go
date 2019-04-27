@@ -21,6 +21,8 @@ www IN A 127.0.0.1
 func TestWalk(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tempdir, err := createFiles()
 	if err != nil {
 		if tempdir != "" {
@@ -41,12 +43,16 @@ func TestWalk(t *testing.T) {
 func TestWalkNonExistent(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nonExistingDir := "highly_unlikely_to_exist_dir"
 	ldr := loader{directory: nonExistingDir, re: regexp.MustCompile(`db\.(.*)`), template: `${1}`}
 	a := Auto{loader: ldr, Zones: &Zones{}}
 	a.Walk()
 }
 func createFiles() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dir, err := ioutil.TempDir(os.TempDir(), "coredns")

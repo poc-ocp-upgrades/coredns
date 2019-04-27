@@ -13,6 +13,8 @@ const server = "dns//."
 func TestBlackLiesBitmapNoData(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"example.org."})
 	defer rm1()
 	defer rm2()
@@ -32,6 +34,8 @@ func TestBlackLiesBitmapNoData(t *testing.T) {
 	}
 }
 func TestBlackLiesBitmapNameError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"example.org."})
@@ -54,6 +58,8 @@ func TestBlackLiesBitmapNameError(t *testing.T) {
 	}
 }
 func testTLSAMsg() *dns.Msg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &dns.Msg{MsgHdr: dns.MsgHdr{Rcode: dns.RcodeSuccess}, Question: []dns.Question{{Name: "25._tcp.example.org.", Qclass: dns.ClassINET, Qtype: dns.TypeTLSA}}, Ns: []dns.RR{test.SOA("example.org.	1800	IN	SOA	linode.example.org. miek.example.org. 1461471181 14400 3600 604800 14400")}}

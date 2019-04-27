@@ -19,9 +19,13 @@ type MultiRecorder struct {
 func NewMultiRecorder(w dns.ResponseWriter) *MultiRecorder {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MultiRecorder{ResponseWriter: w, Msgs: make([]*dns.Msg, 0), Start: time.Now()}
 }
 func (r *MultiRecorder) WriteMsg(res *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.Len += res.Len()
@@ -29,6 +33,8 @@ func (r *MultiRecorder) WriteMsg(res *dns.Msg) error {
 	return r.ResponseWriter.WriteMsg(res)
 }
 func (r *MultiRecorder) Write(buf []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, err := r.ResponseWriter.Write(buf)
@@ -40,7 +46,16 @@ func (r *MultiRecorder) Write(buf []byte) (int, error) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

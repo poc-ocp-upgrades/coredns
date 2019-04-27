@@ -7,6 +7,8 @@ import (
 func TestHandler(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tp := testPlugin{}
 	c := testConfig("dns", tp)
 	if _, err := NewServer("127.0.0.1:53", []*Config{c}); err != nil {
@@ -22,6 +24,8 @@ func TestHandler(t *testing.T) {
 func TestHandlers(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tp := testPlugin{}
 	c := testConfig("dns", tp)
 	if _, err := NewServer("127.0.0.1:53", []*Config{c}); err != nil {
@@ -33,6 +37,8 @@ func TestHandlers(t *testing.T) {
 	}
 }
 func TestGroupingServers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i, test := range []struct {

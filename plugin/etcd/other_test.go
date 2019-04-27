@@ -13,6 +13,8 @@ import (
 func TestOtherLookup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	etc := newEtcdPlugin()
 	for _, serv := range servicesOther {
 		set(t, etc, serv.Key, 0, serv)

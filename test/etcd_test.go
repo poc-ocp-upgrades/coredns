@@ -17,6 +17,8 @@ import (
 func etcdPlugin() *etcd.Etcd {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	etcdCfg := etcdcv3.Config{Endpoints: []string{"http://localhost:2379"}}
 	cli, _ := etcdcv3.New(etcdCfg)
 	return &etcd.Etcd{Client: cli, PathPrefix: "/skydns"}
@@ -24,8 +26,12 @@ func etcdPlugin() *etcd.Etcd {
 func TestEtcdStubLoop(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func TestEtcdStubAndProxyLookup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	corefile := `.:0 {
@@ -71,6 +77,8 @@ var servicesStub = []*msg.Service{{Host: "127.0.0.1", Port: 666, Key: "b.example
 func set(ctx context.Context, t *testing.T, e *etcd.Etcd, k string, ttl time.Duration, m *msg.Service) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b, err := json.Marshal(m)
 	if err != nil {
 		t.Fatal(err)
@@ -79,6 +87,8 @@ func set(ctx context.Context, t *testing.T, e *etcd.Etcd, k string, ttl time.Dur
 	e.Client.KV.Put(ctx, path, string(b))
 }
 func delete(ctx context.Context, t *testing.T, e *etcd.Etcd, k string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	path, _ := msg.PathWithWildcard(k, e.PathPrefix)

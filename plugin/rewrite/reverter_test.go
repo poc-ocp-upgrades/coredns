@@ -21,6 +21,8 @@ var tests = []struct {
 func TestResponseReverter(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rules := []Rule{}
 	r, _ := newNameRule("stop", "regex", `(core)\.(dns)\.(rocks)`, "{2}.{1}.{3}", "answer", "name", `(dns)\.(core)\.(rocks)`, "{2}.{1}.{3}")
 	rules = append(rules, r)
@@ -31,6 +33,8 @@ func TestResponseReverter(t *testing.T) {
 	doReverterTests(rules, t)
 }
 func doReverterTests(rules []Rule, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := context.TODO()

@@ -9,6 +9,8 @@ type RoundRobinResponseWriter struct{ dns.ResponseWriter }
 func (r *RoundRobinResponseWriter) WriteMsg(res *dns.Msg) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if res.Rcode != dns.RcodeSuccess {
 		return r.ResponseWriter.WriteMsg(res)
 	}
@@ -21,6 +23,8 @@ func (r *RoundRobinResponseWriter) WriteMsg(res *dns.Msg) error {
 	return r.ResponseWriter.WriteMsg(res)
 }
 func roundRobin(in []dns.RR) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cname := []dns.RR{}
@@ -49,6 +53,8 @@ func roundRobin(in []dns.RR) []dns.RR {
 func roundRobinShuffle(records []dns.RR) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch l := len(records); l {
 	case 0, 1:
 		break
@@ -68,6 +74,8 @@ func roundRobinShuffle(records []dns.RR) {
 	}
 }
 func (r *RoundRobinResponseWriter) Write(buf []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	log.Warning("RoundRobin called with Write: not shuffling records")

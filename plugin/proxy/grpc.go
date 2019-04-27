@@ -24,6 +24,8 @@ type grpcClient struct {
 func newGrpcClient(tls *tls.Config, u *staticUpstream) *grpcClient {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := &grpcClient{upstream: u}
 	if tls == nil {
 		g.dialOpts = append(g.dialOpts, grpc.WithInsecure())
@@ -34,6 +36,8 @@ func newGrpcClient(tls *tls.Config, u *staticUpstream) *grpcClient {
 	return g
 }
 func (g *grpcClient) Exchange(ctx context.Context, addr string, state request.Request) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	msg, err := state.Req.Pack()
@@ -57,14 +61,20 @@ func (g *grpcClient) Exchange(ctx context.Context, addr string, state request.Re
 func (g *grpcClient) Transport() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "tcp"
 }
 func (g *grpcClient) Protocol() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "grpc"
 }
 func (g *grpcClient) OnShutdown(p *Proxy) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	g.clients = map[string]pb.DnsServiceClient{}
@@ -78,6 +88,8 @@ func (g *grpcClient) OnShutdown(p *Proxy) error {
 	return nil
 }
 func (g *grpcClient) OnStartup(p *Proxy) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dialOpts := g.dialOpts

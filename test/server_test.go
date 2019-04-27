@@ -8,6 +8,8 @@ import (
 func TestProxyToChaosServer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	corefile := `.:0 {
 	chaos CoreDNS-001 miek@miek.nl
@@ -31,6 +33,8 @@ func TestProxyToChaosServer(t *testing.T) {
 	chaosTest(t, udp)
 }
 func chaosTest(t *testing.T, server string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)

@@ -24,9 +24,13 @@ type Loop struct {
 func New(zone string) *Loop {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Loop{zone: zone, qname: qname(zone)}
 }
 func (l *Loop) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.Question[0].Qtype != dns.TypeHINFO {
@@ -51,9 +55,13 @@ func (l *Loop) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (
 func (l *Loop) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "loop"
 }
 func (l *Loop) exchange(addr string) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)
@@ -63,11 +71,15 @@ func (l *Loop) exchange(addr string) (*dns.Msg, error) {
 func (l *Loop) seen() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.RLock()
 	defer l.RUnlock()
 	return l.i
 }
 func (l *Loop) inc() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.Lock()
@@ -77,11 +89,15 @@ func (l *Loop) inc() {
 func (l *Loop) reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.Lock()
 	defer l.Unlock()
 	l.i = 0
 }
 func (l *Loop) setDisabled() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.Lock()
@@ -91,6 +107,8 @@ func (l *Loop) setDisabled() {
 func (l *Loop) disabled() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.RLock()
 	defer l.RUnlock()
 	return l.off
@@ -98,11 +116,15 @@ func (l *Loop) disabled() bool {
 func (l *Loop) setAddress(addr string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.Lock()
 	defer l.Unlock()
 	l.addr = addr
 }
 func (l *Loop) address() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.RLock()

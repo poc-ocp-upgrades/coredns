@@ -11,6 +11,8 @@ import (
 func TestWhoami(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	wh := Whoami{}
 	tests := []struct {
 		qname		string

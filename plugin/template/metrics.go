@@ -16,6 +16,8 @@ var (
 func setupMetrics(c *caddy.Controller) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.OnStartup(func() error {
 		metrics.MustRegister(c, templateMatchesCount, templateFailureCount, templateRRFailureCount)
 		return nil

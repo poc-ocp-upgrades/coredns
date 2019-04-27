@@ -13,6 +13,8 @@ import (
 func TestRewriteIllegalName(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := newNameRule("stop", "example.org.", "example..org.")
 	rw := Rewrite{Next: plugin.HandlerFunc(msgPrinter), Rules: []Rule{r}, noRevert: true}
 	ctx := context.TODO()
@@ -25,6 +27,8 @@ func TestRewriteIllegalName(t *testing.T) {
 	}
 }
 func TestRewriteNamePrefixSuffix(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx, close := context.WithCancel(context.TODO())
@@ -55,6 +59,8 @@ func TestRewriteNamePrefixSuffix(t *testing.T) {
 	}
 }
 func TestNewNameRule(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

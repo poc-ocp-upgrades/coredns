@@ -13,6 +13,8 @@ var podModeVerifiedCases = []test.Case{{Qname: "10-240-0-1.podns.pod.cluster.loc
 func TestServeDNSModeVerified(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := New([]string{"cluster.local."})
 	k.APIConn = &APIConnServeTest{}
 	k.Next = test.NextHandler(dns.RcodeSuccess, nil)

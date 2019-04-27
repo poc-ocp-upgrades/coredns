@@ -8,12 +8,16 @@ import (
 func TestParseNSEC3PARAM(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := Parse(strings.NewReader(nsec3paramTest), "miek.nl", "stdin", 0)
 	if err == nil {
 		t.Fatalf("Expected error when reading zone, got nothing")
 	}
 }
 func TestParseNSEC3(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, err := Parse(strings.NewReader(nsec3Test), "miek.nl", "stdin", 0)

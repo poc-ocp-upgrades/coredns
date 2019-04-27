@@ -11,6 +11,8 @@ import (
 func TestZoneSRVAdditional(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	name, rm, err := TempFile(".", exampleOrg)
 	if err != nil {

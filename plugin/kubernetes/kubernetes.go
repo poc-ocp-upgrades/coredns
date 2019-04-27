@@ -51,6 +51,8 @@ type Kubernetes struct {
 func New(zones []string) *Kubernetes {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := new(Kubernetes)
 	k.Zones = zones
 	k.Namespaces = make(map[string]struct{})
@@ -79,6 +81,8 @@ var (
 )
 
 func (k *Kubernetes) Services(state request.Request, exact bool, opt plugin.Options) (svcs []msg.Service, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch state.QType() {
@@ -118,9 +122,13 @@ func (k *Kubernetes) Services(state request.Request, exact bool, opt plugin.Opti
 func (k *Kubernetes) primaryZone() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return k.Zones[k.primaryZoneIndex]
 }
 func (k *Kubernetes) Lookup(state request.Request, name string, typ uint16) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return k.Upstream.Lookup(state, name, typ)
@@ -128,9 +136,13 @@ func (k *Kubernetes) Lookup(state request.Request, name string, typ uint16) (*dn
 func (k *Kubernetes) IsNameError(err error) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return err == errNoItems || err == errNsNotExposed || err == errInvalidRequest
 }
 func (k *Kubernetes) getClientConfig() (*rest.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if k.ClientConfig != nil {
@@ -194,6 +206,8 @@ func (k *Kubernetes) getClientConfig() (*rest.Config, error) {
 func (k *Kubernetes) InitKubeCache() (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config, err := k.getClientConfig()
 	if err != nil {
 		return err
@@ -219,6 +233,8 @@ func (k *Kubernetes) InitKubeCache() (err error) {
 func (k *Kubernetes) Records(state request.Request, exact bool) ([]msg.Service, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, e := parseRequest(state)
 	if e != nil {
 		return nil, e
@@ -242,9 +258,13 @@ func (k *Kubernetes) Records(state request.Request, exact bool) ([]msg.Service, 
 func serviceFQDN(obj meta.Object, zone string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dnsutil.Join(obj.GetName(), obj.GetNamespace(), Svc, zone)
 }
 func podFQDN(p *object.Pod, zone string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if strings.Contains(p.PodIP, ".") {
@@ -257,6 +277,8 @@ func podFQDN(p *object.Pod, zone string) string {
 func endpointFQDN(ep *object.Endpoints, zone string, endpointNameMode bool) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var names []string
 	for _, ss := range ep.Subsets {
 		for _, addr := range ss.Addresses {
@@ -266,6 +288,8 @@ func endpointFQDN(ep *object.Endpoints, zone string, endpointNameMode bool) []st
 	return names
 }
 func endpointHostname(addr object.EndpointAddress, endpointNameMode bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if addr.Hostname != "" {
@@ -283,6 +307,8 @@ func endpointHostname(addr object.EndpointAddress, endpointNameMode bool) string
 	return ""
 }
 func (k *Kubernetes) findPods(r recordRequest, zone string) (pods []msg.Service, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if k.podMode == podModeDisabled {
@@ -334,6 +360,8 @@ func (k *Kubernetes) findPods(r recordRequest, zone string) (pods []msg.Service,
 	return pods, err
 }
 func (k *Kubernetes) findServices(r recordRequest, zone string) (services []msg.Service, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zonePath := msg.Path(zone, coredns)
@@ -437,6 +465,8 @@ func (k *Kubernetes) findServices(r recordRequest, zone string) (services []msg.
 func match(a, b string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if wildcard(a) {
 		return true
 	}
@@ -446,6 +476,8 @@ func match(a, b string) bool {
 	return strings.EqualFold(a, b)
 }
 func wildcard(s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return s == "*" || s == "any"

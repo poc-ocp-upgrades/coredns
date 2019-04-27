@@ -18,6 +18,8 @@ var dnsTestCases = []test.Case{{Qname: "svc1.testns.svc.cluster.local.", Qtype: 
 func TestServeDNS(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := New([]string{"cluster.local."})
 	k.APIConn = &APIConnServeTest{}
 	k.Next = test.NextHandler(dns.RcodeSuccess, nil)
@@ -46,6 +48,8 @@ func TestServeDNS(t *testing.T) {
 var notSyncedTestCases = []test.Case{{Qname: "svc0.testns.svc.cluster.local.", Qtype: dns.TypeA, Rcode: dns.RcodeServerFailure, Ns: []dns.RR{test.SOA("cluster.local.	5	IN	SOA	ns.dns.cluster.local. hostmaster.cluster.local. 1499347823 7200 1800 86400 5")}}}
 
 func TestNotSyncedServeDNS(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	k := New([]string{"cluster.local."})
@@ -78,9 +82,13 @@ type APIConnServeTest struct{ notSynced bool }
 func (a APIConnServeTest) HasSynced() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !a.notSynced
 }
 func (APIConnServeTest) Run() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return
@@ -88,9 +96,13 @@ func (APIConnServeTest) Run() {
 func (APIConnServeTest) Stop() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (APIConnServeTest) EpIndexReverse(string) []*object.Endpoints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -98,9 +110,13 @@ func (APIConnServeTest) EpIndexReverse(string) []*object.Endpoints {
 func (APIConnServeTest) SvcIndexReverse(string) []*object.Service {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (APIConnServeTest) Modified() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return time.Now().Unix()
@@ -108,8 +124,12 @@ func (APIConnServeTest) Modified() int64 {
 func (APIConnServeTest) SetWatchChan(watch.Chan) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (APIConnServeTest) Watch(string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -117,8 +137,12 @@ func (APIConnServeTest) Watch(string) error {
 func (APIConnServeTest) StopWatching(string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (APIConnServeTest) PodIndex(string) []*object.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a := []*object.Pod{{Namespace: "podns", PodIP: "10.240.0.1"}}
@@ -130,9 +154,13 @@ var svcIndex = map[string][]*object.Service{"svc1.testns": {{Name: "svc1", Names
 func (APIConnServeTest) SvcIndex(s string) []*object.Service {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return svcIndex[s]
 }
 func (APIConnServeTest) ServiceList() []*object.Service {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var svcs []*object.Service
@@ -147,9 +175,13 @@ var epsIndex = map[string][]*object.Endpoints{"svc1.testns": {{Subsets: []object
 func (APIConnServeTest) EpIndex(s string) []*object.Endpoints {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return epsIndex[s]
 }
 func (APIConnServeTest) EndpointsList() []*object.Endpoints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var eps []*object.Endpoints
@@ -161,9 +193,13 @@ func (APIConnServeTest) EndpointsList() []*object.Endpoints {
 func (APIConnServeTest) GetNodeByName(name string) (*api.Node, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &api.Node{ObjectMeta: meta.ObjectMeta{Name: "test.node.foo.bar"}}, nil
 }
 func (APIConnServeTest) GetNamespaceByName(name string) (*api.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if name == "pod-nons" {

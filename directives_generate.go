@@ -12,6 +12,8 @@ import (
 func main() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mi := make(map[string]string, 0)
 	md := []string{}
 	file, err := os.Open(pluginFile)
@@ -45,6 +47,8 @@ func main() {
 func genImports(file, pack string, mi map[string]string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	outs := header + "package " + pack + "\n\n" + "import ("
 	if len(mi) > 0 {
 		outs += "\n"
@@ -59,6 +63,8 @@ func genImports(file, pack string, mi map[string]string) {
 	}
 }
 func genDirectives(file, pack string, md []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	outs := header + "package " + pack + "\n\n"
@@ -81,6 +87,8 @@ var Directives = []string{
 	}
 }
 func formatAndWrite(file string, data string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	res, err := format.Source([]byte(data))

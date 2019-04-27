@@ -20,9 +20,13 @@ var log = clog.NewWithPlugin("auto")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("auto", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a, err := autoParse(c)
@@ -67,6 +71,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func autoParse(c *caddy.Controller) (Auto, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var a = Auto{loader: loader{template: "${1}", re: regexp.MustCompile(`db\.(.*)`), duration: 60 * time.Second}, Zones: &Zones{}}

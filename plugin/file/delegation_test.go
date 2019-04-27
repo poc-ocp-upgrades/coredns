@@ -16,14 +16,20 @@ var miekAuth = []dns.RR{test.NS("miek.nl.	1800	IN	NS	ext.ns.whyscream.net."), te
 func TestLookupDelegation(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testDelegation(t, dbMiekNLDelegation, testzone, delegationTestCases)
 }
 func TestLookupSecureDelegation(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testDelegation(t, exampleOrgSigned, "example.org.", secureDelegationTestCases)
 }
 func testDelegation(t *testing.T, z, origin string, testcases []test.Case) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(z), origin, "stdin", 0)

@@ -8,6 +8,8 @@ import (
 func cnamer(m *dns.Msg, original string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, a := range m.Answer {
 		if strings.EqualFold(original, a.Header().Name) {
 			continue

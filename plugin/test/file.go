@@ -9,6 +9,8 @@ import (
 func TempFile(dir, content string) (string, func(), error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f, err := ioutil.TempFile(dir, "go-test-tmpfile")
 	if err != nil {
 		return "", nil, err
@@ -22,6 +24,8 @@ func TempFile(dir, content string) (string, func(), error) {
 	return f.Name(), rmFunc, nil
 }
 func WritePEMFiles(dir string) (string, func(), error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tempDir, err := ioutil.TempDir(dir, "go-test-pemfiles")

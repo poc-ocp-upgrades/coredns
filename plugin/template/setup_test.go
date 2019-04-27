@@ -8,6 +8,8 @@ import (
 func TestSetup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := caddy.NewTestController("dns", `template ANY ANY {
 		rcode
 	}`)
@@ -24,6 +26,8 @@ func TestSetup(t *testing.T) {
 	}
 }
 func TestSetupParse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	serverBlockKeys := []string{"domain.com.:8053", "dynamic.domain.com.:8053"}

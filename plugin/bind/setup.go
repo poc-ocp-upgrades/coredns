@@ -11,6 +11,8 @@ import (
 func setup(c *caddy.Controller) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := dnsserver.GetConfig(c)
 	all := []string{}
 	for c.Next() {

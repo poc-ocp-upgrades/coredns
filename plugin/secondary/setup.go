@@ -12,9 +12,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("secondary", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zones, err := secondaryParse(c)
@@ -41,6 +45,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func secondaryParse(c *caddy.Controller) (file.Zones, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	z := make(map[string]*file.Zone)

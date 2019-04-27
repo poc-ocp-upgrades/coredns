@@ -12,6 +12,8 @@ import (
 func TestGrpc(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `grpc://.:0 {
 		whoami
 }

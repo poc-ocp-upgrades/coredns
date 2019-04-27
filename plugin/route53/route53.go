@@ -35,6 +35,8 @@ type zones map[string][]*zone
 func New(ctx context.Context, c route53iface.Route53API, keys map[string][]string, up *upstream.Upstream) (*Route53, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zones := make(map[string][]*zone, len(keys))
 	zoneNames := make([]string, 0, len(keys))
 	for dns, hostedZoneIDs := range keys {
@@ -52,6 +54,8 @@ func New(ctx context.Context, c route53iface.Route53API, keys map[string][]strin
 	return &Route53{client: c, zoneNames: zoneNames, zones: zones, upstream: up}, nil
 }
 func (h *Route53) Run(ctx context.Context) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := h.updateZones(ctx); err != nil {
@@ -73,6 +77,8 @@ func (h *Route53) Run(ctx context.Context) error {
 	return nil
 }
 func (h *Route53) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
@@ -116,6 +122,8 @@ func (h *Route53) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg
 func updateZoneFromRRS(rrs *route53.ResourceRecordSet, z *file.Zone) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, rr := range rrs.ResourceRecords {
 		rfc1035 := fmt.Sprintf("%s %d IN %s %s", aws.StringValue(rrs.Name), aws.Int64Value(rrs.TTL), aws.StringValue(rrs.Type), aws.StringValue(rr.Value))
 		r, err := dns.NewRR(rfc1035)
@@ -127,6 +135,8 @@ func updateZoneFromRRS(rrs *route53.ResourceRecordSet, z *file.Zone) error {
 	return nil
 }
 func (h *Route53) updateZones(ctx context.Context) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	errc := make(chan error)
@@ -172,6 +182,8 @@ func (h *Route53) updateZones(ctx context.Context) error {
 	return nil
 }
 func (h *Route53) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "route53"

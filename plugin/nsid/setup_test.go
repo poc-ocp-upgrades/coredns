@@ -10,6 +10,8 @@ import (
 func TestSetupNsid(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defaultNsid, err := os.Hostname()
 	if err != nil {
 		defaultNsid = "localhost"

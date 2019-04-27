@@ -14,6 +14,8 @@ type Zones []string
 func (z Zones) Matches(qname string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone := ""
 	for _, zname := range z {
 		if dns.IsSubDomain(zname, qname) {
@@ -27,6 +29,8 @@ func (z Zones) Matches(qname string) string {
 func (z Zones) Normalize() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range z {
 		z[i] = Name(z[i]).Normalize()
 	}
@@ -37,12 +41,16 @@ type Name string
 func (n Name) Matches(child string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if dns.Name(n) == dns.Name(child) {
 		return true
 	}
 	return dns.IsSubDomain(string(n), child)
 }
 func (n Name) Normalize() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return strings.ToLower(dns.Fqdn(string(n)))
@@ -55,12 +63,16 @@ type (
 func (h Host) Normalize() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := string(h)
 	_, s = parse.Transport(s)
 	host, _, _, _ := SplitHostPort(s)
 	return Name(host).Normalize()
 }
 func SplitHostPort(s string) (host, port string, ipnet *net.IPNet, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	host = s

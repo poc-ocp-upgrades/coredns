@@ -39,12 +39,16 @@ type regexTtlRule struct {
 func (rule *exactTtlRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rule.From == state.Name() {
 		return RewriteDone
 	}
 	return RewriteIgnored
 }
 func (rule *prefixTtlRule) Rewrite(ctx context.Context, state request.Request) Result {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if strings.HasPrefix(state.Name(), rule.Prefix) {
@@ -55,12 +59,16 @@ func (rule *prefixTtlRule) Rewrite(ctx context.Context, state request.Request) R
 func (rule *suffixTtlRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasSuffix(state.Name(), rule.Suffix) {
 		return RewriteDone
 	}
 	return RewriteIgnored
 }
 func (rule *substringTtlRule) Rewrite(ctx context.Context, state request.Request) Result {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if strings.Contains(state.Name(), rule.Substring) {
@@ -71,6 +79,8 @@ func (rule *substringTtlRule) Rewrite(ctx context.Context, state request.Request
 func (rule *regexTtlRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	regexGroups := rule.Pattern.FindStringSubmatch(state.Name())
 	if len(regexGroups) == 0 {
 		return RewriteIgnored
@@ -78,6 +88,8 @@ func (rule *regexTtlRule) Rewrite(ctx context.Context, state request.Request) Re
 	return RewriteDone
 }
 func newTtlRule(nextAction string, args ...string) (Rule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(args) < 2 {
@@ -122,9 +134,13 @@ func newTtlRule(nextAction string, args ...string) (Rule, error) {
 func (rule *exactTtlRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.NextAction
 }
 func (rule *prefixTtlRule) Mode() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return rule.NextAction
@@ -132,9 +148,13 @@ func (rule *prefixTtlRule) Mode() string {
 func (rule *suffixTtlRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.NextAction
 }
 func (rule *substringTtlRule) Mode() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return rule.NextAction
@@ -142,9 +162,13 @@ func (rule *substringTtlRule) Mode() string {
 func (rule *regexTtlRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.NextAction
 }
 func (rule *exactTtlRule) GetResponseRule() ResponseRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return rule.ResponseRule
@@ -152,9 +176,13 @@ func (rule *exactTtlRule) GetResponseRule() ResponseRule {
 func (rule *prefixTtlRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.ResponseRule
 }
 func (rule *suffixTtlRule) GetResponseRule() ResponseRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return rule.ResponseRule
@@ -162,14 +190,20 @@ func (rule *suffixTtlRule) GetResponseRule() ResponseRule {
 func (rule *substringTtlRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.ResponseRule
 }
 func (rule *regexTtlRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.ResponseRule
 }
 func isValidTtl(v string) (uint32, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	i, err := strconv.Atoi(v)

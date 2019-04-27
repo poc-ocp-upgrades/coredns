@@ -9,6 +9,8 @@ import (
 func TestRewrite(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	corefile := `.:0 {
        rewrite type MX a
@@ -28,6 +30,8 @@ func TestRewrite(t *testing.T) {
 func testMX(t *testing.T, server string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("example.com.", dns.TypeMX)
 	r, err := dns.Exchange(m, server)
@@ -45,6 +49,8 @@ func testMX(t *testing.T, server string) {
 	}
 }
 func testEdns0(t *testing.T, server string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)

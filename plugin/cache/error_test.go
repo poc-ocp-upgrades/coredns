@@ -12,6 +12,8 @@ import (
 func TestFormErr(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := New()
 	c.Next = formErrHandler()
 	req := new(dns.Msg)
@@ -23,6 +25,8 @@ func TestFormErr(t *testing.T) {
 	}
 }
 func formErrHandler() plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return plugin.HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {

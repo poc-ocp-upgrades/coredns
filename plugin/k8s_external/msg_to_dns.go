@@ -10,6 +10,8 @@ import (
 func (e *External) a(services []msg.Service, state request.Request) (records []dns.RR) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dup := make(map[string]struct{})
 	for _, s := range services {
 		what, ip := s.HostType()
@@ -30,6 +32,8 @@ func (e *External) a(services []msg.Service, state request.Request) (records []d
 func (e *External) aaaa(services []msg.Service, state request.Request) (records []dns.RR) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dup := make(map[string]struct{})
 	for _, s := range services {
 		what, ip := s.HostType()
@@ -48,6 +52,8 @@ func (e *External) aaaa(services []msg.Service, state request.Request) (records 
 	return records
 }
 func (e *External) srv(services []msg.Service, state request.Request) (records, extra []dns.RR) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dup := make(map[item]struct{})
@@ -105,6 +111,8 @@ type item struct {
 }
 
 func isDuplicate(m map[item]struct{}, name, addr string, port uint16) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if addr != "" {

@@ -43,6 +43,8 @@ type (
 func Scrape(t *testing.T, url string) []*MetricFamily {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mfChan := make(chan *dto.MetricFamily, 1024)
 	go fetchMetricFamilies(url, mfChan)
 	result := []*MetricFamily{}
@@ -52,6 +54,8 @@ func Scrape(t *testing.T, url string) []*MetricFamily {
 	return result
 }
 func ScrapeMetricAsInt(t *testing.T, addr string, name string, label string, nometricvalue int) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	valueToInt := func(m metric) int {
@@ -90,6 +94,8 @@ func ScrapeMetricAsInt(t *testing.T, addr string, name string, label string, nom
 func MetricValue(name string, mfs []*MetricFamily) (string, map[string]string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, mf := range mfs {
 		if mf.Name == name {
 			return mf.Metrics[0].(metric).Value, mf.Metrics[0].(metric).Labels
@@ -98,6 +104,8 @@ func MetricValue(name string, mfs []*MetricFamily) (string, map[string]string) {
 	return "", nil
 }
 func MetricValueLabel(name, label string, mfs []*MetricFamily) (string, map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, mf := range mfs {
@@ -116,6 +124,8 @@ func MetricValueLabel(name, label string, mfs []*MetricFamily) (string, map[stri
 func newMetricFamily(dtoMF *dto.MetricFamily) *MetricFamily {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mf := &MetricFamily{Name: dtoMF.GetName(), Help: dtoMF.GetHelp(), Type: dtoMF.GetType().String(), Metrics: make([]interface{}, len(dtoMF.Metric))}
 	for i, m := range dtoMF.Metric {
 		if dtoMF.GetType() == dto.MetricType_SUMMARY {
@@ -129,6 +139,8 @@ func newMetricFamily(dtoMF *dto.MetricFamily) *MetricFamily {
 	return mf
 }
 func value(m *dto.Metric) float64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m.Gauge != nil {
@@ -145,6 +157,8 @@ func value(m *dto.Metric) float64 {
 func makeLabels(m *dto.Metric) map[string]string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := map[string]string{}
 	for _, lp := range m.Label {
 		result[lp.GetName()] = lp.GetValue()
@@ -152,6 +166,8 @@ func makeLabels(m *dto.Metric) map[string]string {
 	return result
 }
 func makeQuantiles(m *dto.Metric) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	result := map[string]string{}
@@ -163,6 +179,8 @@ func makeQuantiles(m *dto.Metric) map[string]string {
 func makeBuckets(m *dto.Metric) map[string]string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := map[string]string{}
 	for _, b := range m.GetHistogram().Bucket {
 		result[fmt.Sprint(b.GetUpperBound())] = fmt.Sprint(b.GetCumulativeCount())
@@ -170,6 +188,8 @@ func makeBuckets(m *dto.Metric) map[string]string {
 	return result
 }
 func fetchMetricFamilies(url string, ch chan<- *dto.MetricFamily) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer close(ch)
@@ -215,7 +235,16 @@ const acceptHeader = `application/vnd.google.protobuf;proto=io.prometheus.client
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -13,6 +13,8 @@ type testProvider map[string]Func
 func (tp testProvider) Metadata(ctx context.Context, state request.Request) context.Context {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, v := range tp {
 		SetValueFunc(ctx, k, v)
 	}
@@ -24,15 +26,21 @@ type testHandler struct{ ctx context.Context }
 func (m *testHandler) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "test"
 }
 func (m *testHandler) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.ctx = ctx
 	return 0, nil
 }
 func TestMetadataServeDNS(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	expectedMetadata := []testProvider{{"test/key1": func() string {
@@ -64,6 +72,8 @@ func TestMetadataServeDNS(t *testing.T) {
 	}
 }
 func TestLabelFormat(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	labels := []struct {

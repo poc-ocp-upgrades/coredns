@@ -11,6 +11,8 @@ import (
 func TestEmptySecondaryZone(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `example.org:0 {
 		secondary {
 			transfer from 127.0.0.1:1717
@@ -33,6 +35,8 @@ func TestEmptySecondaryZone(t *testing.T) {
 	}
 }
 func TestSecondaryZoneTransfer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	name, rm, err := test.TempFile(".", exampleOrg)

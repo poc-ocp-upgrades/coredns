@@ -14,9 +14,13 @@ type DoHWriter struct {
 func (d *DoHWriter) RemoteAddr() net.Addr {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.raddr
 }
 func (d *DoHWriter) LocalAddr() net.Addr {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return d.laddr

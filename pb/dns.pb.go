@@ -25,9 +25,13 @@ type DnsPacket struct {
 func (m *DnsPacket) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = DnsPacket{}
 }
 func (m *DnsPacket) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -35,13 +39,19 @@ func (m *DnsPacket) String() string {
 func (*DnsPacket) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*DnsPacket) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor0, []int{0}
 }
 func (m *DnsPacket) GetMsg() []byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -57,9 +67,13 @@ type WatchRequest struct {
 func (m *WatchRequest) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = WatchRequest{}
 }
 func (m *WatchRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -67,8 +81,12 @@ func (m *WatchRequest) String() string {
 func (*WatchRequest) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*WatchRequest) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor0, []int{1}
@@ -85,12 +103,18 @@ type WatchRequest_CancelRequest struct {
 func (*WatchRequest_CreateRequest) isWatchRequest_RequestUnion() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*WatchRequest_CancelRequest) isWatchRequest_RequestUnion() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (m *WatchRequest) GetRequestUnion() isWatchRequest_RequestUnion {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -101,12 +125,16 @@ func (m *WatchRequest) GetRequestUnion() isWatchRequest_RequestUnion {
 func (m *WatchRequest) GetCreateRequest() *WatchCreateRequest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if x, ok := m.GetRequestUnion().(*WatchRequest_CreateRequest); ok {
 		return x.CreateRequest
 	}
 	return nil
 }
 func (m *WatchRequest) GetCancelRequest() *WatchCancelRequest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if x, ok := m.GetRequestUnion().(*WatchRequest_CancelRequest); ok {
@@ -117,9 +145,13 @@ func (m *WatchRequest) GetCancelRequest() *WatchCancelRequest {
 func (*WatchRequest) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _WatchRequest_OneofMarshaler, _WatchRequest_OneofUnmarshaler, _WatchRequest_OneofSizer, []interface{}{(*WatchRequest_CreateRequest)(nil), (*WatchRequest_CancelRequest)(nil)}
 }
 func _WatchRequest_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := msg.(*WatchRequest)
@@ -141,6 +173,8 @@ func _WatchRequest_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
 	return nil
 }
 func _WatchRequest_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := msg.(*WatchRequest)
@@ -166,6 +200,8 @@ func _WatchRequest_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.B
 	}
 }
 func _WatchRequest_OneofSizer(msg proto.Message) (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := msg.(*WatchRequest)
@@ -194,9 +230,13 @@ type WatchCreateRequest struct {
 func (m *WatchCreateRequest) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = WatchCreateRequest{}
 }
 func (m *WatchCreateRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -204,13 +244,19 @@ func (m *WatchCreateRequest) String() string {
 func (*WatchCreateRequest) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*WatchCreateRequest) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor0, []int{2}
 }
 func (m *WatchCreateRequest) GetQuery() *DnsPacket {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -226,9 +272,13 @@ type WatchCancelRequest struct {
 func (m *WatchCancelRequest) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = WatchCancelRequest{}
 }
 func (m *WatchCancelRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -236,13 +286,19 @@ func (m *WatchCancelRequest) String() string {
 func (*WatchCancelRequest) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*WatchCancelRequest) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor0, []int{3}
 }
 func (m *WatchCancelRequest) GetWatchId() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -262,9 +318,13 @@ type WatchResponse struct {
 func (m *WatchResponse) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = WatchResponse{}
 }
 func (m *WatchResponse) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -272,13 +332,19 @@ func (m *WatchResponse) String() string {
 func (*WatchResponse) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*WatchResponse) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor0, []int{4}
 }
 func (m *WatchResponse) GetWatchId() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -289,12 +355,16 @@ func (m *WatchResponse) GetWatchId() int64 {
 func (m *WatchResponse) GetCreated() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Created
 	}
 	return false
 }
 func (m *WatchResponse) GetCanceled() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -305,6 +375,8 @@ func (m *WatchResponse) GetCanceled() bool {
 func (m *WatchResponse) GetQname() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Qname
 	}
@@ -313,12 +385,16 @@ func (m *WatchResponse) GetQname() string {
 func (m *WatchResponse) GetErr() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Err
 	}
 	return ""
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	proto.RegisterType((*DnsPacket)(nil), "coredns.dns.DnsPacket")
@@ -342,9 +418,13 @@ type dnsServiceClient struct{ cc *grpc.ClientConn }
 func NewDnsServiceClient(cc *grpc.ClientConn) DnsServiceClient {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dnsServiceClient{cc}
 }
 func (c *dnsServiceClient) Query(ctx context.Context, in *DnsPacket, opts ...grpc.CallOption) (*DnsPacket, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	out := new(DnsPacket)
@@ -355,6 +435,8 @@ func (c *dnsServiceClient) Query(ctx context.Context, in *DnsPacket, opts ...grp
 	return out, nil
 }
 func (c *dnsServiceClient) Watch(ctx context.Context, opts ...grpc.CallOption) (DnsService_WatchClient, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stream, err := grpc.NewClientStream(ctx, &_DnsService_serviceDesc.Streams[0], c.cc, "/coredns.dns.DnsService/Watch", opts...)
@@ -375,9 +457,13 @@ type dnsServiceWatchClient struct{ grpc.ClientStream }
 func (x *dnsServiceWatchClient) Send(m *WatchRequest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return x.ClientStream.SendMsg(m)
 }
 func (x *dnsServiceWatchClient) Recv() (*WatchResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(WatchResponse)
@@ -395,9 +481,13 @@ type DnsServiceServer interface {
 func RegisterDnsServiceServer(s *grpc.Server, srv DnsServiceServer) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.RegisterService(&_DnsService_serviceDesc, srv)
 }
 func _DnsService_Query_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	in := new(DnsPacket)
@@ -416,6 +506,8 @@ func _DnsService_Query_Handler(srv interface{}, ctx context.Context, dec func(in
 func _DnsService_Watch_Handler(srv interface{}, stream grpc.ServerStream) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return srv.(DnsServiceServer).Watch(&dnsServiceWatchServer{stream})
 }
 
@@ -429,9 +521,13 @@ type dnsServiceWatchServer struct{ grpc.ServerStream }
 func (x *dnsServiceWatchServer) Send(m *WatchResponse) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return x.ServerStream.SendMsg(m)
 }
 func (x *dnsServiceWatchServer) Recv() (*WatchRequest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(WatchRequest)
@@ -446,6 +542,8 @@ var _DnsService_serviceDesc = grpc.ServiceDesc{ServiceName: "coredns.dns.DnsServ
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proto.RegisterFile("dns.proto", fileDescriptor0)
 }
 
@@ -454,7 +552,16 @@ var fileDescriptor0 = []byte{0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

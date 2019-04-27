@@ -5,6 +5,8 @@ import "testing"
 func TestZoneMatches(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	child := "example.org."
 	zones := Zones([]string{"org.", "."})
 	actual := zones.Matches(child)
@@ -21,6 +23,8 @@ func TestZoneMatches(t *testing.T) {
 func TestZoneNormalize(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zones := Zones([]string{"example.org", "Example.ORG.", "example.org."})
 	expected := "example.org."
 	zones.Normalize()
@@ -31,6 +35,8 @@ func TestZoneNormalize(t *testing.T) {
 	}
 }
 func TestNameMatches(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	matches := []struct {
@@ -48,6 +54,8 @@ func TestNameMatches(t *testing.T) {
 func TestNameNormalize(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	names := []string{"example.org", "example.org.", "Example.ORG.", "example.org."}
 	for i := 0; i < len(names); i += 2 {
 		ts := names[i]
@@ -61,6 +69,8 @@ func TestNameNormalize(t *testing.T) {
 func TestHostNormalize(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hosts := []string{".:53", ".", "example.org:53", "example.org.", "example.org.:53", "example.org.", "10.0.0.0/8:53", "10.in-addr.arpa.", "10.0.0.0/9", "10.in-addr.arpa.", "dns://example.org", "example.org."}
 	for i := 0; i < len(hosts); i += 2 {
 		ts := hosts[i]
@@ -72,6 +82,8 @@ func TestHostNormalize(t *testing.T) {
 	}
 }
 func TestSplitHostPortReverse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := map[string]int{"example.org.": 0, "10.0.0.0/9": 32 - 9, "10.0.0.0/8": 32 - 8, "10.0.0.0/17": 32 - 17, "10.0.0.0/0": 32 - 0, "10.0.0.0/64": 0, "10.0.0.0": 0, "10.0.0": 0, "2003::1/65": 128 - 65}

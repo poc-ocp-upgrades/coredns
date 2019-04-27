@@ -34,6 +34,8 @@ type Server struct {
 func NewServer(addr string, group []*Config) (*Server, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := &Server{Addr: addr, zones: make(map[string]*Config), connTimeout: 5 * time.Second}
 	s.dnsWg.Add(1)
 	for _, site := range group {
@@ -74,6 +76,8 @@ func NewServer(addr string, group []*Config) (*Server, error) {
 func (s *Server) Serve(l net.Listener) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.m.Lock()
 	s.server[tcp] = &dns.Server{Listener: l, Net: "tcp", Handler: dns.HandlerFunc(func(w dns.ResponseWriter, r *dns.Msg) {
 		ctx := context.WithValue(context.Background(), Key{}, s)
@@ -83,6 +87,8 @@ func (s *Server) Serve(l net.Listener) error {
 	return s.server[tcp].ActivateAndServe()
 }
 func (s *Server) ServePacket(p net.PacketConn) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.m.Lock()
@@ -96,6 +102,8 @@ func (s *Server) ServePacket(p net.PacketConn) error {
 func (s *Server) Listen() (net.Listener, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l, err := listen("tcp", s.Addr[len(transport.DNS+"://"):])
 	if err != nil {
 		return nil, err
@@ -105,6 +113,8 @@ func (s *Server) Listen() (net.Listener, error) {
 func (s *Server) ListenPacket() (net.PacketConn, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p, err := listenPacket("udp", s.Addr[len(transport.DNS+"://"):])
 	if err != nil {
 		return nil, err
@@ -112,6 +122,8 @@ func (s *Server) ListenPacket() (net.PacketConn, error) {
 	return p, nil
 }
 func (s *Server) Stop() (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if runtime.GOOS != "windows" {
@@ -138,9 +150,13 @@ func (s *Server) Stop() (err error) {
 func (s *Server) Address() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.Addr
 }
 func (s *Server) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r == nil || len(r.Question) == 0 {
@@ -227,6 +243,8 @@ func (s *Server) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg)
 func (s *Server) OnStartupComplete() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if Quiet {
 		return
 	}
@@ -239,12 +257,16 @@ func (s *Server) OnStartupComplete() {
 func (s *Server) Tracer() ot.Tracer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s.trace == nil {
 		return nil
 	}
 	return s.trace.Tracer()
 }
 func DefaultErrorFunc(ctx context.Context, w dns.ResponseWriter, r *dns.Msg, rc int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
@@ -255,6 +277,8 @@ func DefaultErrorFunc(ctx context.Context, w dns.ResponseWriter, r *dns.Msg, rc 
 	w.WriteMsg(answer)
 }
 func incrementDepthAndCheck(ctx context.Context) (context.Context, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	loop := ctx.Value(loopKey{})

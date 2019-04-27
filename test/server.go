@@ -12,6 +12,8 @@ var mu sync.Mutex
 func CoreDNSServer(corefile string) (*caddy.Instance, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mu.Lock()
 	defer mu.Unlock()
 	caddy.Quiet = true
@@ -21,9 +23,13 @@ func CoreDNSServer(corefile string) (*caddy.Instance, error) {
 func CoreDNSServerStop(i *caddy.Instance) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i.Stop()
 }
 func CoreDNSServerPorts(i *caddy.Instance, k int) (udp, tcp string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	srvs := i.Servers()
@@ -43,6 +49,8 @@ func CoreDNSServerPorts(i *caddy.Instance, k int) (udp, tcp string) {
 func CoreDNSServerAndPorts(corefile string) (i *caddy.Instance, udp, tcp string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i, err = CoreDNSServer(corefile)
 	if err != nil {
 		return nil, "", "", err
@@ -56,9 +64,13 @@ type Input struct{ corefile []byte }
 func NewInput(corefile string) *Input {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Input{corefile: []byte(corefile)}
 }
 func (i *Input) Body() []byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return i.corefile
@@ -66,9 +78,13 @@ func (i *Input) Body() []byte {
 func (i *Input) Path() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "Corefile"
 }
 func (i *Input) ServerType() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "dns"

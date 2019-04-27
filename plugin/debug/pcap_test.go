@@ -13,6 +13,8 @@ import (
 func msg() *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("example.local.", dns.TypeA)
 	m.SetEdns0(4096, true)
@@ -22,11 +24,15 @@ func msg() *dns.Msg {
 func ExampleLogHexdump() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf, _ := msg().Pack()
 	h := hexdump(buf)
 	fmt.Println(string(h))
 }
 func TestHexdump(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var f bytes.Buffer
@@ -42,6 +48,8 @@ func TestHexdump(t *testing.T) {
 func TestHexdumpf(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var f bytes.Buffer
 	golog.SetOutput(&f)
 	log.D = true
@@ -53,6 +61,8 @@ func TestHexdumpf(t *testing.T) {
 	}
 }
 func TestNoDebug(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var f bytes.Buffer

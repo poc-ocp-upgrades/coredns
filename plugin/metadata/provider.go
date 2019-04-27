@@ -14,6 +14,8 @@ type Func func() string
 func IsLabel(label string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := strings.Index(label, "/")
 	if p <= 0 || p >= len(label)-1 {
 		return false
@@ -26,6 +28,8 @@ func IsLabel(label string) bool {
 func Labels(ctx context.Context) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if metadata := ctx.Value(key{}); metadata != nil {
 		if m, ok := metadata.(md); ok {
 			return keys(m)
@@ -36,6 +40,8 @@ func Labels(ctx context.Context) []string {
 func ValueFunc(ctx context.Context, label string) Func {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if metadata := ctx.Value(key{}); metadata != nil {
 		if m, ok := metadata.(md); ok {
 			return m[label]
@@ -44,6 +50,8 @@ func ValueFunc(ctx context.Context, label string) Func {
 	return nil
 }
 func SetValueFunc(ctx context.Context, label string, f Func) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if metadata := ctx.Value(key{}); metadata != nil {
@@ -59,6 +67,8 @@ type md map[string]Func
 type key struct{}
 
 func keys(m map[string]Func) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := make([]string, len(m))

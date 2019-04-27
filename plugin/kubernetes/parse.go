@@ -18,6 +18,8 @@ type recordRequest struct {
 func parseRequest(state request.Request) (r recordRequest, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	base, _ := dnsutil.TrimZone(state.Name(), state.Zone)
 	if base == "" || base == Svc || base == Pod {
 		return r, nil
@@ -61,12 +63,16 @@ func parseRequest(state request.Request) (r recordRequest, err error) {
 func stripUnderscore(s string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s[0] != '_' {
 		return s
 	}
 	return s[1:]
 }
 func (r recordRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := r.port

@@ -8,6 +8,8 @@ import (
 func TestVersion(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := ednsMsg()
 	m.Extra[0].(*dns.OPT).SetVersion(2)
 	_, err := Version(m)
@@ -18,6 +20,8 @@ func TestVersion(t *testing.T) {
 func TestVersionNoEdns(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := ednsMsg()
 	m.Extra = nil
 	_, err := Version(m)
@@ -26,6 +30,8 @@ func TestVersionNoEdns(t *testing.T) {
 	}
 }
 func ednsMsg() *dns.Msg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)

@@ -11,6 +11,8 @@ import (
 func (h *health) overloaded() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeout := time.Duration(5 * time.Second)
 	client := http.Client{Timeout: timeout}
 	url := "http://" + h.Addr

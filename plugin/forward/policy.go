@@ -14,9 +14,13 @@ type random struct{}
 func (r *random) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "random"
 }
 func (r *random) List(p []*Proxy) []*Proxy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch len(p) {
@@ -41,9 +45,13 @@ type roundRobin struct{ robin uint32 }
 func (r *roundRobin) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "round_robin"
 }
 func (r *roundRobin) List(p []*Proxy) []*Proxy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	poolLen := uint32(len(p))
@@ -59,9 +67,13 @@ type sequential struct{}
 func (r *sequential) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "sequential"
 }
 func (r *sequential) List(p []*Proxy) []*Proxy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return p

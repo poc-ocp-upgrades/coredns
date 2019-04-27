@@ -11,6 +11,8 @@ import (
 func TestLookupCache(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, rm, err := test.TempFile(".", exampleOrg)
 	if err != nil {
 		t.Fatalf("Failed to create zone: %s", err)
@@ -45,6 +47,8 @@ func TestLookupCache(t *testing.T) {
 	})
 }
 func testCase(t *testing.T, state request.Request, p proxy.Proxy, name string, expectAnsLen int, expectTTL uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	resp, err := p.Lookup(state, name, dns.TypeA)

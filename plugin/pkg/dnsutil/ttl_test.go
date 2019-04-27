@@ -11,6 +11,8 @@ import (
 func TestMinimalTTL(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("z.alm.im.", dns.TypeA)
 	m.Ns = []dns.RR{test.SOA("alm.im.	1800	IN	SOA	ivan.ns.cloudflare.com. dns.cloudflare.com. 2025042470 10000 2400 604800 3600")}
@@ -34,6 +36,8 @@ func TestMinimalTTL(t *testing.T) {
 	}
 }
 func BenchmarkMinimalTTL(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)

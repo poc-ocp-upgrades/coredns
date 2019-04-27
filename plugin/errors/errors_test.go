@@ -22,6 +22,8 @@ import (
 func TestErrors(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := bytes.Buffer{}
 	golog.SetOutput(&buf)
 	em := errorHandler{eLogger: errorLogger}
@@ -54,6 +56,8 @@ func TestErrors(t *testing.T) {
 func TestConsLogger(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := bytes.Buffer{}
 	golog.SetOutput(&buf)
 	consLogger(5, "^Error.*!$", 3*time.Second)
@@ -64,6 +68,8 @@ func TestConsLogger(t *testing.T) {
 	}
 }
 func TestLogPattern(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h := &errorHandler{patterns: []*pattern{{count: 4, period: 2 * time.Second, pattern: regexp.MustCompile("^Error.*!$")}}, cLogger: testConsLogger}
@@ -93,6 +99,8 @@ func TestLogPattern(t *testing.T) {
 	}
 }
 func TestInc(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h := &errorHandler{stopFlag: 1, patterns: []*pattern{{period: 2 * time.Second, pattern: regexp.MustCompile("^Error.*!$")}}, cLogger: testConsLogger}
@@ -139,6 +147,8 @@ func TestInc(t *testing.T) {
 func TestStop(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h := &errorHandler{patterns: []*pattern{{period: 2 * time.Second, pattern: regexp.MustCompile("^Error.*!$")}}, cLogger: testConsLogger}
 	loggedData = loggedData[:0]
 	h.inc(0)
@@ -177,6 +187,8 @@ func TestStop(t *testing.T) {
 	}
 }
 func TestServeDNSConcurrent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	eg := newErrorGenerator()
@@ -262,6 +274,8 @@ var loggedData []logData
 func testConsLogger(cnt uint32, pattern string, p time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	loggedData = append(loggedData, logData{cnt, pattern, p})
 }
 
@@ -292,15 +306,21 @@ type errorGenerator struct {
 func newErrorGenerator() *errorGenerator {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rand.Seed(time.Now().UnixNano())
 	return &errorGenerator{errors: [4]errorBunch{{ErrCnt0, fmt.Errorf(ErrStr0)}, {ErrCnt1, fmt.Errorf(ErrStr1)}, {ErrCnt2, fmt.Errorf(ErrStr2)}, {ErrCnt3, fmt.Errorf(ErrStr3)}}}
 }
 func (sh *errorGenerator) done() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return atomic.LoadUint32(&sh.doneFlag) > 0
 }
 func (sh *errorGenerator) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	i := rand.Int()
@@ -317,6 +337,8 @@ func (sh *errorGenerator) ServeDNS(ctx context.Context, w dns.ResponseWriter, r 
 func (sh *errorGenerator) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "errorGenerator"
 }
 
@@ -329,9 +351,13 @@ type errorReport struct {
 func (er *errorReport) consolidated(i int) uint32 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return atomic.LoadUint32(&er.s[i])
 }
 func (er *errorReport) incConsolidated(i int, cnt uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	atomic.AddUint32(&er.s[i], cnt)
@@ -339,9 +365,13 @@ func (er *errorReport) incConsolidated(i int, cnt uint32) {
 func (er *errorReport) passed(i int) uint32 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return atomic.LoadUint32(&er.p[i])
 }
 func (er *errorReport) incPassed(i int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	atomic.AddUint32(&er.p[i], 1)
@@ -349,14 +379,20 @@ func (er *errorReport) incPassed(i int) {
 func (er *errorReport) loggerCnt() uint32 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return atomic.LoadUint32(&er.l)
 }
 func (er *errorReport) incLoggerCnt() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	atomic.AddUint32(&er.l, 1)
 }
 func genErrorHandler(rcode int, err error) plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return plugin.HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {

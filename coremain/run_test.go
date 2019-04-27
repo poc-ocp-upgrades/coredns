@@ -8,6 +8,8 @@ import (
 func TestSetCPU(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	currentCPU := runtime.GOMAXPROCS(-1)
 	maxCPU := runtime.NumCPU()
 	halfCPU := int(0.5 * float32(maxCPU))

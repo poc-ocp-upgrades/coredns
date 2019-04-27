@@ -12,6 +12,8 @@ import (
 func TestSetupAutoPath(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resolv, rm, err := test.TempFile(os.TempDir(), resolvConf)
 	if err != nil {
 		t.Fatalf("Could not create resolv.conf test file %s: %s", resolvConf, err)

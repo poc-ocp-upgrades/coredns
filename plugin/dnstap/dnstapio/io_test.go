@@ -22,6 +22,8 @@ var (
 func accept(t *testing.T, l net.Listener, count int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server, err := l.Accept()
 	if err != nil {
 		t.Fatalf("Server accepted: %s", err)
@@ -42,6 +44,8 @@ func accept(t *testing.T, l net.Listener, count int) {
 	}
 }
 func TestTransport(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	transport := [2][3]string{{"tcp", endpointTCP, "false"}, {"unix", endpointSocket, "true"}}
@@ -65,6 +69,8 @@ func TestTransport(t *testing.T) {
 	}
 }
 func TestRace(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	count := 10
@@ -93,6 +99,8 @@ func TestRace(t *testing.T) {
 	wg.Wait()
 }
 func TestReconnect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	count := 5

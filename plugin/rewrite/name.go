@@ -50,6 +50,8 @@ const (
 func (rule *exactNameRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rule.From == state.Name() {
 		state.Req.Question[0].Name = rule.To
 		return RewriteDone
@@ -57,6 +59,8 @@ func (rule *exactNameRule) Rewrite(ctx context.Context, state request.Request) R
 	return RewriteIgnored
 }
 func (rule *prefixNameRule) Rewrite(ctx context.Context, state request.Request) Result {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if strings.HasPrefix(state.Name(), rule.Prefix) {
@@ -68,6 +72,8 @@ func (rule *prefixNameRule) Rewrite(ctx context.Context, state request.Request) 
 func (rule *suffixNameRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasSuffix(state.Name(), rule.Suffix) {
 		state.Req.Question[0].Name = strings.TrimSuffix(state.Name(), rule.Suffix) + rule.Replacement
 		return RewriteDone
@@ -77,6 +83,8 @@ func (rule *suffixNameRule) Rewrite(ctx context.Context, state request.Request) 
 func (rule *substringNameRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.Contains(state.Name(), rule.Substring) {
 		state.Req.Question[0].Name = strings.Replace(state.Name(), rule.Substring, rule.Replacement, -1)
 		return RewriteDone
@@ -84,6 +92,8 @@ func (rule *substringNameRule) Rewrite(ctx context.Context, state request.Reques
 	return RewriteIgnored
 }
 func (rule *regexNameRule) Rewrite(ctx context.Context, state request.Request) Result {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	regexGroups := rule.Pattern.FindStringSubmatch(state.Name())
@@ -101,6 +111,8 @@ func (rule *regexNameRule) Rewrite(ctx context.Context, state request.Request) R
 	return RewriteDone
 }
 func newNameRule(nextAction string, args ...string) (Rule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var matchType, rewriteQuestionFrom, rewriteQuestionTo string
@@ -190,9 +202,13 @@ func newNameRule(nextAction string, args ...string) (Rule, error) {
 func (rule *exactNameRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.NextAction
 }
 func (rule *prefixNameRule) Mode() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return rule.NextAction
@@ -200,9 +216,13 @@ func (rule *prefixNameRule) Mode() string {
 func (rule *suffixNameRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.NextAction
 }
 func (rule *substringNameRule) Mode() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return rule.NextAction
@@ -210,9 +230,13 @@ func (rule *substringNameRule) Mode() string {
 func (rule *regexNameRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.NextAction
 }
 func (rule *exactNameRule) GetResponseRule() ResponseRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return rule.ResponseRule
@@ -220,9 +244,13 @@ func (rule *exactNameRule) GetResponseRule() ResponseRule {
 func (rule *prefixNameRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ResponseRule{}
 }
 func (rule *suffixNameRule) GetResponseRule() ResponseRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ResponseRule{}
@@ -230,14 +258,20 @@ func (rule *suffixNameRule) GetResponseRule() ResponseRule {
 func (rule *substringNameRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ResponseRule{}
 }
 func (rule *regexNameRule) GetResponseRule() ResponseRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.ResponseRule
 }
 func validName(s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, ok := dns.IsDomainName(s)
@@ -252,12 +286,16 @@ func validName(s string) bool {
 func hasClosingDot(s string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasSuffix(s, ".") {
 		return true
 	}
 	return false
 }
 func getSubExprUsage(s string) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	subExprUsage := 0
@@ -269,6 +307,8 @@ func getSubExprUsage(s string) int {
 	return subExprUsage
 }
 func isValidRegexPattern(rewriteFrom, rewriteTo string) (*regexp.Regexp, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rewriteFromPattern, err := regexp.Compile(rewriteFrom)

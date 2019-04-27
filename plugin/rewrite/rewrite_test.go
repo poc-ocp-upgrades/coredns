@@ -16,10 +16,14 @@ import (
 func msgPrinter(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.WriteMsg(r)
 	return 0, nil
 }
 func TestNewRule(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {
@@ -40,6 +44,8 @@ func TestNewRule(t *testing.T) {
 	}
 }
 func TestRewrite(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rules := []Rule{}
@@ -105,6 +111,8 @@ func TestRewrite(t *testing.T) {
 func TestRewriteEDNS0Local(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rw := Rewrite{Next: plugin.HandlerFunc(msgPrinter), noRevert: true}
 	tests := []struct {
 		fromOpts	[]dns.EDNS0
@@ -141,6 +149,8 @@ func TestRewriteEDNS0Local(t *testing.T) {
 	}
 }
 func TestEdns0LocalMultiRule(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rules := []Rule{}
@@ -180,6 +190,8 @@ func TestEdns0LocalMultiRule(t *testing.T) {
 	}
 }
 func optsEqual(a, b []dns.EDNS0) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(a) != len(b) {
@@ -238,12 +250,16 @@ type testProvider map[string]metadata.Func
 func (tp testProvider) Metadata(ctx context.Context, state request.Request) context.Context {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, v := range tp {
 		metadata.SetValueFunc(ctx, k, v)
 	}
 	return ctx
 }
 func TestRewriteEDNS0LocalVariable(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rw := Rewrite{Next: plugin.HandlerFunc(msgPrinter), noRevert: true}
@@ -289,6 +305,8 @@ func TestRewriteEDNS0LocalVariable(t *testing.T) {
 	}
 }
 func TestRewriteEDNS0Subnet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rw := Rewrite{Next: plugin.HandlerFunc(msgPrinter), noRevert: true}

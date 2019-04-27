@@ -14,6 +14,8 @@ import (
 func TestNewReplacer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := dnstest.NewRecorder(&test.ResponseWriter{})
 	r := new(dns.Msg)
 	r.SetQuestion("example.org.", dns.TypeHINFO)
@@ -40,6 +42,8 @@ func TestNewReplacer(t *testing.T) {
 func TestSet(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := dnstest.NewRecorder(&test.ResponseWriter{})
 	r := new(dns.Msg)
 	r.SetQuestion("example.org.", dns.TypeHINFO)
@@ -64,6 +68,8 @@ type testProvider map[string]metadata.Func
 func (tp testProvider) Metadata(ctx context.Context, state request.Request) context.Context {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, v := range tp {
 		metadata.SetValueFunc(ctx, k, v)
 	}
@@ -75,15 +81,21 @@ type testHandler struct{ ctx context.Context }
 func (m *testHandler) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "test"
 }
 func (m *testHandler) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.ctx = ctx
 	return 0, nil
 }
 func TestMetadataReplacement(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	mdata := testProvider{"test/key2": func() string {

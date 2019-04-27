@@ -16,9 +16,13 @@ var log = clog.NewWithPlugin("dnstap")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("dnstap", caddy.Plugin{ServerType: "dns", Action: wrapSetup})
 }
 func wrapSetup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := setup(c); err != nil {
@@ -34,6 +38,8 @@ type config struct {
 }
 
 func parseConfig(d *caddyfile.Dispenser) (c config, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d.Next()
@@ -56,6 +62,8 @@ func parseConfig(d *caddyfile.Dispenser) (c config, err error) {
 	return
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	conf, err := parseConfig(&c.Dispenser)

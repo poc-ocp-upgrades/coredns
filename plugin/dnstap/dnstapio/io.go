@@ -31,6 +31,8 @@ type dnstapIO struct {
 func New(endpoint string, socket bool) DnstapIO {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dnstapIO{endpoint: endpoint, socket: socket, enc: newDnstapEncoder(&fs.EncoderOptions{ContentType: []byte("protobuf:dnstap.Dnstap"), Bidirectional: true}), queue: make(chan tap.Dnstap, queueSize), quit: make(chan struct{})}
 }
 
@@ -41,6 +43,8 @@ type DnstapIO interface {
 }
 
 func (dio *dnstapIO) newConnect() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -62,12 +66,16 @@ func (dio *dnstapIO) newConnect() error {
 func (dio *dnstapIO) Connect() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := dio.newConnect(); err != nil {
 		log.Error("No connection to dnstap endpoint")
 	}
 	go dio.serve()
 }
 func (dio *dnstapIO) Dnstap(payload tap.Dnstap) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	select {
@@ -79,6 +87,8 @@ func (dio *dnstapIO) Dnstap(payload tap.Dnstap) {
 func (dio *dnstapIO) closeConnection() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dio.enc.close()
 	if dio.conn != nil {
 		dio.conn.Close()
@@ -88,9 +98,13 @@ func (dio *dnstapIO) closeConnection() {
 func (dio *dnstapIO) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(dio.quit)
 }
 func (dio *dnstapIO) flushBuffer() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if dio.conn == nil {
@@ -112,11 +126,15 @@ func (dio *dnstapIO) flushBuffer() {
 func (dio *dnstapIO) write(payload *tap.Dnstap) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := dio.enc.writeMsg(payload); err != nil {
 		atomic.AddUint32(&dio.dropped, 1)
 	}
 }
 func (dio *dnstapIO) serve() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	timeout := time.After(flushTimeout)

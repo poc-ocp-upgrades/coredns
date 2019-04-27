@@ -21,6 +21,8 @@ type DNSKEY struct {
 func ParseKeyFile(pubFile, privFile string) (*DNSKEY, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f, e := os.Open(pubFile)
 	if e != nil {
 		return nil, e
@@ -54,6 +56,8 @@ func ParseKeyFile(pubFile, privFile string) (*DNSKEY, error) {
 func (d Dnssec) getDNSKEY(state request.Request, zone string, do bool, server string) *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keys := make([]dns.RR, len(d.keys))
 	for i, k := range d.keys {
 		keys[i] = dns.Copy(k.K)
@@ -74,9 +78,13 @@ func (d Dnssec) getDNSKEY(state request.Request, zone string, do bool, server st
 func (k DNSKEY) isZSK() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return k.K.Flags&(1<<8) == (1<<8) && k.K.Flags&1 == 0
 }
 func (k DNSKEY) isKSK() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return k.K.Flags&(1<<8) == (1<<8) && k.K.Flags&1 == 1

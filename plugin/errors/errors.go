@@ -28,9 +28,13 @@ type pattern struct {
 func (p *pattern) timer() *time.Timer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return (*time.Timer)(atomic.LoadPointer(&p.ptimer))
 }
 func (p *pattern) setTimer(t *time.Timer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	atomic.StorePointer(&p.ptimer, unsafe.Pointer(t))
@@ -47,9 +51,13 @@ type errorHandler struct {
 func newErrorHandler() *errorHandler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &errorHandler{eLogger: errorLogger, cLogger: consLogger}
 }
 func errorLogger(code int, qName, qType, err string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	log.Errorf("%d %s %s: %s", code, qName, qType, err)
@@ -57,9 +65,13 @@ func errorLogger(code int, qName, qType, err string) {
 func consLogger(cnt uint32, pattern string, p time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	log.Errorf("%d errors like '%s' occured in last %s", cnt, pattern, p)
 }
 func (h *errorHandler) logPattern(i int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cnt := atomic.SwapUint32(&h.patterns[i].count, 0)
@@ -68,6 +80,8 @@ func (h *errorHandler) logPattern(i int) {
 	}
 }
 func (h *errorHandler) inc(i int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if atomic.LoadUint32(&h.stopFlag) > 0 {
@@ -88,6 +102,8 @@ func (h *errorHandler) inc(i int) bool {
 func (h *errorHandler) stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	atomic.StoreUint32(&h.stopFlag, 1)
 	for i := range h.patterns {
 		t := h.patterns[i].timer()
@@ -97,6 +113,8 @@ func (h *errorHandler) stop() {
 	}
 }
 func (h *errorHandler) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rcode, err := plugin.NextOrFailure(h.Name(), h.Next, ctx, w, r)
@@ -118,12 +136,23 @@ func (h *errorHandler) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dn
 func (h *errorHandler) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "errors"
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

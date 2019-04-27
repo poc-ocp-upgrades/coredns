@@ -20,6 +20,8 @@ type Proxy struct {
 func NewProxy(addr, trans string) *Proxy {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := &Proxy{addr: addr, fails: 0, probe: up.New(), transport: newTransport(addr)}
 	p.health = NewHealthChecker(trans)
 	runtime.SetFinalizer(p, (*Proxy).finalizer)
@@ -28,15 +30,21 @@ func NewProxy(addr, trans string) *Proxy {
 func (p *Proxy) SetTLSConfig(cfg *tls.Config) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.transport.SetTLSConfig(cfg)
 	p.health.SetTLSConfig(cfg)
 }
 func (p *Proxy) SetExpire(expire time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.transport.SetExpire(expire)
 }
 func (p *Proxy) Healthcheck() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if p.health == nil {
@@ -50,6 +58,8 @@ func (p *Proxy) Healthcheck() {
 func (p *Proxy) Down(maxfails uint32) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if maxfails == 0 {
 		return false
 	}
@@ -59,14 +69,20 @@ func (p *Proxy) Down(maxfails uint32) bool {
 func (p *Proxy) close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.probe.Stop()
 }
 func (p *Proxy) finalizer() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.transport.Stop()
 }
 func (p *Proxy) start(duration time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	p.probe.Start(duration)

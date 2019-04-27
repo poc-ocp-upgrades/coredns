@@ -8,6 +8,8 @@ import (
 func TestClosestEncloser(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z, err := Parse(strings.NewReader(dbMiekNL), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expect no error when reading zone, got %q", err)

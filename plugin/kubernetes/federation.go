@@ -15,6 +15,8 @@ const (
 func (k *Kubernetes) Federations(state request.Request, fname, fzone string) (msg.Service, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nodeName := k.localNodeName()
 	node, err := k.APIConn.GetNodeByName(nodeName)
 	if err != nil {

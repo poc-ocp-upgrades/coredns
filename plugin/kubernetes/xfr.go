@@ -17,14 +17,20 @@ const transferLength = 2000
 func (k *Kubernetes) Serial(state request.Request) uint32 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return uint32(k.APIConn.Modified())
 }
 func (k *Kubernetes) MinTTL(state request.Request) uint32 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return k.ttl
 }
 func (k *Kubernetes) Transfer(ctx context.Context, state request.Request) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !k.transferAllowed(state) {
@@ -70,6 +76,8 @@ func (k *Kubernetes) Transfer(ctx context.Context, state request.Request) (int, 
 func (k *Kubernetes) transferAllowed(state request.Request) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, t := range k.TransferTo {
 		if t == "*" {
 			return true
@@ -86,6 +94,8 @@ func (k *Kubernetes) transferAllowed(state request.Request) bool {
 	return false
 }
 func (k *Kubernetes) transfer(c chan dns.RR, zone string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer close(c)
@@ -151,6 +161,8 @@ func (k *Kubernetes) transfer(c chan dns.RR, zone string) {
 func emitAddressRecord(c chan dns.RR, message msg.Service) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ip := net.ParseIP(message.Host)
 	var host string
 	dnsType, _ := message.HostType()
@@ -167,6 +179,8 @@ func emitAddressRecord(c chan dns.RR, message msg.Service) string {
 	return host
 }
 func calcSRVWeight(numservices int) uint16 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var services []msg.Service

@@ -17,9 +17,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("forward", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	f, err := parseForward(c)
@@ -45,12 +49,16 @@ func setup(c *caddy.Controller) error {
 func (f *Forward) OnStartup() (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, p := range f.proxies {
 		p.start(f.hcInterval)
 	}
 	return nil
 }
 func (f *Forward) OnShutdown() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, p := range f.proxies {
@@ -61,9 +69,13 @@ func (f *Forward) OnShutdown() error {
 func (f *Forward) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f.OnShutdown()
 }
 func parseForward(c *caddy.Controller) (*Forward, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -84,6 +96,8 @@ func parseForward(c *caddy.Controller) (*Forward, error) {
 	return f, nil
 }
 func ParseForwardStanza(c *caddyfile.Dispenser) (*Forward, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	f := New()
@@ -123,6 +137,8 @@ func ParseForwardStanza(c *caddyfile.Dispenser) (*Forward, error) {
 	return f, nil
 }
 func parseBlock(c *caddyfile.Dispenser, f *Forward) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch c.Val() {

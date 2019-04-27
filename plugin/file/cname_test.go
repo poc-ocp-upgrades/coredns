@@ -13,6 +13,8 @@ import (
 func TestLookupCNAMEChain(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := "example.org."
 	zone, err := Parse(strings.NewReader(dbExampleCNAME), name, "stdin", 0)
 	if err != nil {
@@ -36,6 +38,8 @@ func TestLookupCNAMEChain(t *testing.T) {
 var cnameTestCases = []test.Case{{Qname: "a.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.A("a.example.org. 1800	IN	A 127.0.0.1")}}, {Qname: "www3.example.org.", Qtype: dns.TypeCNAME, Answer: []dns.RR{test.CNAME("www3.example.org. 1800	IN	CNAME www2.example.org.")}}, {Qname: "dangling.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.CNAME("dangling.example.org. 1800	IN	CNAME foo.example.org.")}}, {Qname: "www3.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.A("a.example.org. 1800	IN	A 127.0.0.1"), test.CNAME("www.example.org. 1800	IN	CNAME a.example.org."), test.CNAME("www1.example.org. 1800	IN	CNAME www.example.org."), test.CNAME("www2.example.org. 1800	IN	CNAME www1.example.org."), test.CNAME("www3.example.org. 1800	IN	CNAME www2.example.org.")}}}
 
 func TestLookupCNAMEExternal(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	name := "example.org."

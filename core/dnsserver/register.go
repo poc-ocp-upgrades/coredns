@@ -19,6 +19,8 @@ const serverType = "dns"
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag.StringVar(&Port, serverType+".port", DefaultPort, "Default port")
 	caddy.RegisterServerType(serverType, caddy.ServerType{Directives: func() []string {
 		return Directives
@@ -27,6 +29,8 @@ func init() {
 	}, NewContext: newContext})
 }
 func newContext(i *caddy.Instance) caddy.Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &dnsContext{keysToConfigs: make(map[string]*Config)}
@@ -40,10 +44,14 @@ type dnsContext struct {
 func (h *dnsContext) saveConfig(key string, cfg *Config) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.configs = append(h.configs, cfg)
 	h.keysToConfigs[key] = cfg
 }
 func (h *dnsContext) InspectServerBlocks(sourceFile string, serverBlocks []caddyfile.ServerBlock) ([]caddyfile.ServerBlock, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for ib, s := range serverBlocks {
@@ -75,6 +83,8 @@ func (h *dnsContext) InspectServerBlocks(sourceFile string, serverBlocks []caddy
 	return serverBlocks, nil
 }
 func (h *dnsContext) MakeServers() ([]caddy.Server, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	errValid := h.validateZonesAndListeningAddresses()
@@ -119,9 +129,13 @@ func (h *dnsContext) MakeServers() ([]caddy.Server, error) {
 func (c *Config) AddPlugin(m plugin.Plugin) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.Plugin = append(c.Plugin, m)
 }
 func (c *Config) registerHandler(h plugin.Handler) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if c.registry == nil {
@@ -130,6 +144,8 @@ func (c *Config) registerHandler(h plugin.Handler) {
 	c.registry[h.Name()] = h
 }
 func (c *Config) Handler(name string) plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if c.registry == nil {
@@ -143,6 +159,8 @@ func (c *Config) Handler(name string) plugin.Handler {
 func (c *Config) Handlers() []plugin.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.registry == nil {
 		return nil
 	}
@@ -153,6 +171,8 @@ func (c *Config) Handlers() []plugin.Handler {
 	return hs
 }
 func (h *dnsContext) validateZonesAndListeningAddresses() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	checker := newOverlapZone()
@@ -171,6 +191,8 @@ func (h *dnsContext) validateZonesAndListeningAddresses() error {
 	return nil
 }
 func groupConfigsByListenAddr(configs []*Config) (map[string][]*Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	groups := make(map[string][]*Config)

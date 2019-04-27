@@ -11,6 +11,8 @@ import (
 func TestMultiLookup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	etc := newEtcdPlugin()
 	etc.Zones = []string{"skydns.test.", "miek.nl."}
 	etc.Next = test.ErrorHandler()

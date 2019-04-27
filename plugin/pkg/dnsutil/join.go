@@ -8,6 +8,8 @@ import (
 func Join(labels ...string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ll := len(labels)
 	if labels[ll-1] == "." {
 		return strings.Join(labels[:ll-1], ".") + "."

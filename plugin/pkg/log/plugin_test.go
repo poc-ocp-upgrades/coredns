@@ -10,6 +10,8 @@ import (
 func TestPlugins(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var f bytes.Buffer
 	const ts = "test"
 	golog.SetOutput(&f)
@@ -20,6 +22,8 @@ func TestPlugins(t *testing.T) {
 	}
 }
 func TestPluginsDateTime(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var f bytes.Buffer

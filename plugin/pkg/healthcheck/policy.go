@@ -13,6 +13,8 @@ var (
 func RegisterPolicy(name string, policy func() Policy) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	SupportedPolicies[name] = policy
 }
 
@@ -21,6 +23,8 @@ type Policy interface {
 }
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	RegisterPolicy("random", func() Policy {
@@ -43,6 +47,8 @@ func init() {
 type Random struct{}
 
 func (r *Random) Select(pool HostPool) *UpstreamHost {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var randHost *UpstreamHost
@@ -69,6 +75,8 @@ type Spray struct{}
 func (r *Spray) Select(pool HostPool) *UpstreamHost {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rnd := rand.Int() % len(pool)
 	randHost := pool[rnd]
 	log.Warningf("All hosts reported as down, spraying to target: %s", randHost.Name)
@@ -78,6 +86,8 @@ func (r *Spray) Select(pool HostPool) *UpstreamHost {
 type LeastConn struct{}
 
 func (r *LeastConn) Select(pool HostPool) *UpstreamHost {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var bestHost *UpstreamHost
@@ -112,6 +122,8 @@ type RoundRobin struct{ Robin uint32 }
 func (r *RoundRobin) Select(pool HostPool) *UpstreamHost {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	poolLen := uint32(len(pool))
 	selection := atomic.AddUint32(&r.Robin, 1) % poolLen
 	host := pool[selection]
@@ -124,6 +136,8 @@ func (r *RoundRobin) Select(pool HostPool) *UpstreamHost {
 type First struct{}
 
 func (r *First) Select(pool HostPool) *UpstreamHost {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i := 0; i < len(pool); i++ {

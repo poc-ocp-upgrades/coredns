@@ -14,6 +14,8 @@ var entTestCases = []test.Case{{Qname: "b.c.miek.nl.", Qtype: dns.TypeA, Ns: []d
 func TestLookupEnt(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbMiekENTNL), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expect no error when reading zone, got %q", err)

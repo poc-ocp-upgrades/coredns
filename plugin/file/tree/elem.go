@@ -10,11 +10,15 @@ type Elem struct {
 func newElem(rr dns.RR) *Elem {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := Elem{m: make(map[uint16][]dns.RR)}
 	e.m[rr.Header().Rrtype] = []dns.RR{rr}
 	return &e
 }
 func (e *Elem) Types(qtype uint16, qname ...string) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rrs := e.m[qtype]
@@ -31,6 +35,8 @@ func (e *Elem) Types(qtype uint16, qname ...string) []dns.RR {
 func (e *Elem) All() []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list := []dns.RR{}
 	for _, rrs := range e.m {
 		list = append(list, rrs...)
@@ -38,6 +44,8 @@ func (e *Elem) All() []dns.RR {
 	return list
 }
 func (e *Elem) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if e.name != "" {
@@ -52,9 +60,13 @@ func (e *Elem) Name() string {
 func (e *Elem) Empty() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(e.m) == 0
 }
 func (e *Elem) Insert(rr dns.RR) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t := rr.Header().Rrtype
@@ -77,6 +89,8 @@ func (e *Elem) Insert(rr dns.RR) {
 	e.m[t] = rrs
 }
 func (e *Elem) Delete(rr dns.RR) (empty bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if e.m == nil {
@@ -103,9 +117,13 @@ func (e *Elem) Delete(rr dns.RR) (empty bool) {
 func Less(a *Elem, name string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return less(name, a.Name())
 }
 func equalRdata(a, b dns.RR) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch x := a.(type) {
@@ -121,6 +139,8 @@ func equalRdata(a, b dns.RR) bool {
 	return false
 }
 func removeFromSlice(rrs []dns.RR, i int) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if i >= len(rrs) {

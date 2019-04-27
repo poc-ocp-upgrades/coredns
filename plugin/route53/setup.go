@@ -21,6 +21,8 @@ var log = clog.NewWithPlugin("route53")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("route53", caddy.Plugin{ServerType: "dns", Action: func(c *caddy.Controller) error {
 		f := func(credential *credentials.Credentials) route53iface.Route53API {
 			return route53.New(session.Must(session.NewSession(&aws.Config{Credentials: credential})))
@@ -29,6 +31,8 @@ func init() {
 	}})
 }
 func setup(c *caddy.Controller, f func(*credentials.Credentials) route53iface.Route53API) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	keyPairs := map[string]struct{}{}

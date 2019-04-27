@@ -13,6 +13,8 @@ import (
 func toDnstap(ctx context.Context, host string, ex Exchanger, state request.Request, reply *dns.Msg, start time.Time) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tapper := dnstap.TapperFromContext(ctx)
 	if tapper == nil {
 		return nil

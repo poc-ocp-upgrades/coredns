@@ -11,6 +11,8 @@ import (
 func TestHostsInlineLookup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `example.org:0 {
                        hosts highly_unlikely_to_exist_hosts_file example.org {
                          10.0.0.1 example.org

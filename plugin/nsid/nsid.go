@@ -19,6 +19,8 @@ type ResponseWriter struct {
 func (n Nsid) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if option := r.IsEdns0(); option != nil {
 		for _, o := range option.Option {
 			if _, ok := o.(*dns.EDNS0_NSID); ok {
@@ -30,6 +32,8 @@ func (n Nsid) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (i
 	return plugin.NextOrFailure(n.Name(), n.Next, ctx, w, r)
 }
 func (w *ResponseWriter) WriteMsg(res *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if option := res.IsEdns0(); option != nil {
@@ -44,6 +48,8 @@ func (w *ResponseWriter) WriteMsg(res *dns.Msg) error {
 	return returned
 }
 func (n Nsid) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "nsid"

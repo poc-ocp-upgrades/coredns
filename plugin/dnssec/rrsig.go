@@ -5,6 +5,8 @@ import "github.com/miekg/dns"
 func (k *DNSKEY) newRRSIG(signerName string, ttl, incep, expir uint32) *dns.RRSIG {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sig := new(dns.RRSIG)
 	sig.Hdr.Rrtype = dns.TypeRRSIG
 	sig.Algorithm = k.K.Algorithm
@@ -23,6 +25,8 @@ type rrset struct {
 }
 
 func rrSets(rrs []dns.RR) map[rrset][]dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := make(map[rrset][]dns.RR)

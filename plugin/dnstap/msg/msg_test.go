@@ -13,6 +13,8 @@ import (
 func testRequest(t *testing.T, expected Builder, r request.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d := Builder{}
 	d.Addr(r.W.RemoteAddr())
 	if d.SocketProto != expected.SocketProto || d.SocketFam != expected.SocketFam || !reflect.DeepEqual(d.Address, expected.Address) || d.Port != expected.Port {
@@ -23,9 +25,13 @@ func testRequest(t *testing.T, expected Builder, r request.Request) {
 func TestRequest(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testRequest(t, Builder{SocketProto: tap.SocketProtocol_UDP, SocketFam: tap.SocketFamily_INET, Address: net.ParseIP("10.240.0.1"), Port: 40212}, testingRequest())
 }
 func testingRequest() request.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)

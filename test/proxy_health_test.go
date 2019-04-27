@@ -11,6 +11,8 @@ import (
 func TestProxyErratic(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `example.org:0 {
 		erratic {
 			drop 2
@@ -27,6 +29,8 @@ func TestProxyErratic(t *testing.T) {
 	p.Lookup(state, "example.org.", dns.TypeA)
 }
 func TestProxyThreeWay(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	corefileUp1 := `example.org:0 {

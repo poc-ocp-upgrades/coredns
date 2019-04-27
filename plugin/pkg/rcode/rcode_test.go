@@ -8,6 +8,8 @@ import (
 func TestToString(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		in		int
 		expected	string

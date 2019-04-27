@@ -8,6 +8,8 @@ import (
 func Fuzz(data []byte) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := caddy.NewTestController("dns", "rewrite edns0 subnet set 24 56")
 	rules, err := rewriteParse(c)
 	if err != nil {

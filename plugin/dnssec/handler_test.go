@@ -17,6 +17,8 @@ var dnsTestCases = []test.Case{{Qname: "miek.nl.", Qtype: dns.TypeDNSKEY, Answer
 func TestLookupZone(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := file.Parse(strings.NewReader(dbMiekNL), "miek.nl.", "stdin", 0)
 	if err != nil {
 		return
@@ -39,6 +41,8 @@ func TestLookupZone(t *testing.T) {
 	}
 }
 func TestLookupDNSKEY(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dnskey, rm1, rm2 := newKey(t)

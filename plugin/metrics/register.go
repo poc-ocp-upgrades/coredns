@@ -9,6 +9,8 @@ import (
 func MustRegister(c *caddy.Controller, cs ...prometheus.Collector) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := dnsserver.GetConfig(c).Handler("prometheus")
 	if m == nil {
 		return

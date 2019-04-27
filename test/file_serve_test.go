@@ -8,6 +8,8 @@ import (
 func TestZoneEDNS0Lookup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	name, rm, err := TempFile(".", `$ORIGIN example.org.
 @	3600 IN	SOA sns.dns.icann.org. noc.dns.icann.org. (
@@ -49,6 +51,8 @@ www     IN AAAA ::1
 	}
 }
 func TestZoneNoNS(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.Parallel()

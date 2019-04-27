@@ -15,6 +15,8 @@ type Stub struct {
 func (s Stub) ServeDNS(ctx context.Context, w dns.ResponseWriter, req *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if hasStubEdns0(req) {
 		log.Warningf("Forwarding cycle detected, refusing msg: %s", req.Question[0].Name)
 		return dns.RcodeRefused, errors.New("stub forward cycle")
@@ -35,6 +37,8 @@ func (s Stub) ServeDNS(ctx context.Context, w dns.ResponseWriter, req *dns.Msg) 
 func hasStubEdns0(m *dns.Msg) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	option := m.IsEdns0()
 	if option == nil {
 		return false
@@ -47,6 +51,8 @@ func hasStubEdns0(m *dns.Msg) bool {
 	return false
 }
 func addStubEdns0(m *dns.Msg) *dns.Msg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	option := m.IsEdns0()

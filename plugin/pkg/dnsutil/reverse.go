@@ -8,6 +8,8 @@ import (
 func ExtractAddressFromReverse(reverseName string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	search := ""
 	f := reverse
 	switch {
@@ -24,6 +26,8 @@ func ExtractAddressFromReverse(reverseName string) string {
 func IsReverse(name string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasSuffix(name, IP4arpa) {
 		return 1
 	}
@@ -33,6 +37,8 @@ func IsReverse(name string) int {
 	return 0
 }
 func reverse(slice []string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i := 0; i < len(slice)/2; i++ {
@@ -46,6 +52,8 @@ func reverse(slice []string) string {
 	return ip.String()
 }
 func reverse6(slice []string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i := 0; i < len(slice)/2; i++ {

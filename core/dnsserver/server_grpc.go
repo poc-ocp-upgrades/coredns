@@ -27,6 +27,8 @@ type ServergRPC struct {
 func NewServergRPC(addr string, group []*Config) (*ServergRPC, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, err := NewServer(addr, group)
 	if err != nil {
 		return nil, err
@@ -38,6 +40,8 @@ func NewServergRPC(addr string, group []*Config) (*ServergRPC, error) {
 	return &ServergRPC{Server: s, tlsConfig: tlsConfig, watch: watch.NewWatcher(watchables(s.zones))}, nil
 }
 func (s *ServergRPC) Serve(l net.Listener) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.m.Lock()
@@ -61,9 +65,13 @@ func (s *ServergRPC) Serve(l net.Listener) error {
 func (s *ServergRPC) ServePacket(p net.PacketConn) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (s *ServergRPC) Listen() (net.Listener, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l, err := net.Listen("tcp", s.Addr[len(transport.GRPC+"://"):])
@@ -75,9 +83,13 @@ func (s *ServergRPC) Listen() (net.Listener, error) {
 func (s *ServergRPC) ListenPacket() (net.PacketConn, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (s *ServergRPC) OnStartupComplete() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if Quiet {
@@ -92,6 +104,8 @@ func (s *ServergRPC) OnStartupComplete() {
 func (s *ServergRPC) Stop() (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.m.Lock()
 	defer s.m.Unlock()
 	if s.watch != nil {
@@ -103,6 +117,8 @@ func (s *ServergRPC) Stop() (err error) {
 	return
 }
 func (s *ServergRPC) Query(ctx context.Context, in *pb.DnsPacket) (*pb.DnsPacket, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	msg := new(dns.Msg)
@@ -129,9 +145,13 @@ func (s *ServergRPC) Query(ctx context.Context, in *pb.DnsPacket) (*pb.DnsPacket
 func (s *ServergRPC) Watch(stream pb.DnsService_WatchServer) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.watch.Watch(stream)
 }
 func (s *ServergRPC) Shutdown() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if s.grpcServer != nil {
@@ -149,10 +169,14 @@ type gRPCresponse struct {
 func (r *gRPCresponse) Write(b []byte) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.Msg = new(dns.Msg)
 	return len(b), r.Msg.Unpack(b)
 }
 func (r *gRPCresponse) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -160,9 +184,13 @@ func (r *gRPCresponse) Close() error {
 func (r *gRPCresponse) TsigStatus() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (r *gRPCresponse) TsigTimersOnly(b bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return
@@ -170,9 +198,13 @@ func (r *gRPCresponse) TsigTimersOnly(b bool) {
 func (r *gRPCresponse) Hijack() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return
 }
 func (r *gRPCresponse) LocalAddr() net.Addr {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r.localAddr
@@ -180,9 +212,13 @@ func (r *gRPCresponse) LocalAddr() net.Addr {
 func (r *gRPCresponse) RemoteAddr() net.Addr {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.remoteAddr
 }
 func (r *gRPCresponse) WriteMsg(m *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.Msg = m

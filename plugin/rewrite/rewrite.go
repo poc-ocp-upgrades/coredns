@@ -29,6 +29,8 @@ type Rewrite struct {
 func (rw Rewrite) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	wr := NewResponseReverter(w, r)
 	state := request.Request{W: w, Req: r}
 	for _, rule := range rw.Rules {
@@ -63,6 +65,8 @@ func (rw Rewrite) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg
 func (rw Rewrite) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "rewrite"
 }
 
@@ -73,6 +77,8 @@ type Rule interface {
 }
 
 func newRule(args ...string) (Rule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(args) == 0 {

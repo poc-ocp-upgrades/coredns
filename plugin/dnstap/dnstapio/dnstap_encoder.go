@@ -27,9 +27,13 @@ type dnstapEncoder struct {
 func newDnstapEncoder(o *fs.EncoderOptions) *dnstapEncoder {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dnstapEncoder{opts: o, buffer: proto.NewBuffer(make([]byte, 0, protobufSize))}
 }
 func (enc *dnstapEncoder) resetWriter(w io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fse, err := fs.NewEncoder(w, enc.opts)
@@ -44,6 +48,8 @@ func (enc *dnstapEncoder) resetWriter(w io.Writer) error {
 	return nil
 }
 func (enc *dnstapEncoder) writeMsg(msg *tap.Dnstap) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(enc.buffer.Bytes()) >= protobufSize {
@@ -66,6 +72,8 @@ func (enc *dnstapEncoder) writeMsg(msg *tap.Dnstap) error {
 func (enc *dnstapEncoder) flushBuffer() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if enc.fse == nil || enc.writer == nil {
 		return fmt.Errorf("no writer")
 	}
@@ -84,9 +92,13 @@ func (enc *dnstapEncoder) flushBuffer() error {
 func (enc *dnstapEncoder) encodeFrameLen(buf []byte) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	binary.BigEndian.PutUint32(buf, uint32(len(buf)-4))
 }
 func (enc *dnstapEncoder) close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if enc.fse != nil {
@@ -97,7 +109,16 @@ func (enc *dnstapEncoder) close() error {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

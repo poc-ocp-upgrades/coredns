@@ -15,6 +15,8 @@ type Zones struct {
 func (z *Zones) Names() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z.RLock()
 	n := z.names
 	z.RUnlock()
@@ -23,9 +25,13 @@ func (z *Zones) Names() []string {
 func (z *Zones) Origins() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return z.origins
 }
 func (z *Zones) Zones(name string) *file.Zone {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	z.RLock()
@@ -34,6 +40,8 @@ func (z *Zones) Zones(name string) *file.Zone {
 	return zo
 }
 func (z *Zones) Add(zo *file.Zone, name string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	z.Lock()
@@ -46,6 +54,8 @@ func (z *Zones) Add(zo *file.Zone, name string) {
 	z.Unlock()
 }
 func (z *Zones) Remove(name string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	z.Lock()

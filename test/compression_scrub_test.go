@@ -9,6 +9,8 @@ import (
 func TestCompressScrub(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `example.org:0 {
                        erratic {
 			  drop 0

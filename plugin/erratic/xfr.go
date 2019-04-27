@@ -10,6 +10,8 @@ import (
 func allRecords(name string) []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var rrs = []dns.RR{test.SOA("xx.		0	IN	SOA	sns.dns.icann.org. noc.dns.icann.org. 2018050825 7200 3600 1209600 3600"), test.NS("xx.		0	IN	NS	b.xx."), test.NS("xx.		0	IN	NS	a.xx."), test.AAAA("a.xx.	0	IN	AAAA	2001:bd8::53"), test.AAAA("b.xx.	0	IN	AAAA	2001:500::54")}
 	for _, r := range rrs {
 		r.Header().Name = strings.Replace(r.Header().Name, "xx.", name, 1)
@@ -20,6 +22,8 @@ func allRecords(name string) []dns.RR {
 	return rrs
 }
 func xfr(state request.Request, truncate bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rrs := allRecords(state.QName())

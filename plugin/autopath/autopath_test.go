@@ -14,6 +14,8 @@ var autopathTestCases = []test.Case{{Qname: "b.example.org.", Qtype: dns.TypeA, 
 func newTestAutoPath() *AutoPath {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ap := new(AutoPath)
 	ap.Zones = []string{"."}
 	ap.Next = nextHandler(map[string]int{"b.example.org.": dns.RcodeNameError, "b.com.": dns.RcodeSuccess, "a.example.com.": dns.RcodeSuccess})
@@ -21,6 +23,8 @@ func newTestAutoPath() *AutoPath {
 	return ap
 }
 func TestAutoPath(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ap := newTestAutoPath()
@@ -55,6 +59,8 @@ var autopathNoAnswerTestCases = []test.Case{{Qname: "c.example.org.", Qtype: dns
 func TestAutoPathNoAnswer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ap := newTestAutoPath()
 	ctx := context.TODO()
 	for _, tc := range autopathNoAnswerTestCases {
@@ -71,6 +77,8 @@ func TestAutoPathNoAnswer(t *testing.T) {
 	}
 }
 func nextHandler(mm map[string]int) test.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return test.HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
@@ -106,6 +114,8 @@ var soa = func() dns.RR {
 }()
 
 func TestInSearchPath(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a := AutoPath{search: []string{"default.svc.cluster.local.", "svc.cluster.local.", "cluster.local."}}

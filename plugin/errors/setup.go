@@ -11,9 +11,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("errors", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	handler, err := errorsParse(c)
@@ -31,6 +35,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func errorsParse(c *caddy.Controller) (*errorHandler, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	handler := newErrorHandler()
@@ -59,6 +65,8 @@ func errorsParse(c *caddy.Controller) (*errorHandler, error) {
 	return handler, nil
 }
 func parseBlock(c *caddy.Controller, h *errorHandler) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if c.Val() != "consolidate" {

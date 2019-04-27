@@ -77,6 +77,8 @@ type dnsControlOpts struct {
 func newdnsController(kubeClient kubernetes.Interface, opts dnsControlOpts) *dnsControl {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dns := dnsControl{client: kubeClient, selector: opts.selector, stopCh: make(chan struct{}), watched: make(map[string]struct{}), zones: opts.zones, endpointNameMode: opts.endpointNameMode}
 	dns.svcLister, dns.svcController = object.NewIndexerInformer(&cache.ListWatch{ListFunc: serviceListFunc(dns.client, api.NamespaceAll, dns.selector), WatchFunc: serviceWatchFunc(dns.client, api.NamespaceAll, dns.selector)}, &api.Service{}, opts.resyncPeriod, cache.ResourceEventHandlerFuncs{AddFunc: dns.Add, UpdateFunc: dns.Update, DeleteFunc: dns.Delete}, cache.Indexers{svcNameNamespaceIndex: svcNameNamespaceIndexFunc, svcIPIndex: svcIPIndexFunc}, object.ToService)
 	if opts.initPodCache {
@@ -91,6 +93,8 @@ func newdnsController(kubeClient kubernetes.Interface, opts dnsControlOpts) *dns
 func podIPIndexFunc(obj interface{}) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p, ok := obj.(*object.Pod)
 	if !ok {
 		return nil, errObj
@@ -98,6 +102,8 @@ func podIPIndexFunc(obj interface{}) ([]string, error) {
 	return []string{p.PodIP}, nil
 }
 func svcIPIndexFunc(obj interface{}) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	svc, ok := obj.(*object.Service)
@@ -112,6 +118,8 @@ func svcIPIndexFunc(obj interface{}) ([]string, error) {
 func svcNameNamespaceIndexFunc(obj interface{}) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, ok := obj.(*object.Service)
 	if !ok {
 		return nil, errObj
@@ -119,6 +127,8 @@ func svcNameNamespaceIndexFunc(obj interface{}) ([]string, error) {
 	return []string{s.Index}, nil
 }
 func epNameNamespaceIndexFunc(obj interface{}) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s, ok := obj.(*object.Endpoints)
@@ -130,6 +140,8 @@ func epNameNamespaceIndexFunc(obj interface{}) ([]string, error) {
 func epIPIndexFunc(obj interface{}) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ep, ok := obj.(*object.Endpoints)
 	if !ok {
 		return nil, errObj
@@ -137,6 +149,8 @@ func epIPIndexFunc(obj interface{}) ([]string, error) {
 	return ep.IndexIP, nil
 }
 func serviceListFunc(c kubernetes.Interface, ns string, s labels.Selector) func(meta.ListOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func(opts meta.ListOptions) (runtime.Object, error) {
@@ -150,6 +164,8 @@ func serviceListFunc(c kubernetes.Interface, ns string, s labels.Selector) func(
 func podListFunc(c kubernetes.Interface, ns string, s labels.Selector) func(meta.ListOptions) (runtime.Object, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(opts meta.ListOptions) (runtime.Object, error) {
 		if s != nil {
 			opts.LabelSelector = s.String()
@@ -159,6 +175,8 @@ func podListFunc(c kubernetes.Interface, ns string, s labels.Selector) func(meta
 	}
 }
 func serviceWatchFunc(c kubernetes.Interface, ns string, s labels.Selector) func(options meta.ListOptions) (watch.Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func(options meta.ListOptions) (watch.Interface, error) {
@@ -172,6 +190,8 @@ func serviceWatchFunc(c kubernetes.Interface, ns string, s labels.Selector) func
 func podWatchFunc(c kubernetes.Interface, ns string, s labels.Selector) func(options meta.ListOptions) (watch.Interface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(options meta.ListOptions) (watch.Interface, error) {
 		if s != nil {
 			options.LabelSelector = s.String()
@@ -181,6 +201,8 @@ func podWatchFunc(c kubernetes.Interface, ns string, s labels.Selector) func(opt
 	}
 }
 func endpointsListFunc(c kubernetes.Interface, ns string, s labels.Selector) func(meta.ListOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func(opts meta.ListOptions) (runtime.Object, error) {
@@ -194,6 +216,8 @@ func endpointsListFunc(c kubernetes.Interface, ns string, s labels.Selector) fun
 func endpointsWatchFunc(c kubernetes.Interface, ns string, s labels.Selector) func(options meta.ListOptions) (watch.Interface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(options meta.ListOptions) (watch.Interface, error) {
 		if s != nil {
 			options.LabelSelector = s.String()
@@ -203,6 +227,8 @@ func endpointsWatchFunc(c kubernetes.Interface, ns string, s labels.Selector) fu
 	}
 }
 func namespaceListFunc(c kubernetes.Interface, s labels.Selector) func(meta.ListOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func(opts meta.ListOptions) (runtime.Object, error) {
@@ -216,6 +242,8 @@ func namespaceListFunc(c kubernetes.Interface, s labels.Selector) func(meta.List
 func namespaceWatchFunc(c kubernetes.Interface, s labels.Selector) func(options meta.ListOptions) (watch.Interface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(options meta.ListOptions) (watch.Interface, error) {
 		if s != nil {
 			options.LabelSelector = s.String()
@@ -227,14 +255,20 @@ func namespaceWatchFunc(c kubernetes.Interface, s labels.Selector) func(options 
 func (dns *dnsControl) SetWatchChan(c dnswatch.Chan) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dns.watchChan = c
 }
 func (dns *dnsControl) StopWatching(qname string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	delete(dns.watched, qname)
 }
 func (dns *dnsControl) Watch(qname string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if dns.watchChan == nil {
@@ -244,6 +278,8 @@ func (dns *dnsControl) Watch(qname string) error {
 	return nil
 }
 func (dns *dnsControl) Stop() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dns.stopLock.Lock()
@@ -258,6 +294,8 @@ func (dns *dnsControl) Stop() error {
 func (dns *dnsControl) Run() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go dns.svcController.Run(dns.stopCh)
 	if dns.epController != nil {
 		go dns.epController.Run(dns.stopCh)
@@ -269,6 +307,8 @@ func (dns *dnsControl) Run() {
 	<-dns.stopCh
 }
 func (dns *dnsControl) HasSynced() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a := dns.svcController.HasSynced()
@@ -286,6 +326,8 @@ func (dns *dnsControl) HasSynced() bool {
 func (dns *dnsControl) ServiceList() (svcs []*object.Service) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os := dns.svcLister.List()
 	for _, o := range os {
 		s, ok := o.(*object.Service)
@@ -299,6 +341,8 @@ func (dns *dnsControl) ServiceList() (svcs []*object.Service) {
 func (dns *dnsControl) EndpointsList() (eps []*object.Endpoints) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os := dns.epLister.List()
 	for _, o := range os {
 		ep, ok := o.(*object.Endpoints)
@@ -310,6 +354,8 @@ func (dns *dnsControl) EndpointsList() (eps []*object.Endpoints) {
 	return eps
 }
 func (dns *dnsControl) PodIndex(ip string) (pods []*object.Pod) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	os, err := dns.podLister.ByIndex(podIPIndex, ip)
@@ -328,6 +374,8 @@ func (dns *dnsControl) PodIndex(ip string) (pods []*object.Pod) {
 func (dns *dnsControl) SvcIndex(idx string) (svcs []*object.Service) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os, err := dns.svcLister.ByIndex(svcNameNamespaceIndex, idx)
 	if err != nil {
 		return nil
@@ -342,6 +390,8 @@ func (dns *dnsControl) SvcIndex(idx string) (svcs []*object.Service) {
 	return svcs
 }
 func (dns *dnsControl) SvcIndexReverse(ip string) (svcs []*object.Service) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	os, err := dns.svcLister.ByIndex(svcIPIndex, ip)
@@ -360,6 +410,8 @@ func (dns *dnsControl) SvcIndexReverse(ip string) (svcs []*object.Service) {
 func (dns *dnsControl) EpIndex(idx string) (ep []*object.Endpoints) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os, err := dns.epLister.ByIndex(epNameNamespaceIndex, idx)
 	if err != nil {
 		return nil
@@ -374,6 +426,8 @@ func (dns *dnsControl) EpIndex(idx string) (ep []*object.Endpoints) {
 	return ep
 }
 func (dns *dnsControl) EpIndexReverse(ip string) (ep []*object.Endpoints) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	os, err := dns.epLister.ByIndex(epIPIndex, ip)
@@ -392,10 +446,14 @@ func (dns *dnsControl) EpIndexReverse(ip string) (ep []*object.Endpoints) {
 func (dns *dnsControl) GetNodeByName(name string) (*api.Node, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v1node, err := dns.client.CoreV1().Nodes().Get(name, meta.GetOptions{})
 	return v1node, err
 }
 func (dns *dnsControl) GetNamespaceByName(name string) (*api.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	os := dns.nsLister.List()
@@ -413,10 +471,14 @@ func (dns *dnsControl) GetNamespaceByName(name string) (*api.Namespace, error) {
 func (dns *dnsControl) Modified() int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	unix := atomic.LoadInt64(&dns.modified)
 	return unix
 }
 func (dns *dnsControl) updateModifed() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	unix := time.Now().Unix()

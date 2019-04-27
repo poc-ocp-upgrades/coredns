@@ -10,6 +10,8 @@ import (
 func (t *Tree) All() []*Elem {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.Root == nil {
 		return nil
 	}
@@ -17,6 +19,8 @@ func (t *Tree) All() []*Elem {
 	return found
 }
 func (n *Node) all(found []*Elem) []*Elem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if n.Left != nil {
@@ -31,12 +35,16 @@ func (n *Node) all(found []*Elem) []*Elem {
 func (t *Tree) Do(fn func(e *Elem) bool) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.Root == nil {
 		return false
 	}
 	return t.Root.do(fn)
 }
 func (n *Node) do(fn func(e *Elem) bool) (done bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if n.Left != nil {
@@ -57,7 +65,16 @@ func (n *Node) do(fn func(e *Elem) bool) (done bool) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

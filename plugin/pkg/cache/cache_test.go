@@ -5,6 +5,8 @@ import "testing"
 func TestCacheAddAndGet(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := New(4)
 	c.Add(1, 1)
 	if _, found := c.Get(1); !found {
@@ -12,6 +14,8 @@ func TestCacheAddAndGet(t *testing.T) {
 	}
 }
 func TestCacheLen(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c := New(4)
@@ -29,6 +33,8 @@ func TestCacheLen(t *testing.T) {
 	}
 }
 func BenchmarkCache(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b.ReportAllocs()

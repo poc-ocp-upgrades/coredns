@@ -18,6 +18,8 @@ const server = "coolServer"
 func TestStartup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m, err := traceParse(caddy.NewTestController("dns", `trace`))
 	if err != nil {
 		t.Errorf("Error parsing test input: %s", err)
@@ -36,6 +38,8 @@ func TestStartup(t *testing.T) {
 	}
 }
 func TestTrace(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cases := []struct {

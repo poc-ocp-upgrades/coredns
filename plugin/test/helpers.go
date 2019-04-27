@@ -20,14 +20,20 @@ type RRSet []dns.RR
 func (p RRSet) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(p)
 }
 func (p RRSet) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p[i], p[j] = p[j], p[i]
 }
 func (p RRSet) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return p[i].String() < p[j].String()
@@ -47,6 +53,8 @@ type Case struct {
 func (c Case) Msg() *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion(dns.Fqdn(c.Qname), c.Qtype)
 	if c.Do {
@@ -62,10 +70,14 @@ func (c Case) Msg() *dns.Msg {
 func A(rr string) *dns.A {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
 	return r.(*dns.A)
 }
 func AAAA(rr string) *dns.AAAA {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
@@ -74,10 +86,14 @@ func AAAA(rr string) *dns.AAAA {
 func CNAME(rr string) *dns.CNAME {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
 	return r.(*dns.CNAME)
 }
 func DNAME(rr string) *dns.DNAME {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
@@ -86,10 +102,14 @@ func DNAME(rr string) *dns.DNAME {
 func SRV(rr string) *dns.SRV {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
 	return r.(*dns.SRV)
 }
 func SOA(rr string) *dns.SOA {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
@@ -98,10 +118,14 @@ func SOA(rr string) *dns.SOA {
 func NS(rr string) *dns.NS {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
 	return r.(*dns.NS)
 }
 func PTR(rr string) *dns.PTR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
@@ -110,10 +134,14 @@ func PTR(rr string) *dns.PTR {
 func TXT(rr string) *dns.TXT {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
 	return r.(*dns.TXT)
 }
 func HINFO(rr string) *dns.HINFO {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
@@ -122,10 +150,14 @@ func HINFO(rr string) *dns.HINFO {
 func MX(rr string) *dns.MX {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
 	return r.(*dns.MX)
 }
 func RRSIG(rr string) *dns.RRSIG {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
@@ -134,10 +166,14 @@ func RRSIG(rr string) *dns.RRSIG {
 func NSEC(rr string) *dns.NSEC {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
 	return r.(*dns.NSEC)
 }
 func DNSKEY(rr string) *dns.DNSKEY {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
@@ -146,10 +182,14 @@ func DNSKEY(rr string) *dns.DNSKEY {
 func DS(rr string) *dns.DS {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := dns.NewRR(rr)
 	return r.(*dns.DS)
 }
 func OPT(bufsize int, do bool) *dns.OPT {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := new(dns.OPT)
@@ -163,6 +203,8 @@ func OPT(bufsize int, do bool) *dns.OPT {
 	return o
 }
 func Header(t *testing.T, tc Case, resp *dns.Msg) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if resp.Rcode != tc.Rcode {
@@ -184,6 +226,8 @@ func Header(t *testing.T, tc Case, resp *dns.Msg) bool {
 	return true
 }
 func Section(t *testing.T, tc Case, sec sect, rr []dns.RR) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	section := []dns.RR{}
@@ -321,6 +365,8 @@ func Section(t *testing.T, tc Case, sec sect, rr []dns.RR) bool {
 func CNAMEOrder(t *testing.T, res *dns.Msg) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, c := range res.Answer {
 		if c.Header().Rrtype != dns.TypeCNAME {
 			continue
@@ -335,6 +381,8 @@ func CNAMEOrder(t *testing.T, res *dns.Msg) {
 	}
 }
 func SortAndCheck(t *testing.T, resp *dns.Msg, tc Case) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sort.Sort(RRSet(resp.Answer))
@@ -361,6 +409,8 @@ func SortAndCheck(t *testing.T, resp *dns.Msg, tc Case) {
 func ErrorHandler() Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 		m := new(dns.Msg)
 		m.SetRcode(r, dns.RcodeServerFailure)
@@ -369,6 +419,8 @@ func ErrorHandler() Handler {
 	})
 }
 func NextHandler(rcode int, err error) Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return HandlerFunc(func(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
@@ -387,9 +439,13 @@ type (
 func (f HandlerFunc) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f(ctx, w, r)
 }
 func (f HandlerFunc) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "handlerfunc"

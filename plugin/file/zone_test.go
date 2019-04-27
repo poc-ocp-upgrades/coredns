@@ -5,6 +5,8 @@ import "testing"
 func TestNameFromRight(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z := NewZone("example.org.", "stdin")
 	tests := []struct {
 		in		string

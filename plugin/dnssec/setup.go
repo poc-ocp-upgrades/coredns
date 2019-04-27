@@ -18,9 +18,13 @@ var log = clog.NewWithPlugin("dnssec")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("dnssec", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zones, keys, capacity, splitkeys, err := dnssecParse(c)
@@ -38,6 +42,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func dnssecParse(c *caddy.Controller) ([]string, []*DNSKEY, int, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zones := []string{}
@@ -106,6 +112,8 @@ func dnssecParse(c *caddy.Controller) ([]string, []*DNSKEY, int, bool, error) {
 	return zones, keys, capacity, splitkeys, nil
 }
 func keyParse(c *caddy.Controller) ([]*DNSKEY, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	keys := []*DNSKEY{}

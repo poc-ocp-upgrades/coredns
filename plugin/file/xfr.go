@@ -13,6 +13,8 @@ type Xfr struct{ *Zone }
 func (x Xfr) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
 	if !x.TransferAllowed(state) {
 		return dns.RcodeServerFailure, nil
@@ -46,6 +48,8 @@ func (x Xfr) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (in
 	return dns.RcodeSuccess, nil
 }
 func (x Xfr) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "xfr"

@@ -11,6 +11,8 @@ import (
 func (k *Kubernetes) Reverse(state request.Request, exact bool, opt plugin.Options) ([]msg.Service, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ip := dnsutil.ExtractAddressFromReverse(state.Name())
 	if ip == "" {
 		_, e := k.Records(state, exact)
@@ -23,6 +25,8 @@ func (k *Kubernetes) Reverse(state request.Request, exact bool, opt plugin.Optio
 	return records, nil
 }
 func (k *Kubernetes) serviceRecordForIP(ip, name string) []msg.Service {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, service := range k.APIConn.SvcIndexReverse(ip) {

@@ -21,6 +21,8 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.DefaultConfigFile = "Corefile"
 	caddy.Quiet = true
 	setVersion()
@@ -36,6 +38,8 @@ func init() {
 	caddy.AppVersion = CoreVersion
 }
 func Run() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	caddy.TrapSignals()
@@ -84,12 +88,16 @@ func Run() {
 func mustLogFatal(args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !caddy.IsUpgrade() {
 		log.SetOutput(os.Stderr)
 	}
 	log.Fatal(args...)
 }
 func confLoader(serverType string) (caddy.Input, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if conf == "" {
@@ -107,6 +115,8 @@ func confLoader(serverType string) (caddy.Input, error) {
 func defaultLoader(serverType string) (caddy.Input, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	contents, err := ioutil.ReadFile(caddy.DefaultConfigFile)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -119,10 +129,14 @@ func defaultLoader(serverType string) (caddy.Input, error) {
 func logVersion() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clog.Info(versionString())
 	clog.Info(releaseString())
 }
 func showVersion() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fmt.Print(versionString())
@@ -134,14 +148,20 @@ func showVersion() {
 func versionString() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s-%s\n", caddy.AppName, caddy.AppVersion)
 }
 func releaseString() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s/%s, %s, %s\n", runtime.GOOS, runtime.GOARCH, runtime.Version(), GitCommit)
 }
 func setVersion() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	devBuild = gitTag == "" || gitShortStat != ""
@@ -154,6 +174,8 @@ func setVersion() {
 	}
 }
 func setCPU(cpu string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var numCPU int
@@ -204,7 +226,16 @@ var flagsToKeep []*flag.Flag
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -9,6 +9,8 @@ import (
 func TestParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := caddy.NewTestController("dns", `rewrite`)
 	_, err := rewriteParse(c)
 	if err == nil {

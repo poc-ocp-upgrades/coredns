@@ -5,6 +5,8 @@ import "testing"
 func TestForEach(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u, i := New(), 0
 	u.Set("test", func() error {
 		i++

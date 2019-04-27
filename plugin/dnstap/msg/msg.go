@@ -27,9 +27,13 @@ type Builder struct {
 func New() *Builder {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Builder{}
 }
 func (b *Builder) Addr(remote net.Addr) *Builder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if b.err != nil {
@@ -58,6 +62,8 @@ func (b *Builder) Addr(remote net.Addr) *Builder {
 func (b *Builder) Msg(m *dns.Msg) *Builder {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b.err != nil {
 		return b
 	}
@@ -65,6 +71,8 @@ func (b *Builder) Msg(m *dns.Msg) *Builder {
 	return b
 }
 func (b *Builder) HostPort(addr string) *Builder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ip, port, err := net.SplitHostPort(addr)
@@ -93,11 +101,15 @@ func (b *Builder) HostPort(addr string) *Builder {
 func (b *Builder) Time(ts time.Time) *Builder {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.TimeSec = uint64(ts.Unix())
 	b.TimeNsec = uint32(ts.Nanosecond())
 	return b
 }
 func (b *Builder) ToClientResponse() (*tap.Message, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t := tap.Message_CLIENT_RESPONSE
@@ -106,10 +118,14 @@ func (b *Builder) ToClientResponse() (*tap.Message, error) {
 func (b *Builder) ToClientQuery() (*tap.Message, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := tap.Message_CLIENT_QUERY
 	return &tap.Message{Type: &t, SocketFamily: &b.SocketFam, SocketProtocol: &b.SocketProto, QueryTimeSec: &b.TimeSec, QueryTimeNsec: &b.TimeNsec, QueryMessage: b.Packed, QueryAddress: b.Address, QueryPort: &b.Port}, b.err
 }
 func (b *Builder) ToOutsideQuery(t tap.Message_Type) (*tap.Message, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &tap.Message{Type: &t, SocketFamily: &b.SocketFam, SocketProtocol: &b.SocketProto, QueryTimeSec: &b.TimeSec, QueryTimeNsec: &b.TimeNsec, QueryMessage: b.Packed, ResponseAddress: b.Address, ResponsePort: &b.Port}, b.err
@@ -117,12 +133,23 @@ func (b *Builder) ToOutsideQuery(t tap.Message_Type) (*tap.Message, error) {
 func (b *Builder) ToOutsideResponse(t tap.Message_Type) (*tap.Message, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &tap.Message{Type: &t, SocketFamily: &b.SocketFam, SocketProtocol: &b.SocketProto, ResponseTimeSec: &b.TimeSec, ResponseTimeNsec: &b.TimeNsec, ResponseMessage: b.Packed, ResponseAddress: b.Address, ResponsePort: &b.Port}, b.err
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

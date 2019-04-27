@@ -13,9 +13,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("template", caddy.Plugin{ServerType: "dns", Action: setupTemplate})
 }
 func setupTemplate(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	handler, err := templateParse(c)
@@ -32,6 +36,8 @@ func setupTemplate(c *caddy.Controller) error {
 	return nil
 }
 func templateParse(c *caddy.Controller) (handler Handler, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	handler.Templates = make([]template, 0)

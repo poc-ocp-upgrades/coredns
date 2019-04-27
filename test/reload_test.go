@@ -14,6 +14,8 @@ import (
 func TestReload(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `.:0 {
 	whoami
 }
@@ -36,6 +38,8 @@ func TestReload(t *testing.T) {
 func send(t *testing.T, server string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("whoami.example.org.", dns.TypeSRV)
 	r, err := dns.Exchange(m, server)
@@ -53,6 +57,8 @@ func send(t *testing.T, server string) {
 	}
 }
 func TestReloadHealth(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	corefile := `
@@ -74,6 +80,8 @@ func TestReloadHealth(t *testing.T) {
 	}
 }
 func TestReloadMetricsHealth(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	corefile := `
@@ -117,6 +125,8 @@ func TestReloadMetricsHealth(t *testing.T) {
 func collectMetricsInfo(addr string, procs ...string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cl := &http.Client{}
 	resp, err := cl.Get(fmt.Sprintf("http://%s/metrics", addr))
 	if err != nil {
@@ -131,6 +141,8 @@ func collectMetricsInfo(addr string, procs ...string) error {
 	return nil
 }
 func TestReloadSeveralTimeMetrics(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	promAddress := "127.0.0.1:53185"
@@ -180,6 +192,8 @@ func TestReloadSeveralTimeMetrics(t *testing.T) {
 func TestMetricsAvailableAfterReload(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	promAddress := "127.0.0.1:53186"
 	procMetric := "coredns_build_info"
 	procCache := "coredns_cache_size"
@@ -219,6 +233,8 @@ func TestMetricsAvailableAfterReload(t *testing.T) {
 	instReload.Stop()
 }
 func TestMetricsAvailableAfterReloadAndFailedReload(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	promAddress := "127.0.0.1:53187"

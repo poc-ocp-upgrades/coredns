@@ -12,6 +12,8 @@ import (
 func TestForward(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {
 		ret := new(dns.Msg)
 		ret.SetReply(r)
@@ -40,6 +42,8 @@ func TestForward(t *testing.T) {
 	}
 }
 func TestForwardRefused(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {

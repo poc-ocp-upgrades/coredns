@@ -8,6 +8,8 @@ import (
 func TestFreqUpdate(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := time.Now().UTC()
 	f := New(now)
 	window := 1 * time.Minute
@@ -23,6 +25,8 @@ func TestFreqUpdate(t *testing.T) {
 func TestReset(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f := New(time.Now().UTC())
 	f.Update(1*time.Minute, time.Now().UTC())
 	hitsCheck(t, f, 1)
@@ -30,6 +34,8 @@ func TestReset(t *testing.T) {
 	hitsCheck(t, f, 0)
 }
 func hitsCheck(t *testing.T, f *Freq, expected int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if x := f.Hits(); x != expected {

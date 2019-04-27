@@ -39,11 +39,15 @@ type Apex struct {
 func NewZone(name, file string) *Zone {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z := &Zone{origin: dns.Fqdn(name), origLen: dns.CountLabel(dns.Fqdn(name)), file: filepath.Clean(file), Tree: &tree.Tree{}, Expired: new(bool), reloadShutdown: make(chan bool), LastReloaded: time.Now()}
 	*z.Expired = false
 	return z
 }
 func (z *Zone) Copy() *Zone {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	z1 := NewZone(z.origin, z.file)
@@ -56,6 +60,8 @@ func (z *Zone) Copy() *Zone {
 func (z *Zone) CopyWithoutApex() *Zone {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z1 := NewZone(z.origin, z.file)
 	z1.TransferTo = z.TransferTo
 	z1.TransferFrom = z.TransferFrom
@@ -63,6 +69,8 @@ func (z *Zone) CopyWithoutApex() *Zone {
 	return z1
 }
 func (z *Zone) Insert(r dns.RR) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.Header().Name = strings.ToLower(r.Header().Name)
@@ -105,9 +113,13 @@ func (z *Zone) Insert(r dns.RR) error {
 func (z *Zone) Delete(r dns.RR) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z.Tree.Delete(r)
 }
 func (z *Zone) File() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	z.reloadMu.Lock()
@@ -117,11 +129,15 @@ func (z *Zone) File() string {
 func (z *Zone) SetFile(path string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z.reloadMu.Lock()
 	z.file = path
 	z.reloadMu.Unlock()
 }
 func (z *Zone) TransferAllowed(state request.Request) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, t := range z.TransferTo {
@@ -140,6 +156,8 @@ func (z *Zone) TransferAllowed(state request.Request) bool {
 	return false
 }
 func (z *Zone) All() []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if z.ReloadInterval > 0 {
@@ -163,9 +181,13 @@ func (z *Zone) All() []dns.RR {
 func (z *Zone) Print() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z.Tree.Print()
 }
 func (z *Zone) nameFromRight(qname string, i int) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if i <= 0 {

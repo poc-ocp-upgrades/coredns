@@ -9,6 +9,8 @@ import (
 func TestParseRequest(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		query		string
 		expected	string
@@ -28,6 +30,8 @@ func TestParseRequest(t *testing.T) {
 	}
 }
 func TestParseInvalidRequest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	invalid := []string{"webs.mynamespace.pood.inter.webs.test.", "too.long.for.what.I.am.trying.to.pod.inter.webs.tests."}

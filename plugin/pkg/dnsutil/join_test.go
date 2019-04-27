@@ -5,6 +5,8 @@ import "testing"
 func TestJoin(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		in	[]string
 		out	string

@@ -9,6 +9,8 @@ import (
 func Transfer(c *caddy.Controller, secondary bool) (tos, froms []string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !c.NextArg() {
 		return nil, nil, c.ArgErr()
 	}

@@ -8,6 +8,8 @@ import (
 func less(a, b string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := 1
 	aj := len(a)
 	bj := len(b)
@@ -32,6 +34,8 @@ func less(a, b string) int {
 func doDDD(b []byte) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lb := len(b)
 	for i := 0; i < lb; i++ {
 		if i+3 < lb && b[i] == '\\' && isDigit(b[i+1]) && isDigit(b[i+2]) && isDigit(b[i+3]) {
@@ -46,9 +50,13 @@ func doDDD(b []byte) {
 func isDigit(b byte) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b >= '0' && b <= '9'
 }
 func dddToByte(s []byte) byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return (s[1]-'0')*100 + (s[2]-'0')*10 + (s[3] - '0')

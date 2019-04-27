@@ -14,6 +14,8 @@ import (
 func (e *Etcd) UpdateStubZones() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go func() {
 		for {
 			e.updateStubZones()
@@ -22,6 +24,8 @@ func (e *Etcd) UpdateStubZones() {
 	}()
 }
 func (e *Etcd) updateStubZones() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	zone := e.Zones[0]

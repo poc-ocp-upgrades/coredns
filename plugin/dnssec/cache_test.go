@@ -11,6 +11,8 @@ import (
 func TestCacheSet(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fPriv, rmPriv, _ := test.TempFile(".", privKey)
 	fPub, rmPub, _ := test.TempFile(".", pubKey)
 	defer rmPriv()
@@ -33,6 +35,8 @@ func TestCacheSet(t *testing.T) {
 func TestCacheNotValidExpired(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fPriv, rmPriv, _ := test.TempFile(".", privKey)
 	fPub, rmPub, _ := test.TempFile(".", pubKey)
 	defer rmPriv()
@@ -53,6 +57,8 @@ func TestCacheNotValidExpired(t *testing.T) {
 	}
 }
 func TestCacheNotValidYet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fPriv, rmPriv, _ := test.TempFile(".", privKey)

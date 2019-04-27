@@ -12,6 +12,8 @@ import (
 func TestSetup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input		string
 		shouldErr	bool
@@ -55,6 +57,8 @@ func TestSetup(t *testing.T) {
 func TestSetupTLS(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input			string
 		shouldErr		bool
@@ -90,6 +94,8 @@ func TestSetupTLS(t *testing.T) {
 	}
 }
 func TestSetupResolvconf(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const resolv = "resolv.conf"

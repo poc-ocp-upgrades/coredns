@@ -23,9 +23,13 @@ var toString = map[Type]string{NoError: "NOERROR", NameError: "NXDOMAIN", NoData
 func (t Type) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return toString[t]
 }
 func TypeFromString(s string) (Type, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for t, str := range toString {
@@ -36,6 +40,8 @@ func TypeFromString(s string) (Type, error) {
 	return NoError, fmt.Errorf("invalid Type: %s", s)
 }
 func Typify(m *dns.Msg, t time.Time) (Type, *dns.OPT) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -93,6 +99,8 @@ func Typify(m *dns.Msg, t time.Time) (Type, *dns.OPT) {
 func typifyExpired(m *dns.Msg, t time.Time) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if expired := typifyExpiredRRSIG(m.Answer, t); expired {
 		return true
 	}
@@ -105,6 +113,8 @@ func typifyExpired(m *dns.Msg, t time.Time) bool {
 	return false
 }
 func typifyExpiredRRSIG(rrs []dns.RR, t time.Time) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, r := range rrs {

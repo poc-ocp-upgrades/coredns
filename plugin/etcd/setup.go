@@ -18,9 +18,13 @@ var log = clog.NewWithPlugin("etcd")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("etcd", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	e, stubzones, err := etcdParse(c)
@@ -40,6 +44,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func etcdParse(c *caddy.Controller) (*Etcd, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stub := make(map[string]proxy.Proxy)
@@ -112,6 +118,8 @@ func etcdParse(c *caddy.Controller) (*Etcd, bool, error) {
 	return &Etcd{}, false, nil
 }
 func newEtcdClient(endpoints []string, cc *tls.Config) (*etcdcv3.Client, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	etcdCfg := etcdcv3.Config{Endpoints: endpoints, TLS: cc}

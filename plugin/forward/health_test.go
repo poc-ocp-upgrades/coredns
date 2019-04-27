@@ -14,6 +14,8 @@ import (
 func TestHealth(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const expected = 0
 	i := uint32(0)
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {
@@ -39,6 +41,8 @@ func TestHealth(t *testing.T) {
 	}
 }
 func TestHealthTimeout(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const expected = 1
@@ -75,6 +79,8 @@ func TestHealthTimeout(t *testing.T) {
 	}
 }
 func TestHealthFailTwice(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const expected = 2
@@ -117,6 +123,8 @@ func TestHealthFailTwice(t *testing.T) {
 func TestHealthMaxFails(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {
 	})
 	defer s.Close()
@@ -135,6 +143,8 @@ func TestHealthMaxFails(t *testing.T) {
 	}
 }
 func TestHealthNoMaxFails(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const expected = 0

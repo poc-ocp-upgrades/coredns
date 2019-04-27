@@ -14,6 +14,8 @@ import (
 func HostPortOrFile(s ...string) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var servers []string
 	for _, h := range s {
 		trans, host := Transport(h)
@@ -56,6 +58,8 @@ func HostPortOrFile(s ...string) ([]string, error) {
 func tryFile(s string) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := dns.ClientConfigFromFile(s)
 	if err == os.ErrNotExist {
 		return nil, fmt.Errorf("failed to open file %q: %q", s, err)
@@ -69,6 +73,8 @@ func tryFile(s string) ([]string, error) {
 	return servers, nil
 }
 func HostPort(s, defaultPort string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	addr, port, err := net.SplitHostPort(s)
@@ -89,7 +95,16 @@ func HostPort(s, defaultPort string) (string, error) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

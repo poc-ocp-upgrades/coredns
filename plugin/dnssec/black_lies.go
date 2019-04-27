@@ -13,6 +13,8 @@ import (
 func (d Dnssec) nsec(state request.Request, mt response.Type, ttl, incep, expir uint32, server string) ([]dns.RR, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nsec := &dns.NSEC{}
 	nsec.Hdr = dns.RR_Header{Name: state.QName(), Ttl: ttl, Class: dns.ClassINET, Rrtype: dns.TypeNSEC}
 	nsec.NextDomain = "\\000." + state.QName()
@@ -36,6 +38,8 @@ var (
 func filter14(t uint16, bitmap [14]uint16, mt response.Type) []uint16 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if mt != response.NoData && mt != response.NameError {
 		return zoneBitmap[:]
 	}
@@ -47,6 +51,8 @@ func filter14(t uint16, bitmap [14]uint16, mt response.Type) []uint16 {
 	return zoneBitmap[:]
 }
 func filter18(t uint16, bitmap [18]uint16, mt response.Type) []uint16 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if mt != response.NoData && mt != response.NameError {
@@ -62,7 +68,16 @@ func filter18(t uint16, bitmap [18]uint16, mt response.Type) []uint16 {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

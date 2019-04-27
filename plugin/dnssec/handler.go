@@ -12,6 +12,8 @@ import (
 func (d Dnssec) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
 	do := state.Do()
 	qname := state.Name()
@@ -47,6 +49,8 @@ var (
 )
 
 func (d Dnssec) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "dnssec"

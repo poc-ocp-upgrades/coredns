@@ -10,12 +10,16 @@ import (
 func testingMsg() (m *dns.Msg) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m = new(dns.Msg)
 	m.SetQuestion("example.com.", dns.TypeA)
 	m.SetEdns0(4097, true)
 	return
 }
 func TestClientQueryResponse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	trapper := test.TrapTapper{Full: true}
@@ -54,6 +58,8 @@ func TestClientQueryResponse(t *testing.T) {
 	}
 }
 func TestClientQueryResponseWithSendOption(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	trapper := test.TrapTapper{Full: true}

@@ -13,6 +13,8 @@ var dsTestCases = []mtest.Case{{Qname: "_udp.miek.nl.", Qtype: dns.TypeDS, Rcode
 func TestLookupDS(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	name, rm, err := TempFile(".", miekNL)
 	if err != nil {

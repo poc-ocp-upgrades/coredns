@@ -9,6 +9,8 @@ import (
 func TestClasslessReverse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `192.168.1.0/25:0 {
 		whoami
 }
@@ -36,6 +38,8 @@ func TestClasslessReverse(t *testing.T) {
 	}
 }
 func TestReverse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	corefile := `192.168.1.0/24:0 {
@@ -71,6 +75,8 @@ func TestReverse(t *testing.T) {
 	}
 }
 func TestReverseInAddr(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	corefile := `1.168.192.in-addr.arpa:0 {

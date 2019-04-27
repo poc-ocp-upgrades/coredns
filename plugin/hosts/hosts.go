@@ -23,6 +23,8 @@ type Hosts struct {
 func (h Hosts) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
 	qname := state.Name()
 	answers := []dns.RR{}
@@ -64,6 +66,8 @@ func (h Hosts) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (
 func (h Hosts) otherRecordsExist(qtype uint16, qname string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch qtype {
 	case dns.TypeA:
 		if len(h.LookupStaticHostV6(qname)) > 0 {
@@ -86,9 +90,13 @@ func (h Hosts) otherRecordsExist(qtype uint16, qname string) bool {
 func (h Hosts) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "hosts"
 }
 func a(zone string, ips []net.IP) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	answers := []dns.RR{}
@@ -103,6 +111,8 @@ func a(zone string, ips []net.IP) []dns.RR {
 func aaaa(zone string, ips []net.IP) []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	answers := []dns.RR{}
 	for _, ip := range ips {
 		r := new(dns.AAAA)
@@ -113,6 +123,8 @@ func aaaa(zone string, ips []net.IP) []dns.RR {
 	return answers
 }
 func (h *Hosts) ptr(zone string, names []string) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	answers := []dns.RR{}
@@ -127,7 +139,16 @@ func (h *Hosts) ptr(zone string, names []string) []dns.RR {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

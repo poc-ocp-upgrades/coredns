@@ -14,6 +14,8 @@ import (
 func TestRoot(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parseErrContent := "Error during parsing:"
 	unableToAccessErrContent := "unable to access root path"
 	existingDirPath, err := getTempDirPath()
@@ -61,6 +63,8 @@ func TestRoot(t *testing.T) {
 func getTempDirPath() (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tempDir := os.TempDir()
 	_, err := os.Stat(tempDir)
 	if err != nil {
@@ -69,6 +73,8 @@ func getTempDirPath() (string, error) {
 	return tempDir, nil
 }
 func getInaccessiblePath(file string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return filepath.Join("C:", "file\x00name")

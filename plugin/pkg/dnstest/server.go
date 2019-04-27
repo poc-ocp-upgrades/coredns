@@ -14,6 +14,8 @@ type Server struct {
 func NewServer(f dns.HandlerFunc) *Server {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dns.HandleFunc(".", f)
 	ch1 := make(chan bool)
 	ch2 := make(chan bool)
@@ -47,6 +49,8 @@ func NewServer(f dns.HandlerFunc) *Server {
 	return &Server{s1: s1, s2: s2, Addr: s2.Listener.Addr().String()}
 }
 func (s *Server) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.s1.Shutdown()

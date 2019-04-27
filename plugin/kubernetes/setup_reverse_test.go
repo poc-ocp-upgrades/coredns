@@ -8,6 +8,8 @@ import (
 func TestKubernetesParseReverseZone(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input		string
 		expectedZones	[]string

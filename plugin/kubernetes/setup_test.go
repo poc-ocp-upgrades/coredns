@@ -13,6 +13,8 @@ import (
 func TestKubernetesParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input			string
 		shouldErr		bool
@@ -158,6 +160,8 @@ kubernetes cluster.local`, true, "this plugin", -1, 0, defaultResyncPeriod, "", 
 func TestKubernetesParseEndpointPodNames(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input			string
 		shouldErr		bool
@@ -194,6 +198,8 @@ func TestKubernetesParseEndpointPodNames(t *testing.T) {
 func TestKubernetesParseNoEndpoints(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input			string
 		shouldErr		bool
@@ -228,6 +234,8 @@ func TestKubernetesParseNoEndpoints(t *testing.T) {
 	}
 }
 func TestKubernetesParseIgnoreEmptyService(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

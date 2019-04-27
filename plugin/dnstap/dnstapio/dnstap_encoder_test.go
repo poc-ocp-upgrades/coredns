@@ -11,12 +11,16 @@ import (
 func dnstapMsg() *tap.Dnstap {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := tap.Dnstap_MESSAGE
 	mt := tap.Message_CLIENT_RESPONSE
 	msg := &tap.Message{Type: &mt}
 	return &tap.Dnstap{Type: &t, Message: msg}
 }
 func TestEncoderCompatibility(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := &fs.EncoderOptions{ContentType: []byte("protobuf:dnstap.DnstapTest"), Bidirectional: false}

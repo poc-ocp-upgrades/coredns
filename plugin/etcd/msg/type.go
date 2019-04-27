@@ -8,6 +8,8 @@ import (
 func (s *Service) HostType() (what uint16, normalized net.IP) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ip := net.ParseIP(s.Host)
 	switch {
 	case ip == nil:

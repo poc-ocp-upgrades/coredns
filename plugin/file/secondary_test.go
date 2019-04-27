@@ -11,6 +11,8 @@ import (
 func TestLess(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
 		min	= 0
 		max	= 4294967295
@@ -36,6 +38,8 @@ type soa struct{ serial uint32 }
 func (s *soa) Handler(w dns.ResponseWriter, req *dns.Msg) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetReply(req)
 	switch req.Question[0].Qtype {
@@ -55,6 +59,8 @@ func (s *soa) Handler(w dns.ResponseWriter, req *dns.Msg) {
 func (s *soa) TransferHandler(w dns.ResponseWriter, req *dns.Msg) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetReply(req)
 	m.Answer = make([]dns.RR, 1)
@@ -65,6 +71,8 @@ func (s *soa) TransferHandler(w dns.ResponseWriter, req *dns.Msg) {
 const testZone = "secondary.miek.nl."
 
 func TestShouldTransfer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	soa := soa{250}
@@ -105,6 +113,8 @@ func TestShouldTransfer(t *testing.T) {
 func TestTransferIn(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	soa := soa{250}
 	dns.HandleFunc(testZone, soa.Handler)
 	defer dns.HandleRemove(testZone)
@@ -128,6 +138,8 @@ func TestTransferIn(t *testing.T) {
 func TestIsNotify(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z := new(Zone)
 	z.Expired = new(bool)
 	z.origin = testZone
@@ -143,6 +155,8 @@ func TestIsNotify(t *testing.T) {
 	}
 }
 func newRequest(zone string, qtype uint16) request.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := new(dns.Msg)

@@ -16,6 +16,8 @@ import (
 func inc(ip net.IP) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for j := len(ip) - 1; j >= 0; j-- {
 		ip[j]++
 		if ip[j] > 0 {
@@ -24,6 +26,8 @@ func inc(ip net.IP) {
 	}
 }
 func BenchmarkController(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	client := fake.NewSimpleClientset()
@@ -46,6 +50,8 @@ func BenchmarkController(b *testing.B) {
 func generateEndpoints(cidr string, client kubernetes.Interface) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ip, ipnet, err := net.ParseCIDR(cidr)
 	if err != nil {
 		log.Fatal(err)
@@ -60,6 +66,8 @@ func generateEndpoints(cidr string, client kubernetes.Interface) {
 	}
 }
 func generateSvcs(cidr string, svcType string, client kubernetes.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ip, ipnet, err := net.ParseCIDR(cidr)
@@ -99,14 +107,20 @@ func generateSvcs(cidr string, svcType string, client kubernetes.Interface) {
 func createClusterIPSvc(suffix int, client kubernetes.Interface, ip net.IP) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client.Core().Services("testns").Create(&api.Service{ObjectMeta: meta.ObjectMeta{Name: "svc" + strconv.Itoa(suffix), Namespace: "testns"}, Spec: api.ServiceSpec{ClusterIP: ip.String(), Ports: []api.ServicePort{{Name: "http", Protocol: "tcp", Port: 80}}}})
 }
 func createHeadlessSvc(suffix int, client kubernetes.Interface, ip net.IP) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client.Core().Services("testns").Create(&api.Service{ObjectMeta: meta.ObjectMeta{Name: "hdls" + strconv.Itoa(suffix), Namespace: "testns"}, Spec: api.ServiceSpec{ClusterIP: api.ClusterIPNone}})
 }
 func createExternalSvc(suffix int, client kubernetes.Interface, ip net.IP) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	client.Core().Services("testns").Create(&api.Service{ObjectMeta: meta.ObjectMeta{Name: "external" + strconv.Itoa(suffix), Namespace: "testns"}, Spec: api.ServiceSpec{ExternalName: "coredns" + strconv.Itoa(suffix) + ".io", Ports: []api.ServicePort{{Name: "http", Protocol: "tcp", Port: 80}}, Type: api.ServiceTypeExternalName}})

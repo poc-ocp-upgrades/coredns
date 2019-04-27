@@ -11,6 +11,8 @@ import (
 func TestReverseCorefile(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `10.0.0.0/24:0 {
 		whoami
 	}`

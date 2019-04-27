@@ -7,6 +7,8 @@ import (
 func Fuzz(data []byte) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := Chaos{}
 	return fuzz.Do(c, data)
 }

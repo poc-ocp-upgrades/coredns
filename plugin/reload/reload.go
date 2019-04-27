@@ -21,6 +21,8 @@ type reload struct {
 func hook(event caddy.EventName, info interface{}) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if event != caddy.InstanceStartupEvent {
 		return nil
 	}

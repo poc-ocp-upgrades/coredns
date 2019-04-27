@@ -15,6 +15,8 @@ type handler struct {
 func (h *handler) Startup() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ln, err := net.Listen("tcp", h.addr)
 	if err != nil {
 		log.Errorf("Failed to start pprof handler: %s", err)
@@ -33,6 +35,8 @@ func (h *handler) Startup() error {
 	return nil
 }
 func (h *handler) Shutdown() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if h.ln != nil {

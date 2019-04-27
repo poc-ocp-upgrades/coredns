@@ -11,6 +11,8 @@ import (
 func TestSetupDnssec(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := ioutil.WriteFile("Kcluster.local.key", []byte(keypub), 0644); err != nil {
 		t.Fatalf("Failed to write pub key file: %s", err)
 	}

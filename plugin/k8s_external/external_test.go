@@ -17,6 +17,8 @@ import (
 func TestExternal(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := kubernetes.New([]string{"cluster.local."})
 	k.Namespaces = map[string]struct{}{"testns": struct{}{}}
 	k.APIConn = &external{}
@@ -52,9 +54,13 @@ type external struct{}
 func (external) HasSynced() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (external) Run() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return
@@ -62,9 +68,13 @@ func (external) Run() {
 func (external) Stop() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (external) EpIndexReverse(string) []*object.Endpoints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -72,9 +82,13 @@ func (external) EpIndexReverse(string) []*object.Endpoints {
 func (external) SvcIndexReverse(string) []*object.Service {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (external) Modified() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return 0
@@ -82,8 +96,12 @@ func (external) Modified() int64 {
 func (external) SetWatchChan(watch.Chan) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (external) Watch(string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -91,8 +109,12 @@ func (external) Watch(string) error {
 func (external) StopWatching(string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (external) EpIndex(s string) []*object.Endpoints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -100,9 +122,13 @@ func (external) EpIndex(s string) []*object.Endpoints {
 func (external) EndpointsList() []*object.Endpoints {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (external) GetNodeByName(name string) (*api.Node, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil, nil
@@ -110,14 +136,20 @@ func (external) GetNodeByName(name string) (*api.Node, error) {
 func (external) SvcIndex(s string) []*object.Service {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return svcIndexExternal[s]
 }
 func (external) PodIndex(string) []*object.Pod {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (external) GetNamespaceByName(name string) (*api.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &api.Namespace{ObjectMeta: meta.ObjectMeta{Name: name}}, nil
@@ -128,6 +160,8 @@ var svcIndexExternal = map[string][]*object.Service{"svc1.testns": {{Name: "svc1
 func (external) ServiceList() []*object.Service {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var svcs []*object.Service
 	for _, svc := range svcIndexExternal {
 		svcs = append(svcs, svc...)
@@ -135,6 +169,8 @@ func (external) ServiceList() []*object.Service {
 	return svcs
 }
 func externalAddress(state request.Request) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a := test.A("example.org. IN A 127.0.0.1")

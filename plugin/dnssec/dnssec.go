@@ -22,9 +22,13 @@ type Dnssec struct {
 func New(zones []string, keys []*DNSKEY, splitkeys bool, next plugin.Handler, c *cache.Cache) Dnssec {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return Dnssec{Next: next, zones: zones, keys: keys, splitkeys: splitkeys, cache: c, inflight: new(singleflight.Group)}
 }
 func (d Dnssec) Sign(state request.Request, now time.Time, server string) *dns.Msg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	req := state.Req
@@ -72,6 +76,8 @@ func (d Dnssec) Sign(state request.Request, now time.Time, server string) *dns.M
 func (d Dnssec) sign(rrs []dns.RR, signerName string, ttl, incep, expir uint32, server string) ([]dns.RR, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k := hash(rrs)
 	sgs, ok := d.get(k, server)
 	if ok {
@@ -105,9 +111,13 @@ func (d Dnssec) sign(rrs []dns.RR, signerName string, ttl, incep, expir uint32, 
 func (d Dnssec) set(key uint64, sigs []dns.RR) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.cache.Add(key, sigs)
 }
 func (d Dnssec) get(key uint64, server string) ([]dns.RR, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if s, ok := d.cache.Get(key); ok {
@@ -125,6 +135,8 @@ func (d Dnssec) get(key uint64, server string) ([]dns.RR, bool) {
 	return nil, false
 }
 func incepExpir(now time.Time) (uint32, uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	incep := uint32(now.Add(-3 * time.Hour).Unix())

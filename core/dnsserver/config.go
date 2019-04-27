@@ -24,9 +24,13 @@ type Config struct {
 func keyForConfig(blocIndex int, blocKeyIndex int) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%d:%d", blocIndex, blocKeyIndex)
 }
 func GetConfig(c *caddy.Controller) *Config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := c.Context().(*dnsContext)

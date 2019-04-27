@@ -10,6 +10,8 @@ import (
 func (k Kubernetes) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opt := plugin.Options{}
 	state := request.Request{W: w, Req: r, Context: ctx}
 	m := new(dns.Msg)
@@ -76,6 +78,8 @@ func (k Kubernetes) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.M
 	return dns.RcodeSuccess, nil
 }
 func (k Kubernetes) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "kubernetes"

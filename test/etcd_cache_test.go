@@ -13,6 +13,8 @@ import (
 func TestEtcdCache(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `.:0 {
     etcd skydns.test {
         path /skydns
@@ -47,6 +49,8 @@ func TestEtcdCache(t *testing.T) {
 	}
 }
 func checkResponse(t *testing.T, resp *dns.Msg) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(resp.Answer) == 0 {

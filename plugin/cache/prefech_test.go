@@ -14,6 +14,8 @@ import (
 func TestPrefetch(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		qname		string
 		ttl		int
@@ -69,6 +71,8 @@ type verification struct {
 }
 
 func prefetchHandler(qname string, ttl int, fetchc chan struct{}) plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	i := 0

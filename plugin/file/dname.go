@@ -8,6 +8,8 @@ import (
 func substituteDNAME(qname, owner, target string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if dns.IsSubDomain(owner, qname) && qname != owner {
 		labels := dns.SplitDomainName(qname)
 		labels = append(labels[0:len(labels)-dns.CountLabel(owner)], dns.SplitDomainName(target)...)
@@ -16,6 +18,8 @@ func substituteDNAME(qname, owner, target string) string {
 	return ""
 }
 func synthesizeCNAME(qname string, d *dns.DNAME) *dns.CNAME {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	target := substituteDNAME(qname, d.Header().Name, d.Target)

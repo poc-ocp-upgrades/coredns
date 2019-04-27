@@ -10,6 +10,8 @@ import (
 func Hexdump(m *dns.Msg, v ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !log.D {
 		return
 	}
@@ -24,6 +26,8 @@ func Hexdump(m *dns.Msg, v ...interface{}) {
 func Hexdumpf(m *dns.Msg, format string, v ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !log.D {
 		return
 	}
@@ -36,6 +40,8 @@ func Hexdumpf(m *dns.Msg, format string, v ...interface{}) {
 	log.Debugf(format, v...)
 }
 func hexdump(data []byte) []byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b := new(bytes.Buffer)

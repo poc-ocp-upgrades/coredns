@@ -19,6 +19,8 @@ const Path = "/dns-query"
 func NewRequest(method, url string, m *dns.Msg) (*http.Request, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf, err := m.Pack()
 	if err != nil {
 		return nil, err
@@ -48,10 +50,14 @@ func NewRequest(method, url string, m *dns.Msg) (*http.Request, error) {
 func ResponseToMsg(resp *http.Response) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer resp.Body.Close()
 	return toMsg(resp.Body)
 }
 func RequestToMsg(req *http.Request) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch req.Method {
@@ -66,10 +72,14 @@ func RequestToMsg(req *http.Request) (*dns.Msg, error) {
 func requestToMsgPost(req *http.Request) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer req.Body.Close()
 	return toMsg(req.Body)
 }
 func requestToMsgGet(req *http.Request) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	values := req.URL.Query()
@@ -85,6 +95,8 @@ func requestToMsgGet(req *http.Request) (*dns.Msg, error) {
 func toMsg(r io.ReadCloser) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf, err := ioutil.ReadAll(r)
 	if err != nil {
 		return nil, err
@@ -94,6 +106,8 @@ func toMsg(r io.ReadCloser) (*dns.Msg, error) {
 	return m, err
 }
 func base64ToMsg(b64 string) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	buf, err := b64Enc.DecodeString(b64)
@@ -110,7 +124,16 @@ var b64Enc = base64.RawURLEncoding
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

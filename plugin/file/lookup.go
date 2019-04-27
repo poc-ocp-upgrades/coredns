@@ -19,6 +19,8 @@ const (
 func (z *Zone) Lookup(state request.Request, qname string) ([]dns.RR, []dns.RR, []dns.RR, Result) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	qtype := state.QType()
 	do := state.Do()
 	if 0 < z.ReloadInterval {
@@ -171,6 +173,8 @@ Out:
 func (z *Zone) typeFromElem(elem *tree.Elem, tp uint16, do bool) []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rrs := elem.Types(tp)
 	if do {
 		sigs := elem.Types(dns.TypeRRSIG)
@@ -184,6 +188,8 @@ func (z *Zone) typeFromElem(elem *tree.Elem, tp uint16, do bool) []dns.RR {
 func (z *Zone) soa(do bool) []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if do {
 		ret := append([]dns.RR{z.Apex.SOA}, z.Apex.SIGSOA...)
 		return ret
@@ -193,6 +199,8 @@ func (z *Zone) soa(do bool) []dns.RR {
 func (z *Zone) ns(do bool) []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if do {
 		ret := append(z.Apex.NS, z.Apex.SIGNS...)
 		return ret
@@ -200,6 +208,8 @@ func (z *Zone) ns(do bool) []dns.RR {
 	return z.Apex.NS
 }
 func (z *Zone) additionalProcessing(state request.Request, elem *tree.Elem, rrs []dns.RR) ([]dns.RR, []dns.RR, []dns.RR, Result) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	qtype := state.QType()
@@ -257,6 +267,8 @@ Redo:
 func cnameForType(targets []dns.RR, origQtype uint16) []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []dns.RR{}
 	for _, target := range targets {
 		if target.Header().Rrtype == origQtype {
@@ -266,6 +278,8 @@ func cnameForType(targets []dns.RR, origQtype uint16) []dns.RR {
 	return ret
 }
 func (z *Zone) externalLookup(state request.Request, target string, qtype uint16) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m, e := z.Upstream.Lookup(state, target, qtype)
@@ -278,6 +292,8 @@ func (z *Zone) externalLookup(state request.Request, target string, qtype uint16
 	return m.Answer
 }
 func signatureForSubType(rrs []dns.RR, subtype uint16) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sigs := []dns.RR{}
@@ -293,6 +309,8 @@ func signatureForSubType(rrs []dns.RR, subtype uint16) []dns.RR {
 func (z *Zone) Glue(nsrrs []dns.RR, do bool) []dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glue := []dns.RR{}
 	for _, rr := range nsrrs {
 		if ns, ok := rr.(*dns.NS); ok && dns.IsSubDomain(ns.Header().Name, ns.Ns) {
@@ -302,6 +320,8 @@ func (z *Zone) Glue(nsrrs []dns.RR, do bool) []dns.RR {
 	return glue
 }
 func (z *Zone) searchGlue(name string, do bool) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glue := []dns.RR{}
@@ -324,6 +344,8 @@ func (z *Zone) searchGlue(name string, do bool) []dns.RR {
 	return glue
 }
 func additionalProcessing(z *Zone, answer []dns.RR, do bool) (extra []dns.RR) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, rr := range answer {

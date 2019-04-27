@@ -10,6 +10,8 @@ import (
 func TCPServer(laddr string) (*dns.Server, string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l, err := net.Listen("tcp", laddr)
 	if err != nil {
 		return nil, "", err
@@ -28,6 +30,8 @@ func TCPServer(laddr string) (*dns.Server, string, error) {
 	return server, l.Addr().String(), nil
 }
 func UDPServer(laddr string) (*dns.Server, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, err := net.ListenPacket("udp", laddr)

@@ -16,9 +16,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clog.Discard()
 }
 func TestLoggedStatus(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rule := Rule{NameScope: ".", Format: DefaultLogFormat, Class: map[response.Class]struct{}{response.All: struct{}{}}}
@@ -41,6 +45,8 @@ func TestLoggedStatus(t *testing.T) {
 func TestLoggedClassDenial(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rule := Rule{NameScope: ".", Format: DefaultLogFormat, Class: map[response.Class]struct{}{response.Denial: struct{}{}}}
 	var f bytes.Buffer
 	log.SetOutput(&f)
@@ -56,6 +62,8 @@ func TestLoggedClassDenial(t *testing.T) {
 	}
 }
 func TestLoggedClassError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rule := Rule{NameScope: ".", Format: DefaultLogFormat, Class: map[response.Class]struct{}{response.Error: struct{}{}}}

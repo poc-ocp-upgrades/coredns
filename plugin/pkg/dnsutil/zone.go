@@ -8,6 +8,8 @@ import (
 func TrimZone(q string, z string) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zl := dns.CountLabel(z)
 	i, ok := dns.PrevLabel(q, zl)
 	if ok || i-1 < 0 {

@@ -9,6 +9,8 @@ import (
 func TestHostsParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		inputFileRules		string
 		shouldErr		bool
@@ -57,6 +59,8 @@ func TestHostsParse(t *testing.T) {
 	}
 }
 func TestHostsInlineParse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

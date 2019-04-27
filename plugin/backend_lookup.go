@@ -13,6 +13,8 @@ import (
 func A(b ServiceBackend, zone string, state request.Request, previousRecords []dns.RR, opt Options) (records []dns.RR, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	services, err := checkForApex(b, zone, state, opt)
 	if err != nil {
 		return nil, err
@@ -65,6 +67,8 @@ func A(b ServiceBackend, zone string, state request.Request, previousRecords []d
 func AAAA(b ServiceBackend, zone string, state request.Request, previousRecords []dns.RR, opt Options) (records []dns.RR, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	services, err := checkForApex(b, zone, state, opt)
 	if err != nil {
 		return nil, err
@@ -115,6 +119,8 @@ func AAAA(b ServiceBackend, zone string, state request.Request, previousRecords 
 	return records, nil
 }
 func SRV(b ServiceBackend, zone string, state request.Request, opt Options) (records, extra []dns.RR, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	services, err := b.Services(state, false, opt)
@@ -192,6 +198,8 @@ func SRV(b ServiceBackend, zone string, state request.Request, opt Options) (rec
 func MX(b ServiceBackend, zone string, state request.Request, opt Options) (records, extra []dns.RR, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	services, err := b.Services(state, false, opt)
 	if err != nil {
 		return nil, nil, err
@@ -248,6 +256,8 @@ func MX(b ServiceBackend, zone string, state request.Request, opt Options) (reco
 func CNAME(b ServiceBackend, zone string, state request.Request, opt Options) (records []dns.RR, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	services, err := b.Services(state, true, opt)
 	if err != nil {
 		return nil, err
@@ -263,6 +273,8 @@ func CNAME(b ServiceBackend, zone string, state request.Request, opt Options) (r
 func TXT(b ServiceBackend, zone string, state request.Request, opt Options) (records []dns.RR, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	services, err := b.Services(state, false, opt)
 	if err != nil {
 		return nil, err
@@ -276,6 +288,8 @@ func TXT(b ServiceBackend, zone string, state request.Request, opt Options) (rec
 	return records, nil
 }
 func PTR(b ServiceBackend, zone string, state request.Request, opt Options) (records []dns.RR, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	services, err := b.Reverse(state, true, opt)
@@ -294,6 +308,8 @@ func PTR(b ServiceBackend, zone string, state request.Request, opt Options) (rec
 	return records, nil
 }
 func NS(b ServiceBackend, zone string, state request.Request, opt Options) (records, extra []dns.RR, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	old := state.QName()
@@ -320,6 +336,8 @@ func NS(b ServiceBackend, zone string, state request.Request, opt Options) (reco
 func SOA(b ServiceBackend, zone string, state request.Request, opt Options) ([]dns.RR, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	minTTL := b.MinTTL(state)
 	ttl := uint32(300)
 	if minTTL < ttl {
@@ -338,6 +356,8 @@ func SOA(b ServiceBackend, zone string, state request.Request, opt Options) ([]d
 func BackendError(b ServiceBackend, zone string, rcode int, state request.Request, err error, opt Options) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetRcode(state.Req, rcode)
 	m.Authoritative = true
@@ -348,6 +368,8 @@ func BackendError(b ServiceBackend, zone string, rcode int, state request.Reques
 func newAddress(s msg.Service, name string, ip net.IP, what uint16) dns.RR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hdr := dns.RR_Header{Name: name, Rrtype: what, Class: dns.ClassINET, Ttl: s.TTL}
 	if what == dns.TypeA {
 		return &dns.A{Hdr: hdr, A: ip}
@@ -355,6 +377,8 @@ func newAddress(s msg.Service, name string, ip net.IP, what uint16) dns.RR {
 	return &dns.AAAA{Hdr: hdr, AAAA: ip}
 }
 func checkForApex(b ServiceBackend, zone string, state request.Request, opt Options) ([]msg.Service, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if state.Name() != zone {
@@ -379,6 +403,8 @@ type item struct {
 }
 
 func isDuplicate(m map[item]struct{}, name, addr string, port uint16) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if addr != "" {

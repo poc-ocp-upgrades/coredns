@@ -8,6 +8,8 @@ import (
 func TestDuplicateCNAME(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		cname		string
 		records		[]string

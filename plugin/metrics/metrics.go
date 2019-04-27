@@ -28,6 +28,8 @@ type Metrics struct {
 func New(addr string) *Metrics {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	met := &Metrics{Addr: addr, Reg: prometheus.NewRegistry(), zoneMap: make(map[string]struct{})}
 	met.MustRegister(prometheus.NewGoCollector())
 	met.MustRegister(prometheus.NewProcessCollector(prometheus.ProcessCollectorOpts{}))
@@ -45,6 +47,8 @@ func New(addr string) *Metrics {
 func (m *Metrics) MustRegister(c prometheus.Collector) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := m.Reg.Register(c)
 	if err != nil {
 		if _, ok := err.(prometheus.AlreadyRegisteredError); !ok {
@@ -55,12 +59,16 @@ func (m *Metrics) MustRegister(c prometheus.Collector) {
 func (m *Metrics) AddZone(z string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.zoneMu.Lock()
 	m.zoneMap[z] = struct{}{}
 	m.zoneNames = keys(m.zoneMap)
 	m.zoneMu.Unlock()
 }
 func (m *Metrics) RemoveZone(z string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.zoneMu.Lock()
@@ -71,12 +79,16 @@ func (m *Metrics) RemoveZone(z string) {
 func (m *Metrics) ZoneNames() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.zoneMu.RLock()
 	s := m.zoneNames
 	m.zoneMu.RUnlock()
 	return s
 }
 func (m *Metrics) OnStartup() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ln, err := net.Listen("tcp", m.Addr)
@@ -98,6 +110,8 @@ func (m *Metrics) OnStartup() error {
 func (m *Metrics) OnRestart() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !m.lnSetup {
 		return nil
 	}
@@ -105,6 +119,8 @@ func (m *Metrics) OnRestart() error {
 	return m.stopServer()
 }
 func (m *Metrics) stopServer() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !m.lnSetup {
@@ -123,9 +139,13 @@ func (m *Metrics) stopServer() error {
 func (m *Metrics) OnFinalShutdown() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.stopServer()
 }
 func keys(m map[string]struct{}) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sx := []string{}

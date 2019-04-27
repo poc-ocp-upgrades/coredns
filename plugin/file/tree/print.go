@@ -5,12 +5,16 @@ import "fmt"
 func (t *Tree) Print() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.Root == nil {
 		fmt.Println("<nil>")
 	}
 	t.Root.print()
 }
 func (n *Node) print() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	q := newQueue()
@@ -40,10 +44,14 @@ type queue []*Node
 func newQueue() queue {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q := queue([]*Node{})
 	return q
 }
 func (q *queue) push(n *Node) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*q = append(*q, n)
@@ -51,11 +59,15 @@ func (q *queue) push(n *Node) {
 func (q *queue) pop() *Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n := (*q)[0]
 	*q = (*q)[1:]
 	return n
 }
 func (q *queue) empty() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return len(*q) == 0

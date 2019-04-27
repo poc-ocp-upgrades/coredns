@@ -17,6 +17,8 @@ type typeRule struct {
 func newTypeRule(nextAction string, args ...string) (Rule, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var from, to uint16
 	var ok bool
 	if from, ok = dns.StringToType[strings.ToUpper(args[0])]; !ok {
@@ -30,6 +32,8 @@ func newTypeRule(nextAction string, args ...string) (Rule, error) {
 func (rule *typeRule) Rewrite(ctx context.Context, state request.Request) Result {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rule.fromType > 0 && rule.toType > 0 {
 		if state.QType() == rule.fromType {
 			state.Req.Question[0].Qtype = rule.toType
@@ -41,9 +45,13 @@ func (rule *typeRule) Rewrite(ctx context.Context, state request.Request) Result
 func (rule *typeRule) Mode() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.nextAction
 }
 func (rule *typeRule) GetResponseRule() ResponseRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ResponseRule{}

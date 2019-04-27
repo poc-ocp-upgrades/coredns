@@ -15,12 +15,16 @@ import (
 func parseLiteralIP(addr string) net.IP {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i := strings.Index(addr, "%"); i >= 0 {
 		addr = addr[0:i]
 	}
 	return net.ParseIP(addr)
 }
 func absDomainName(b string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return plugin.Name(b).Normalize()
@@ -35,9 +39,13 @@ type hostsMap struct {
 func newHostsMap() *hostsMap {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &hostsMap{byNameV4: make(map[string][]net.IP), byNameV6: make(map[string][]net.IP), byAddr: make(map[string][]string)}
 }
 func (h *hostsMap) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := 0
@@ -66,6 +74,8 @@ type Hostsfile struct {
 func (h *Hostsfile) readHosts() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := os.Open(h.path)
 	if err != nil {
 		return
@@ -86,6 +96,8 @@ func (h *Hostsfile) readHosts() {
 func (h *Hostsfile) initInline(inline []string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(inline) == 0 {
 		return
 	}
@@ -94,6 +106,8 @@ func (h *Hostsfile) initInline(inline []string) {
 	*h.hmap = *h.inline
 }
 func (h *Hostsfile) parse(r io.Reader, override *hostsMap) *hostsMap {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	hmap := newHostsMap()
@@ -145,6 +159,8 @@ func (h *Hostsfile) parse(r io.Reader, override *hostsMap) *hostsMap {
 func ipVersion(s string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < len(s); i++ {
 		switch s[i] {
 		case '.':
@@ -156,6 +172,8 @@ func ipVersion(s string) int {
 	return 0
 }
 func (h *Hostsfile) LookupStaticHostV4(host string) []net.IP {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h.RLock()
@@ -172,6 +190,8 @@ func (h *Hostsfile) LookupStaticHostV4(host string) []net.IP {
 func (h *Hostsfile) LookupStaticHostV6(host string) []net.IP {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.RLock()
 	defer h.RUnlock()
 	if len(h.hmap.byNameV6) != 0 {
@@ -184,6 +204,8 @@ func (h *Hostsfile) LookupStaticHostV6(host string) []net.IP {
 	return nil
 }
 func (h *Hostsfile) LookupStaticAddr(addr string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h.RLock()

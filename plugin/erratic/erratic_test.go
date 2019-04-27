@@ -11,6 +11,8 @@ import (
 func TestErraticDrop(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := &Erratic{drop: 2}
 	tests := []struct {
 		rrtype		uint16
@@ -36,6 +38,8 @@ func TestErraticDrop(t *testing.T) {
 	}
 }
 func TestErraticTruncate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	e := &Erratic{truncate: 2}
@@ -64,6 +68,8 @@ func TestErraticTruncate(t *testing.T) {
 func TestAxfr(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := &Erratic{truncate: 0}
 	ctx := context.TODO()
 	req := new(dns.Msg)
@@ -78,6 +84,8 @@ func TestAxfr(t *testing.T) {
 	}
 }
 func TestErratic(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	e := &Erratic{drop: 0, delay: 0}

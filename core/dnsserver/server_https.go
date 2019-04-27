@@ -24,6 +24,8 @@ type ServerHTTPS struct {
 func NewServerHTTPS(addr string, group []*Config) (*ServerHTTPS, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, err := NewServer(addr, group)
 	if err != nil {
 		return nil, err
@@ -39,6 +41,8 @@ func NewServerHTTPS(addr string, group []*Config) (*ServerHTTPS, error) {
 func (s *ServerHTTPS) Serve(l net.Listener) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.m.Lock()
 	s.listenAddr = l.Addr()
 	s.m.Unlock()
@@ -50,9 +54,13 @@ func (s *ServerHTTPS) Serve(l net.Listener) error {
 func (s *ServerHTTPS) ServePacket(p net.PacketConn) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (s *ServerHTTPS) Listen() (net.Listener, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l, err := net.Listen("tcp", s.Addr[len(transport.HTTPS+"://"):])
@@ -64,9 +72,13 @@ func (s *ServerHTTPS) Listen() (net.Listener, error) {
 func (s *ServerHTTPS) ListenPacket() (net.PacketConn, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (s *ServerHTTPS) OnStartupComplete() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if Quiet {
@@ -81,6 +93,8 @@ func (s *ServerHTTPS) OnStartupComplete() {
 func (s *ServerHTTPS) Stop() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.m.Lock()
 	defer s.m.Unlock()
 	if s.httpsServer != nil {
@@ -89,6 +103,8 @@ func (s *ServerHTTPS) Stop() error {
 	return nil
 }
 func (s *ServerHTTPS) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.URL.Path != doh.Path {
@@ -114,6 +130,8 @@ func (s *ServerHTTPS) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Write(buf)
 }
 func (s *ServerHTTPS) Shutdown() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if s.httpsServer != nil {

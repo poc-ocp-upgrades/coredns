@@ -5,6 +5,8 @@ import "testing"
 func TestSplit255(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xs := split255("abc")
 	if len(xs) != 1 && xs[0] != "abc" {
 		t.Errorf("Failure to split abc")
@@ -31,6 +33,8 @@ func TestSplit255(t *testing.T) {
 	}
 }
 func TestGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sx := Group([]Service{{Host: "127.0.0.1", Group: "g1", Key: "b/sub/dom1/skydns/test"}, {Host: "127.0.0.2", Group: "g2", Key: "a/dom1/skydns/test"}})
@@ -70,6 +74,8 @@ func TestGroup(t *testing.T) {
 	}
 }
 func BenchmarkNewSRV(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := &Service{Host: "www,example.org", Port: 8080}

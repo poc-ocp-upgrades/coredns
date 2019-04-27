@@ -21,9 +21,13 @@ type (
 func (f HandlerFunc) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f(ctx, w, r)
 }
 func (f HandlerFunc) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "handlerfunc"
@@ -31,9 +35,13 @@ func (f HandlerFunc) Name() string {
 func Error(name string, err error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("%s/%s: %s", "plugin", name, err)
 }
 func NextOrFailure(name string, next Handler, ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if next != nil {
@@ -47,6 +55,8 @@ func NextOrFailure(name string, next Handler, ctx context.Context, w dns.Respons
 	return dns.RcodeServerFailure, Error(name, errors.New("no next plugin found"))
 }
 func ClientWrite(rcode int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch rcode {

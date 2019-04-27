@@ -26,11 +26,15 @@ type Request struct {
 func (r *Request) NewWithQuestion(name string, typ uint16) Request {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req1 := Request{W: r.W, Req: r.Req.Copy()}
 	req1.Req.Question[0] = dns.Question{Name: dns.Fqdn(name), Qclass: dns.ClassINET, Qtype: typ}
 	return req1
 }
 func (r *Request) IP() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.ip != "" {
@@ -47,6 +51,8 @@ func (r *Request) IP() string {
 func (r *Request) LocalIP() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.localIP != "" {
 		return r.localIP
 	}
@@ -59,6 +65,8 @@ func (r *Request) LocalIP() string {
 	return r.localIP
 }
 func (r *Request) Port() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.port != "" {
@@ -75,6 +83,8 @@ func (r *Request) Port() string {
 func (r *Request) LocalPort() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.localPort != "" {
 		return r.localPort
 	}
@@ -89,9 +99,13 @@ func (r *Request) LocalPort() string {
 func (r *Request) RemoteAddr() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.W.RemoteAddr().String()
 }
 func (r *Request) LocalAddr() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r.W.LocalAddr().String()
@@ -99,9 +113,13 @@ func (r *Request) LocalAddr() string {
 func (r *Request) Proto() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return Proto(r.W)
 }
 func Proto(w dns.ResponseWriter) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if _, ok := w.RemoteAddr().(*net.UDPAddr); ok {
@@ -113,6 +131,8 @@ func Proto(w dns.ResponseWriter) string {
 	return "udp"
 }
 func (r *Request) Family() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.family != 0 {
@@ -136,6 +156,8 @@ func (r *Request) Family() int {
 func (r *Request) Do() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.do != nil {
 		return *r.do
 	}
@@ -150,9 +172,13 @@ func (r *Request) Do() bool {
 func (r *Request) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.Req.Len()
 }
 func (r *Request) Size() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.size != 0 {
@@ -171,6 +197,8 @@ func (r *Request) Size() int {
 	return size
 }
 func (r *Request) SizeAndDo(m *dns.Msg) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := r.Req.IsEdns0()
@@ -199,6 +227,8 @@ func (r *Request) SizeAndDo(m *dns.Msg) bool {
 	return true
 }
 func (r *Request) Scrub(reply *dns.Msg) *dns.Msg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	size := r.Size()
@@ -279,6 +309,8 @@ func (r *Request) Scrub(reply *dns.Msg) *dns.Msg {
 func (r *Request) Type() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Req == nil {
 		return ""
 	}
@@ -290,6 +322,8 @@ func (r *Request) Type() string {
 func (r *Request) QType() uint16 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Req == nil {
 		return 0
 	}
@@ -299,6 +333,8 @@ func (r *Request) QType() uint16 {
 	return r.Req.Question[0].Qtype
 }
 func (r *Request) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.name != "" {
@@ -318,6 +354,8 @@ func (r *Request) Name() string {
 func (r *Request) QName() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Req == nil {
 		return "."
 	}
@@ -327,6 +365,8 @@ func (r *Request) QName() string {
 	return dns.Name(r.Req.Question[0].Name).String()
 }
 func (r *Request) Class() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.Req == nil {
@@ -340,6 +380,8 @@ func (r *Request) Class() string {
 func (r *Request) QClass() uint16 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Req == nil {
 		return 0
 	}
@@ -351,11 +393,15 @@ func (r *Request) QClass() uint16 {
 func (r *Request) ErrorMessage(rcode int) *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetRcode(r.Req, rcode)
 	return m
 }
 func (r *Request) Clear() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.name = ""
@@ -366,6 +412,8 @@ func (r *Request) Clear() {
 	r.family = 0
 }
 func (r *Request) Match(reply *dns.Msg) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(reply.Question) != 1 {

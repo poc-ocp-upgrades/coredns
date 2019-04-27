@@ -10,14 +10,20 @@ type responseWriter struct{ dns.ResponseWriter }
 func (r *responseWriter) WriteMsg(m *dns.Msg) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (r *responseWriter) Write(buf []byte) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(buf), nil
 }
 func TestNewRecorder(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	w := &responseWriter{}
@@ -30,6 +36,8 @@ func TestNewRecorder(t *testing.T) {
 	}
 }
 func TestWriteMsg(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	w := &responseWriter{}
@@ -46,6 +54,8 @@ func TestWriteMsg(t *testing.T) {
 	}
 }
 func TestWrite(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	w := &responseWriter{}

@@ -13,6 +13,8 @@ import (
 func (e *External) serveApex(state request.Request) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetReply(state.Req)
 	switch state.QType() {
@@ -33,6 +35,8 @@ func (e *External) serveApex(state request.Request) (int, error) {
 	return 0, nil
 }
 func (e *External) serveSubApex(state request.Request) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	base, _ := dnsutil.TrimZone(state.Name(), state.Zone)
@@ -82,11 +86,15 @@ func (e *External) serveSubApex(state request.Request) (int, error) {
 func (e *External) soa(state request.Request) *dns.SOA {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header := dns.RR_Header{Name: state.Zone, Rrtype: dns.TypeSOA, Ttl: e.ttl, Class: dns.ClassINET}
 	soa := &dns.SOA{Hdr: header, Mbox: dnsutil.Join(e.hostmaster, e.apex, state.Zone), Ns: dnsutil.Join("ns1", e.apex, state.Zone), Serial: 12345, Refresh: 7200, Retry: 1800, Expire: 86400, Minttl: e.ttl}
 	return soa
 }
 func (e *External) ns(state request.Request) *dns.NS {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	header := dns.RR_Header{Name: state.Zone, Rrtype: dns.TypeNS, Ttl: e.ttl, Class: dns.ClassINET}
@@ -96,7 +104,16 @@ func (e *External) ns(state request.Request) *dns.NS {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

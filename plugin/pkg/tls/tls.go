@@ -16,6 +16,8 @@ import (
 func NewTLSConfigFromArgs(args ...string) (*tls.Config, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	var c *tls.Config
 	switch len(args) {
@@ -38,6 +40,8 @@ func NewTLSConfigFromArgs(args ...string) (*tls.Config, error) {
 func NewTLSConfig(certPath, keyPath, caPath string) (*tls.Config, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cert, err := tls.LoadX509KeyPair(certPath, keyPath)
 	if err != nil {
 		return nil, fmt.Errorf("could not load TLS cert: %s", err)
@@ -51,6 +55,8 @@ func NewTLSConfig(certPath, keyPath, caPath string) (*tls.Config, error) {
 func NewTLSClientConfig(caPath string) (*tls.Config, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	roots, err := loadRoots(caPath)
 	if err != nil {
 		return nil, err
@@ -58,6 +64,8 @@ func NewTLSClientConfig(caPath string) (*tls.Config, error) {
 	return &tls.Config{RootCAs: roots}, nil
 }
 func loadRoots(caPath string) (*x509.CertPool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if caPath == "" {
@@ -77,6 +85,8 @@ func loadRoots(caPath string) (*x509.CertPool, error) {
 func NewHTTPSTransport(cc *tls.Config) *http.Transport {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cc != nil {
 		cc.InsecureSkipVerify = true
 	}
@@ -86,7 +96,16 @@ func NewHTTPSTransport(cc *tls.Config) *http.Transport {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

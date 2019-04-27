@@ -9,9 +9,13 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caddy.RegisterPlugin("chaos", caddy.Plugin{ServerType: "dns", Action: setup})
 }
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	version, authors, err := chaosParse(c)
@@ -24,6 +28,8 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 func chaosParse(c *caddy.Controller) (string, map[string]struct{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	chaosVersion = caddy.AppName + "-" + caddy.AppVersion

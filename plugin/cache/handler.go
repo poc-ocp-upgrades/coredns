@@ -14,6 +14,8 @@ import (
 func (c *Cache) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	state := request.Request{W: w, Req: r}
 	zone := plugin.Zones(c.Zones).Matches(state.Name())
 	if zone == "" {
@@ -48,9 +50,13 @@ func (c *Cache) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 func (c *Cache) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "cache"
 }
 func (c *Cache) get(now time.Time, state request.Request, server string) (*item, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	k := hash(state.Name(), state.QType(), state.Do())
@@ -66,6 +72,8 @@ func (c *Cache) get(now time.Time, state request.Request, server string) (*item,
 	return nil, false
 }
 func (c *Cache) exists(state request.Request) *item {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	k := hash(state.Name(), state.QType(), state.Do())

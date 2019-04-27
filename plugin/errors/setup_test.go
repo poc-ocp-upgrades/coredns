@@ -8,6 +8,8 @@ import (
 func TestErrorsParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		inputErrorsRules	string
 		shouldErr		bool

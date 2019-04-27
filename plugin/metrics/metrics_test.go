@@ -13,6 +13,8 @@ import (
 func TestMetrics(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	met := New("localhost:0")
 	if err := met.OnStartup(); err != nil {
 		t.Fatalf("Failed to start metrics handler: %s", err)

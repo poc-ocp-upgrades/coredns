@@ -10,6 +10,8 @@ import (
 func testHostsfile(file string) *Hostsfile {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h := &Hostsfile{Origins: []string{"."}}
 	h.parseReader(strings.NewReader(file))
 	return h
@@ -68,6 +70,8 @@ var lookupStaticHostTests = []struct {
 func TestLookupStaticHost(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tt := range lookupStaticHostTests {
 		h := testHostsfile(tt.file)
 		for _, ent := range tt.ents {
@@ -76,6 +80,8 @@ func TestLookupStaticHost(t *testing.T) {
 	}
 }
 func testStaticHost(t *testing.T, ent staticHostEntry, h *Hostsfile) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ins := []string{ent.in, absDomainName(ent.in), strings.ToLower(ent.in), strings.ToUpper(ent.in)}
@@ -114,6 +120,8 @@ var lookupStaticAddrTests = []struct {
 func TestLookupStaticAddr(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tt := range lookupStaticAddrTests {
 		h := testHostsfile(tt.file)
 		for _, ent := range tt.ents {
@@ -122,6 +130,8 @@ func TestLookupStaticAddr(t *testing.T) {
 	}
 }
 func testStaticAddr(t *testing.T, ent staticIPEntry, h *Hostsfile) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	hosts := h.LookupStaticAddr(ent.in)
@@ -133,6 +143,8 @@ func testStaticAddr(t *testing.T, ent staticIPEntry, h *Hostsfile) {
 	}
 }
 func TestHostCacheModification(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h := testHostsfile(ipv4hosts)

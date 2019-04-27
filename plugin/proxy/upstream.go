@@ -23,6 +23,8 @@ type staticUpstream struct {
 func NewStaticUpstreams(c *caddyfile.Dispenser) ([]Upstream, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var upstreams []Upstream
 	for c.Next() {
 		u, err := NewStaticUpstream(c)
@@ -34,6 +36,8 @@ func NewStaticUpstreams(c *caddyfile.Dispenser) ([]Upstream, error) {
 	return upstreams, nil
 }
 func NewStaticUpstream(c *caddyfile.Dispenser) (Upstream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	upstream := &staticUpstream{from: ".", HealthCheck: healthcheck.HealthCheck{FailTimeout: 5 * time.Second, MaxFails: 3}, ex: newDNSEx()}
@@ -66,6 +70,8 @@ func NewStaticUpstream(c *caddyfile.Dispenser) (Upstream, error) {
 	return upstream, nil
 }
 func parseBlock(c *caddyfile.Dispenser, u *staticUpstream) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch c.Val() {
@@ -162,6 +168,8 @@ func parseBlock(c *caddyfile.Dispenser, u *staticUpstream) error {
 func (u *staticUpstream) IsAllowedDomain(name string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if dns.Name(name) == dns.Name(u.From()) {
 		return true
 	}
@@ -175,9 +183,13 @@ func (u *staticUpstream) IsAllowedDomain(name string) bool {
 func (u *staticUpstream) Exchanger() Exchanger {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return u.ex
 }
 func (u *staticUpstream) From() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return u.from

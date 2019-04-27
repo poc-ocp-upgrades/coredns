@@ -8,6 +8,8 @@ import (
 func TestFileUpstream(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, rm, err := TempFile(".", `$ORIGIN example.org.
 @	3600 IN	SOA sns.dns.icann.org. noc.dns.icann.org. (
 		2017042745 ; serial
@@ -56,6 +58,8 @@ www 3600 IN CNAME   www.example.net.
 	}
 }
 func TestFileUpstreamAdditional(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	name, rm, err := TempFile(".", `$ORIGIN example.org.

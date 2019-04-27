@@ -12,6 +12,8 @@ import (
 func (k *Kubernetes) External(state request.Request) ([]msg.Service, int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	base, _ := dnsutil.TrimZone(state.Name(), state.Zone)
 	segs := dns.SplitDomainName(base)
 	last := len(segs) - 1
@@ -65,6 +67,8 @@ func (k *Kubernetes) External(state request.Request) ([]msg.Service, int) {
 	return services, rcode
 }
 func (k *Kubernetes) ExternalAddress(state request.Request) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rrs := []dns.RR{k.nsAddr()}

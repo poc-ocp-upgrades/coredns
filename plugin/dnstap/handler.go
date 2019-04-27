@@ -34,10 +34,14 @@ const (
 func TapperFromContext(ctx context.Context) (t Tapper) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t, _ = ctx.(Tapper)
 	return
 }
 func (h Dnstap) TapMessage(m *tap.Message) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t := tap.Dnstap_MESSAGE
@@ -46,9 +50,13 @@ func (h Dnstap) TapMessage(m *tap.Message) {
 func (h Dnstap) Pack() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return h.JoinRawMessage
 }
 func (h Dnstap) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sendOption := taprw.SendOption{Cq: true, Cr: true}
@@ -64,6 +72,8 @@ func (h Dnstap) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 	return code, nil
 }
 func (h Dnstap) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "dnstap"

@@ -22,6 +22,8 @@ type Service struct {
 func (s *Service) NewSRV(name string, weight uint16) *dns.SRV {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	host := dns.Fqdn(s.Host)
 	if s.TargetStrip > 0 {
 		host = targetStrip(host, s.TargetStrip)
@@ -29,6 +31,8 @@ func (s *Service) NewSRV(name string, weight uint16) *dns.SRV {
 	return &dns.SRV{Hdr: dns.RR_Header{Name: name, Rrtype: dns.TypeSRV, Class: dns.ClassINET, Ttl: s.TTL}, Priority: uint16(s.Priority), Weight: weight, Port: uint16(s.Port), Target: host}
 }
 func (s *Service) NewMX(name string) *dns.MX {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	host := dns.Fqdn(s.Host)
@@ -40,9 +44,13 @@ func (s *Service) NewMX(name string) *dns.MX {
 func (s *Service) NewA(name string, ip net.IP) *dns.A {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dns.A{Hdr: dns.RR_Header{Name: name, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: s.TTL}, A: ip}
 }
 func (s *Service) NewAAAA(name string, ip net.IP) *dns.AAAA {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &dns.AAAA{Hdr: dns.RR_Header{Name: name, Rrtype: dns.TypeAAAA, Class: dns.ClassINET, Ttl: s.TTL}, AAAA: ip}
@@ -50,9 +58,13 @@ func (s *Service) NewAAAA(name string, ip net.IP) *dns.AAAA {
 func (s *Service) NewCNAME(name string, target string) *dns.CNAME {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dns.CNAME{Hdr: dns.RR_Header{Name: name, Rrtype: dns.TypeCNAME, Class: dns.ClassINET, Ttl: s.TTL}, Target: dns.Fqdn(target)}
 }
 func (s *Service) NewTXT(name string) *dns.TXT {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &dns.TXT{Hdr: dns.RR_Header{Name: name, Rrtype: dns.TypeTXT, Class: dns.ClassINET, Ttl: s.TTL}, Txt: split255(s.Text)}
@@ -60,9 +72,13 @@ func (s *Service) NewTXT(name string) *dns.TXT {
 func (s *Service) NewPTR(name string, target string) *dns.PTR {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dns.PTR{Hdr: dns.RR_Header{Name: name, Rrtype: dns.TypePTR, Class: dns.ClassINET, Ttl: s.TTL}, Ptr: dns.Fqdn(target)}
 }
 func (s *Service) NewNS(name string) *dns.NS {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	host := dns.Fqdn(s.Host)
@@ -72,6 +88,8 @@ func (s *Service) NewNS(name string) *dns.NS {
 	return &dns.NS{Hdr: dns.RR_Header{Name: name, Rrtype: dns.TypeNS, Class: dns.ClassINET, Ttl: s.TTL}, Ns: host}
 }
 func Group(sx []Service) []Service {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(sx) == 0 {
@@ -112,6 +130,8 @@ func Group(sx []Service) []Service {
 func split255(s string) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s) < 255 {
 		return []string{s}
 	}
@@ -129,6 +149,8 @@ func split255(s string) []string {
 	return sx
 }
 func targetStrip(name string, targetStrip int) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	offset, end := 0, false

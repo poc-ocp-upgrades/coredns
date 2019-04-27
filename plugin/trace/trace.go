@@ -40,9 +40,13 @@ type trace struct {
 func (t *trace) Tracer() ot.Tracer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.tracer
 }
 func (t *trace) OnStartup() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -61,6 +65,8 @@ func (t *trace) OnStartup() error {
 func (t *trace) setupZipkin() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	collector, err := zipkin.NewHTTPCollector(t.Endpoint)
 	if err != nil {
 		return err
@@ -70,6 +76,8 @@ func (t *trace) setupZipkin() error {
 	return err
 }
 func (t *trace) setupDatadog() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	config := ddtrace.NewConfiguration()
@@ -86,9 +94,13 @@ func (t *trace) setupDatadog() error {
 func (t *trace) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "trace"
 }
 func (t *trace) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	trace := false
@@ -114,6 +126,8 @@ func (t *trace) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 	return status, err
 }
 func spanName(ctx context.Context, req request.Request) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "servedns:" + metrics.WithServer(ctx) + " " + req.Name()

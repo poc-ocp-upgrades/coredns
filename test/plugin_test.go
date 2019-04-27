@@ -10,6 +10,8 @@ import (
 func benchmarkLookupBalanceRewriteCache(b *testing.B) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := new(testing.T)
 	name, rm, err := test.TempFile(".", exampleOrg)
 	if err != nil {

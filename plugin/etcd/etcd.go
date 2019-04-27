@@ -41,6 +41,8 @@ type Etcd struct {
 func (e *Etcd) Services(state request.Request, exact bool, opt plugin.Options) (services []msg.Service, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	services, err = e.Records(state, exact)
 	if err != nil {
 		return
@@ -51,9 +53,13 @@ func (e *Etcd) Services(state request.Request, exact bool, opt plugin.Options) (
 func (e *Etcd) Reverse(state request.Request, exact bool, opt plugin.Options) (services []msg.Service, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.Services(state, exact, opt)
 }
 func (e *Etcd) Lookup(state request.Request, name string, typ uint16) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return e.Upstream.Lookup(state, name, typ)
@@ -61,9 +67,13 @@ func (e *Etcd) Lookup(state request.Request, name string, typ uint16) (*dns.Msg,
 func (e *Etcd) IsNameError(err error) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return err == errKeyNotFound
 }
 func (e *Etcd) Records(state request.Request, exact bool) ([]msg.Service, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	name := state.Name()
@@ -76,6 +86,8 @@ func (e *Etcd) Records(state request.Request, exact bool) ([]msg.Service, error)
 	return e.loopNodes(r.Kvs, segments, star)
 }
 func (e *Etcd) get(path string, recursive bool) (*etcdcv3.GetResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx, cancel := context.WithTimeout(e.Ctx, etcdTimeout)
@@ -110,6 +122,8 @@ func (e *Etcd) get(path string, recursive bool) (*etcdcv3.GetResponse, error) {
 	return r, nil
 }
 func (e *Etcd) loopNodes(kv []*mvccpb.KeyValue, nameParts []string, star bool) (sx []msg.Service, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	bx := make(map[msg.Service]struct{})
@@ -149,6 +163,8 @@ Nodes:
 	return sx, nil
 }
 func (e *Etcd) TTL(kv *mvccpb.KeyValue, serv *msg.Service) uint32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	etcdTTL := uint32(kv.Lease)

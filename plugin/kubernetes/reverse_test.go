@@ -17,9 +17,13 @@ type APIConnReverseTest struct{}
 func (APIConnReverseTest) HasSynced() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (APIConnReverseTest) Run() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return
@@ -27,9 +31,13 @@ func (APIConnReverseTest) Run() {
 func (APIConnReverseTest) Stop() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (APIConnReverseTest) PodIndex(string) []*object.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -37,9 +45,13 @@ func (APIConnReverseTest) PodIndex(string) []*object.Pod {
 func (APIConnReverseTest) EpIndex(string) []*object.Endpoints {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (APIConnReverseTest) EndpointsList() []*object.Endpoints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -47,9 +59,13 @@ func (APIConnReverseTest) EndpointsList() []*object.Endpoints {
 func (APIConnReverseTest) ServiceList() []*object.Service {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (APIConnReverseTest) Modified() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return 0
@@ -57,8 +73,12 @@ func (APIConnReverseTest) Modified() int64 {
 func (APIConnReverseTest) SetWatchChan(watch.Chan) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (APIConnReverseTest) Watch(string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -66,8 +86,12 @@ func (APIConnReverseTest) Watch(string) error {
 func (APIConnReverseTest) StopWatching(string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (APIConnReverseTest) SvcIndex(svc string) []*object.Service {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if svc != "svc1.testns" {
@@ -79,6 +103,8 @@ func (APIConnReverseTest) SvcIndex(svc string) []*object.Service {
 func (APIConnReverseTest) SvcIndexReverse(ip string) []*object.Service {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ip != "192.168.1.100" {
 		return nil
 	}
@@ -86,6 +112,8 @@ func (APIConnReverseTest) SvcIndexReverse(ip string) []*object.Service {
 	return svcs
 }
 func (APIConnReverseTest) EpIndexReverse(ip string) []*object.Endpoints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch ip {
@@ -102,14 +130,20 @@ func (APIConnReverseTest) EpIndexReverse(ip string) []*object.Endpoints {
 func (APIConnReverseTest) GetNodeByName(name string) (*api.Node, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &api.Node{ObjectMeta: meta.ObjectMeta{Name: "test.node.foo.bar"}}, nil
 }
 func (APIConnReverseTest) GetNamespaceByName(name string) (*api.Namespace, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &api.Namespace{ObjectMeta: meta.ObjectMeta{Name: name}}, nil
 }
 func TestReverse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	k := New([]string{"cluster.local.", "0.10.in-addr.arpa.", "168.192.in-addr.arpa.", "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.d.c.b.a.4.3.2.1.ip6.arpa.", "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.7.7.0.0.0.0.d.f.ip6.arpa."})

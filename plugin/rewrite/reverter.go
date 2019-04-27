@@ -24,9 +24,13 @@ type ResponseReverter struct {
 func NewResponseReverter(w dns.ResponseWriter, r *dns.Msg) *ResponseReverter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ResponseReverter{ResponseWriter: w, originalQuestion: r.Question[0]}
 }
 func (r *ResponseReverter) WriteMsg(res *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	res.Question[0] = r.originalQuestion
@@ -71,6 +75,8 @@ func (r *ResponseReverter) WriteMsg(res *dns.Msg) error {
 	return r.ResponseWriter.WriteMsg(res)
 }
 func (r *ResponseReverter) Write(buf []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, err := r.ResponseWriter.Write(buf)

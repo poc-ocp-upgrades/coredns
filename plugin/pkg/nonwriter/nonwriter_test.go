@@ -8,6 +8,8 @@ import (
 func TestNonWriter(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nw := New(nil)
 	m := new(dns.Msg)
 	m.SetQuestion("example.org.", dns.TypeA)

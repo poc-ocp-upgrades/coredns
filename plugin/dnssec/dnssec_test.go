@@ -12,6 +12,8 @@ import (
 func TestZoneSigning(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"miek.nl."})
 	defer rm1()
 	defer rm2()
@@ -26,6 +28,8 @@ func TestZoneSigning(t *testing.T) {
 	}
 }
 func TestZoneSigningDouble(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"miek.nl."})
@@ -53,6 +57,8 @@ func TestZoneSigningDouble(t *testing.T) {
 func TestSigningDifferentZone(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fPriv, rmPriv, _ := test.TempFile(".", privKey)
 	fPub, rmPub, _ := test.TempFile(".", pubKey)
 	defer rmPriv()
@@ -78,6 +84,8 @@ func TestSigningDifferentZone(t *testing.T) {
 func TestSigningCname(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"miek.nl."})
 	defer rm1()
 	defer rm2()
@@ -89,6 +97,8 @@ func TestSigningCname(t *testing.T) {
 	}
 }
 func testZoneSigningDelegation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"miek.nl."})
@@ -119,6 +129,8 @@ func testZoneSigningDelegation(t *testing.T) {
 func TestSigningDname(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"miek.nl."})
 	defer rm1()
 	defer rm2()
@@ -130,6 +142,8 @@ func TestSigningDname(t *testing.T) {
 	}
 }
 func TestSigningEmpty(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"miek.nl."})
@@ -146,6 +160,8 @@ func TestSigningEmpty(t *testing.T) {
 func section(rss []dns.RR, nrSigs int) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := 0
 	for _, r := range rss {
 		if r.Header().Rrtype == dns.TypeRRSIG {
@@ -157,9 +173,13 @@ func section(rss []dns.RR, nrSigs int) bool {
 func testMsg() *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dns.Msg{Answer: []dns.RR{test.MX("miek.nl.	1703	IN	MX	1 aspmx.l.google.com.")}, Ns: []dns.RR{test.NS("miek.nl.	1703	IN	NS	omval.tednet.nl.")}}
 }
 func testMsgEx() *dns.Msg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &dns.Msg{Answer: []dns.RR{test.MX("example.org.	1703	IN	MX	1 aspmx.l.google.com.")}, Ns: []dns.RR{test.NS("example.org.	1703	IN	NS	omval.tednet.nl.")}}
@@ -167,9 +187,13 @@ func testMsgEx() *dns.Msg {
 func testMsgCname() *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dns.Msg{Answer: []dns.RR{test.CNAME("www.miek.nl.	1800	IN	CNAME	a.miek.nl.")}}
 }
 func testDelegationMsg() *dns.Msg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &dns.Msg{Ns: []dns.RR{test.NS("miek.nl.	3600	IN	NS	linode.atoom.net."), test.NS("miek.nl.	3600	IN	NS	ns-ext.nlnetlabs.nl."), test.NS("miek.nl.	3600	IN	NS	omval.tednet.nl.")}, Extra: []dns.RR{test.A("omval.tednet.nl.	3600	IN	A	185.49.141.42"), test.AAAA("omval.tednet.nl.	3600	IN	AAAA	2a04:b900:0:100::42")}}
@@ -177,14 +201,20 @@ func testDelegationMsg() *dns.Msg {
 func testMsgDname() *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dns.Msg{Answer: []dns.RR{test.CNAME("a.dname.miek.nl.	1800	IN	CNAME	a.test.miek.nl."), test.A("a.test.miek.nl.	1800	IN	A	139.162.196.78"), test.DNAME("dname.miek.nl.	1800	IN	DNAME	test.miek.nl.")}}
 }
 func testEmptyMsg() *dns.Msg {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dns.Msg{Ns: []dns.RR{test.SOA("miek.nl.	1800	IN	SOA	ns.miek.nl. dnsmaster.miek.nl. 2017100301 200 100 604800 3600")}}
 }
 func newDnssec(t *testing.T, zones []string) (Dnssec, func(), func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	k, rm1, rm2 := newKey(t)
@@ -193,6 +223,8 @@ func newDnssec(t *testing.T, zones []string) (Dnssec, func(), func()) {
 	return d, rm1, rm2
 }
 func newKey(t *testing.T) (*DNSKEY, func(), func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fPriv, rmPriv, _ := test.TempFile(".", privKey)

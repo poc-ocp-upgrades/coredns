@@ -10,6 +10,8 @@ import (
 func TestDebug(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var f bytes.Buffer
 	golog.SetOutput(&f)
 	Debug("debug")
@@ -25,6 +27,8 @@ func TestDebug(t *testing.T) {
 func TestDebugx(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var f bytes.Buffer
 	golog.SetOutput(&f)
 	D = true
@@ -38,6 +42,8 @@ func TestDebugx(t *testing.T) {
 	}
 }
 func TestLevels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var f bytes.Buffer

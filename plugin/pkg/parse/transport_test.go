@@ -8,6 +8,8 @@ import (
 func TestTransport(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, test := range []struct {
 		input		string
 		expected	string

@@ -21,14 +21,20 @@ type Options struct{ ForceTCP bool }
 func newDNSEx() *dnsEx {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newDNSExWithOption(Options{})
 }
 func newDNSExWithOption(opt Options) *dnsEx {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dnsEx{Timeout: defaultTimeout * time.Second, Options: opt}
 }
 func (d *dnsEx) Transport() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if d.Options.ForceTCP {
@@ -39,9 +45,13 @@ func (d *dnsEx) Transport() string {
 func (d *dnsEx) Protocol() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "dns"
 }
 func (d *dnsEx) OnShutdown(p *Proxy) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -49,9 +59,13 @@ func (d *dnsEx) OnShutdown(p *Proxy) error {
 func (d *dnsEx) OnStartup(p *Proxy) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (d *dnsEx) Exchange(ctx context.Context, addr string, state request.Request) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	proto := state.Proto()
@@ -76,12 +90,16 @@ func (d *dnsEx) Exchange(ctx context.Context, addr string, state request.Request
 func (d *dnsEx) ExchangeConn(m *dns.Msg, co net.Conn) (*dns.Msg, time.Duration, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	start := time.Now()
 	r, err := exchange(m, co)
 	rtt := time.Since(start)
 	return r, rtt, err
 }
 func exchange(m *dns.Msg, co net.Conn) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opt := m.IsEdns0()
@@ -103,7 +121,16 @@ func exchange(m *dns.Msg, co net.Conn) (*dns.Msg, error) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

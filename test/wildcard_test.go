@@ -11,6 +11,8 @@ import (
 func TestLookupWildcard(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	name, rm, err := test.TempFile(".", exampleOrg)
 	if err != nil {

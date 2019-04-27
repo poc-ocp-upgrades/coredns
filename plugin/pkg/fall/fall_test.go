@@ -5,6 +5,8 @@ import "testing"
 func TestEqual(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var z F
 	f := F{Zones: []string{"example.com."}}
 	g := F{Zones: []string{"example.net."}}
@@ -22,12 +24,16 @@ func TestEqual(t *testing.T) {
 func TestZero(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var f F
 	if !f.Equal(Zero) {
 		t.Errorf("F should be zero")
 	}
 }
 func TestSetZonesFromArgs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var f F
@@ -42,6 +48,8 @@ func TestSetZonesFromArgs(t *testing.T) {
 	}
 }
 func TestFallthrough(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var fall F

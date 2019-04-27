@@ -11,6 +11,8 @@ import (
 func (a Auto) Walk() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	toDelete := make(map[string]bool)
 	for _, n := range a.Zones.Names() {
 		toDelete[n] = true
@@ -64,6 +66,8 @@ func (a Auto) Walk() error {
 	return nil
 }
 func matches(re *regexp.Regexp, filename, template string) (match bool, origin string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	base := filepath.Base(filename)
