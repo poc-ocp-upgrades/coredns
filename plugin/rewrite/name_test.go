@@ -4,65 +4,45 @@ import (
 	"context"
 	"strings"
 	"testing"
-
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/test"
-
 	"github.com/miekg/dns"
 )
 
 func TestRewriteIllegalName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, _ := newNameRule("stop", "example.org.", "example..org.")
-
-	rw := Rewrite{
-		Next:     plugin.HandlerFunc(msgPrinter),
-		Rules:    []Rule{r},
-		noRevert: true,
-	}
-
+	rw := Rewrite{Next: plugin.HandlerFunc(msgPrinter), Rules: []Rule{r}, noRevert: true}
 	ctx := context.TODO()
 	m := new(dns.Msg)
 	m.SetQuestion("example.org.", dns.TypeA)
-
 	rec := dnstest.NewRecorder(&test.ResponseWriter{})
 	_, err := rw.ServeDNS(ctx, rec, m)
 	if !strings.Contains(err.Error(), "invalid name") {
 		t.Errorf("Expected invalid name, got %s", err.Error())
 	}
 }
-
 func TestRewriteNamePrefixSuffix(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx, close := context.WithCancel(context.TODO())
 	defer close()
-
 	tests := []struct {
-		next     string
-		args     []string
-		question string
-		expected string
-	}{
-		{"stop", []string{"prefix", "foo", "bar"}, "foo.example.com.", "bar.example.com."},
-		{"stop", []string{"prefix", "foo.", "bar."}, "foo.example.com.", "bar.example.com."},
-		{"stop", []string{"suffix", "com", "org"}, "foo.example.com.", "foo.example.org."},
-		{"stop", []string{"suffix", ".com", ".org"}, "foo.example.com.", "foo.example.org."},
-	}
+		next		string
+		args		[]string
+		question	string
+		expected	string
+	}{{"stop", []string{"prefix", "foo", "bar"}, "foo.example.com.", "bar.example.com."}, {"stop", []string{"prefix", "foo.", "bar."}, "foo.example.com.", "bar.example.com."}, {"stop", []string{"suffix", "com", "org"}, "foo.example.com.", "foo.example.org."}, {"stop", []string{"suffix", ".com", ".org"}, "foo.example.com.", "foo.example.org."}}
 	for _, tc := range tests {
 		r, err := newNameRule(tc.next, tc.args...)
 		if err != nil {
 			t.Fatalf("Expected no error, got %s", err)
 		}
-
-		rw := Rewrite{
-			Next:     plugin.HandlerFunc(msgPrinter),
-			Rules:    []Rule{r},
-			noRevert: true,
-		}
-
+		rw := Rewrite{Next: plugin.HandlerFunc(msgPrinter), Rules: []Rule{r}, noRevert: true}
 		m := new(dns.Msg)
 		m.SetQuestion(tc.question, dns.TypeA)
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		_, err = rw.ServeDNS(ctx, rec, m)
 		if err != nil {
@@ -74,24 +54,14 @@ func TestRewriteNamePrefixSuffix(t *testing.T) {
 		}
 	}
 }
-
 func TestNewNameRule(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		next         string
-		args         []string
-		expectedFail bool
-	}{
-		{"stop", []string{"exact", "srv3.coredns.rocks", "srv4.coredns.rocks"}, false},
-		{"stop", []string{"srv1.coredns.rocks", "srv2.coredns.rocks"}, false},
-		{"stop", []string{"suffix", "coredns.rocks", "coredns.rocks."}, false},
-		{"stop", []string{"suffix", "coredns.rocks.", "coredns.rocks"}, false},
-		{"stop", []string{"suffix", "coredns.rocks.", "coredns.rocks."}, false},
-		{"stop", []string{"regex", "srv1.coredns.rocks", "10"}, false},
-		{"stop", []string{"regex", "(.*).coredns.rocks", "10"}, false},
-		{"stop", []string{"regex", "(.*).coredns.rocks", "{1}.coredns.rocks"}, false},
-		{"stop", []string{"regex", "(.*).coredns.rocks", "{1}.{2}.coredns.rocks"}, true},
-		{"stop", []string{"regex", "staging.mydomain.com", "aws-loadbalancer-id.us-east-1.elb.amazonaws.com"}, false},
-	}
+		next		string
+		args		[]string
+		expectedFail	bool
+	}{{"stop", []string{"exact", "srv3.coredns.rocks", "srv4.coredns.rocks"}, false}, {"stop", []string{"srv1.coredns.rocks", "srv2.coredns.rocks"}, false}, {"stop", []string{"suffix", "coredns.rocks", "coredns.rocks."}, false}, {"stop", []string{"suffix", "coredns.rocks.", "coredns.rocks"}, false}, {"stop", []string{"suffix", "coredns.rocks.", "coredns.rocks."}, false}, {"stop", []string{"regex", "srv1.coredns.rocks", "10"}, false}, {"stop", []string{"regex", "(.*).coredns.rocks", "10"}, false}, {"stop", []string{"regex", "(.*).coredns.rocks", "{1}.coredns.rocks"}, false}, {"stop", []string{"regex", "(.*).coredns.rocks", "{1}.{2}.coredns.rocks"}, true}, {"stop", []string{"regex", "staging.mydomain.com", "aws-loadbalancer-id.us-east-1.elb.amazonaws.com"}, false}}
 	for i, tc := range tests {
 		failed := false
 		rule, err := newNameRule(tc.next, tc.args...)

@@ -2,16 +2,24 @@ package dnstest
 
 import (
 	"testing"
-
 	"github.com/miekg/dns"
 )
 
 type responseWriter struct{ dns.ResponseWriter }
 
-func (r *responseWriter) WriteMsg(m *dns.Msg) error     { return nil }
-func (r *responseWriter) Write(buf []byte) (int, error) { return len(buf), nil }
-
+func (r *responseWriter) WriteMsg(m *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return nil
+}
+func (r *responseWriter) Write(buf []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(buf), nil
+}
 func TestNewRecorder(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := &responseWriter{}
 	record := NewRecorder(w)
 	if record.ResponseWriter != w {
@@ -21,14 +29,14 @@ func TestNewRecorder(t *testing.T) {
 		t.Fatalf("Expected recorded status to be dns.RcodeSuccess (%d) , but found %d\n ", dns.RcodeSuccess, record.Rcode)
 	}
 }
-
 func TestWriteMsg(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := &responseWriter{}
 	record := NewRecorder(w)
 	responseTestName := "testmsg.example.org."
 	responseTestMsg := new(dns.Msg)
 	responseTestMsg.SetQuestion(responseTestName, dns.TypeA)
-
 	record.WriteMsg(responseTestMsg)
 	if record.Len != responseTestMsg.Len() {
 		t.Fatalf("Expected the bytes written counter to be %d, but instead found %d\n", responseTestMsg.Len(), record.Len)
@@ -37,12 +45,12 @@ func TestWriteMsg(t *testing.T) {
 		t.Fatalf("Expected Msg Qname to be %s , but found %s\n", responseTestName, x)
 	}
 }
-
 func TestWrite(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := &responseWriter{}
 	record := NewRecorder(w)
 	responseTest := []byte("testmsg.example.org.")
-
 	record.Write(responseTest)
 	if record.Len != len(responseTest) {
 		t.Fatalf("Expected the bytes written counter to be %d, but instead found %d\n", len(responseTest), record.Len)

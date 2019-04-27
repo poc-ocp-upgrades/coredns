@@ -7,35 +7,28 @@ import (
 	"strings"
 )
 
-// ResponseRule contains a rule to rewrite a response with.
 type ResponseRule struct {
-	Active      bool
-	Type        string
-	Pattern     *regexp.Regexp
-	Replacement string
-	Ttl         uint32
+	Active		bool
+	Type		string
+	Pattern		*regexp.Regexp
+	Replacement	string
+	Ttl		uint32
 }
-
-// ResponseReverter reverses the operations done on the question section of a packet.
-// This is need because the client will otherwise disregards the response, i.e.
-// dig will complain with ';; Question section mismatch: got example.org/HINFO/IN'
 type ResponseReverter struct {
 	dns.ResponseWriter
-	originalQuestion dns.Question
-	ResponseRewrite  bool
-	ResponseRules    []ResponseRule
+	originalQuestion	dns.Question
+	ResponseRewrite		bool
+	ResponseRules		[]ResponseRule
 }
 
-// NewResponseReverter returns a pointer to a new ResponseReverter.
 func NewResponseReverter(w dns.ResponseWriter, r *dns.Msg) *ResponseReverter {
-	return &ResponseReverter{
-		ResponseWriter:   w,
-		originalQuestion: r.Question[0],
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &ResponseReverter{ResponseWriter: w, originalQuestion: r.Question[0]}
 }
-
-// WriteMsg records the status code and calls the underlying ResponseWriter's WriteMsg method.
 func (r *ResponseReverter) WriteMsg(res *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res.Question[0] = r.originalQuestion
 	if r.ResponseRewrite {
 		for _, rr := range res.Answer {
@@ -77,9 +70,9 @@ func (r *ResponseReverter) WriteMsg(res *dns.Msg) error {
 	}
 	return r.ResponseWriter.WriteMsg(res)
 }
-
-// Write is a wrapper that records the size of the message that gets written.
 func (r *ResponseReverter) Write(buf []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, err := r.ResponseWriter.Write(buf)
 	return n, err
 }

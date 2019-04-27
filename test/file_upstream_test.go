@@ -2,11 +2,12 @@ package test
 
 import (
 	"testing"
-
 	"github.com/miekg/dns"
 )
 
 func TestFileUpstream(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, rm, err := TempFile(".", `$ORIGIN example.org.
 @	3600 IN	SOA sns.dns.icann.org. noc.dns.icann.org. (
 		2017042745 ; serial
@@ -25,7 +26,6 @@ www 3600 IN CNAME   www.example.net.
 		t.Fatalf("Failed to create zone: %s", err)
 	}
 	defer rm()
-
 	corefile := `.:0 {
 	file ` + name + ` example.org {
 	       upstream
@@ -41,11 +41,9 @@ www 3600 IN CNAME   www.example.net.
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
 	defer i.Stop()
-
 	m := new(dns.Msg)
 	m.SetQuestion("www.example.org.", dns.TypeA)
 	m.SetEdns0(4096, true)
-
 	r, err := dns.Exchange(m, udp)
 	if err != nil {
 		t.Fatalf("Could not exchange msg: %s", err)
@@ -57,10 +55,9 @@ www 3600 IN CNAME   www.example.net.
 		t.Errorf("Failed to get address for CNAME, expected 10.0.0.1 got %s", x)
 	}
 }
-
-// TestFileUpstreamAdditional runs two CoreDNS servers that serve example.org and foo.example.org.
-// example.org contains a cname to foo.example.org; this should be resolved via upstream.Self.
 func TestFileUpstreamAdditional(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, rm, err := TempFile(".", `$ORIGIN example.org.
 @	3600 IN	SOA sns.dns.icann.org. noc.dns.icann.org. 2017042745 7200 3600 1209600 3600
 
@@ -72,7 +69,6 @@ www 3600 IN CNAME   www.foo
 		t.Fatalf("Failed to create zone: %s", err)
 	}
 	defer rm()
-
 	name2, rm2, err2 := TempFile(".", `$ORIGIN foo.example.org.
 @	3600 IN	SOA sns.dns.icann.org. noc.dns.icann.org. 2017042745 7200 3600 1209600 3600
 
@@ -84,7 +80,6 @@ www 3600 IN A   127.0.0.53
 		t.Fatalf("Failed to create zone: %s", err2)
 	}
 	defer rm2()
-
 	corefile := `.:0 {
 	file ` + name + ` example.org {
 	       upstream
@@ -99,10 +94,8 @@ www 3600 IN A   127.0.0.53
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
 	defer i.Stop()
-
 	m := new(dns.Msg)
 	m.SetQuestion("www.example.org.", dns.TypeA)
-
 	r, err := dns.Exchange(m, udp)
 	if err != nil {
 		t.Fatalf("Could not exchange msg: %s", err)

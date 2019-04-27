@@ -2,11 +2,12 @@ package test
 
 import (
 	"testing"
-
 	"github.com/miekg/dns"
 )
 
 func TestLookupAutoPathErratic(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `.:0 {
 	erratic
 	autopath @erratic
@@ -19,21 +20,14 @@ func TestLookupAutoPathErratic(t *testing.T) {
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
 	defer i.Stop()
-
 	tests := []struct {
-		qname          string
-		expectedAnswer string
-		expectedType   uint16
-	}{
-		{"google.com.a.example.org.", "google.com.a.example.org.", dns.TypeCNAME},
-		{"google.com.", "google.com.", dns.TypeA},
-	}
-
+		qname		string
+		expectedAnswer	string
+		expectedType	uint16
+	}{{"google.com.a.example.org.", "google.com.a.example.org.", dns.TypeCNAME}, {"google.com.", "google.com.", dns.TypeA}}
 	for i, tc := range tests {
 		m := new(dns.Msg)
-		// erratic always returns this search path: "a.example.org.", "b.example.org.", "".
 		m.SetQuestion(tc.qname, dns.TypeA)
-
 		r, err := dns.Exchange(m, udp)
 		if err != nil {
 			t.Fatalf("Test %d, failed to sent query: %q", i, err)
@@ -49,8 +43,9 @@ func TestLookupAutoPathErratic(t *testing.T) {
 		}
 	}
 }
-
 func TestAutoPathErraticNotLoaded(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `.:0 {
 	autopath @erratic
 	proxy . 8.8.8.8:53
@@ -61,13 +56,11 @@ func TestAutoPathErraticNotLoaded(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
-
 	udp, _ := CoreDNSServerPorts(i, 0)
 	if udp == "" {
 		t.Fatalf("Could not get UDP listening port")
 	}
 	defer i.Stop()
-
 	m := new(dns.Msg)
 	m.SetQuestion("google.com.a.example.org.", dns.TypeA)
 	r, err := dns.Exchange(m, udp)

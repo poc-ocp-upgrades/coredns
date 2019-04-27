@@ -2,12 +2,12 @@ package test
 
 import (
 	"testing"
-
 	"github.com/miekg/dns"
 )
 
-// Start 2 tests server, server A will proxy to B, server B is an CH server.
 func TestProxyToChaosServer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	corefile := `.:0 {
 	chaos CoreDNS-001 miek@miek.nl
@@ -17,9 +17,7 @@ func TestProxyToChaosServer(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
-
 	defer chaos.Stop()
-
 	corefileProxy := `.:0 {
 		proxy . ` + udpChaos + `
 }
@@ -29,19 +27,15 @@ func TestProxyToChaosServer(t *testing.T) {
 		t.Fatalf("Could not get CoreDNS serving instance")
 	}
 	defer proxy.Stop()
-
 	chaosTest(t, udpChaos)
-
 	chaosTest(t, udp)
-	// chaosTest(t, tcp, "tcp"), commented out because we use the original transport to reach the
-	// proxy and we only forward to the udp port.
 }
-
 func chaosTest(t *testing.T, server string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.Question = make([]dns.Question, 1)
 	m.Question[0] = dns.Question{Qclass: dns.ClassCHAOS, Name: "version.bind.", Qtype: dns.TypeTXT}
-
 	r, err := dns.Exchange(m, server)
 	if err != nil {
 		t.Fatalf("Could not send message: %s", err)

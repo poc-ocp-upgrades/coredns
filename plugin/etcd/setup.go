@@ -3,14 +3,12 @@ package etcd
 import (
 	"context"
 	"crypto/tls"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	clog "github.com/coredns/coredns/plugin/pkg/log"
 	mwtls "github.com/coredns/coredns/plugin/pkg/tls"
 	"github.com/coredns/coredns/plugin/pkg/upstream"
 	"github.com/coredns/coredns/plugin/proxy"
-
 	etcdcv3 "github.com/coreos/etcd/clientv3"
 	"github.com/mholt/caddy"
 )
@@ -18,47 +16,39 @@ import (
 var log = clog.NewWithPlugin("etcd")
 
 func init() {
-	caddy.RegisterPlugin("etcd", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("etcd", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e, stubzones, err := etcdParse(c)
 	if err != nil {
 		return plugin.Error("etcd", err)
 	}
-
 	if stubzones {
 		c.OnStartup(func() error {
 			e.UpdateStubZones()
 			return nil
 		})
 	}
-
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
 		e.Next = next
 		return e
 	})
-
 	return nil
 }
-
 func etcdParse(c *caddy.Controller) (*Etcd, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stub := make(map[string]proxy.Proxy)
-	etc := Etcd{
-		// Don't default to a proxy for lookups.
-		//		Proxy:      proxy.NewLookup([]string{"8.8.8.8:53", "8.8.4.4:53"}),
-		PathPrefix: "skydns",
-		Ctx:        context.Background(),
-		Stubmap:    &stub,
-	}
+	etc := Etcd{PathPrefix: "skydns", Ctx: context.Background(), Stubmap: &stub}
 	var (
-		tlsConfig *tls.Config
-		err       error
-		endpoints = []string{defaultEndpoint}
-		stubzones = false
+		tlsConfig	*tls.Config
+		err		error
+		endpoints	= []string{defaultEndpoint}
+		stubzones	= false
 	)
 	for c.Next() {
 		etc.Zones = c.RemainingArgs()
@@ -69,7 +59,6 @@ func etcdParse(c *caddy.Controller) (*Etcd, bool, error) {
 		for i, str := range etc.Zones {
 			etc.Zones[i] = plugin.Host(str).Normalize()
 		}
-
 		if c.NextBlock() {
 			for {
 				switch c.Val() {
@@ -78,7 +67,6 @@ func etcdParse(c *caddy.Controller) (*Etcd, bool, error) {
 				case "fallthrough":
 					etc.Fall.SetZonesFromArgs(c.RemainingArgs())
 				case "debug":
-					/* it is a noop now */
 				case "path":
 					if !c.NextArg() {
 						return &Etcd{}, false, c.ArgErr()
@@ -97,7 +85,7 @@ func etcdParse(c *caddy.Controller) (*Etcd, bool, error) {
 						return nil, false, err
 					}
 					etc.Upstream = u
-				case "tls": // cert key cacertfile
+				case "tls":
 					args := c.RemainingArgs()
 					tlsConfig, err = mwtls.NewTLSConfigFromArgs(args...)
 					if err != nil {
@@ -108,12 +96,10 @@ func etcdParse(c *caddy.Controller) (*Etcd, bool, error) {
 						return &Etcd{}, false, c.Errf("unknown property '%s'", c.Val())
 					}
 				}
-
 				if !c.Next() {
 					break
 				}
 			}
-
 		}
 		client, err := newEtcdClient(endpoints, tlsConfig)
 		if err != nil {
@@ -121,17 +107,14 @@ func etcdParse(c *caddy.Controller) (*Etcd, bool, error) {
 		}
 		etc.Client = client
 		etc.endpoints = endpoints
-
 		return &etc, stubzones, nil
 	}
 	return &Etcd{}, false, nil
 }
-
 func newEtcdClient(endpoints []string, cc *tls.Config) (*etcdcv3.Client, error) {
-	etcdCfg := etcdcv3.Config{
-		Endpoints: endpoints,
-		TLS:       cc,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	etcdCfg := etcdcv3.Config{Endpoints: endpoints, TLS: cc}
 	cli, err := etcdcv3.New(etcdCfg)
 	if err != nil {
 		return nil, err

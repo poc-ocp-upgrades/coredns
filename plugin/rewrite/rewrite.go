@@ -4,43 +4,33 @@ import (
 	"context"
 	"fmt"
 	"strings"
-
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
 )
 
-// Result is the result of a rewrite
 type Result int
 
 const (
-	// RewriteIgnored is returned when rewrite is not done on request.
-	RewriteIgnored Result = iota
-	// RewriteDone is returned when rewrite is done on request.
+	RewriteIgnored	Result	= iota
 	RewriteDone
 )
-
-// These are defined processing mode.
 const (
-	// Processing should stop after completing this rule
-	Stop = "stop"
-	// Processing should continue to next rule
-	Continue = "continue"
+	Stop		= "stop"
+	Continue	= "continue"
 )
 
-// Rewrite is plugin to rewrite requests internally before being handled.
 type Rewrite struct {
-	Next     plugin.Handler
-	Rules    []Rule
-	noRevert bool
+	Next		plugin.Handler
+	Rules		[]Rule
+	noRevert	bool
 }
 
-// ServeDNS implements the plugin.Handler interface.
 func (rw Rewrite) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	wr := NewResponseReverter(w, r)
 	state := request.Request{W: w, Req: r}
-
 	for _, rule := range rw.Rules {
 		switch result := rule.Rewrite(ctx, state); result {
 		case RewriteDone:
@@ -70,25 +60,24 @@ func (rw Rewrite) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg
 	}
 	return plugin.NextOrFailure(rw.Name(), rw.Next, ctx, wr, r)
 }
+func (rw Rewrite) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return "rewrite"
+}
 
-// Name implements the Handler interface.
-func (rw Rewrite) Name() string { return "rewrite" }
-
-// Rule describes a rewrite rule.
 type Rule interface {
-	// Rewrite rewrites the current request.
 	Rewrite(ctx context.Context, state request.Request) Result
-	// Mode returns the processing mode stop or continue.
 	Mode() string
-	// GetResponseRule returns the rule to rewrite response with, if any.
 	GetResponseRule() ResponseRule
 }
 
 func newRule(args ...string) (Rule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) == 0 {
 		return nil, fmt.Errorf("no rule type specified for rewrite")
 	}
-
 	arg0 := strings.ToLower(args[0])
 	var ruleType string
 	var expectNumArgs, startArg int
@@ -104,12 +93,10 @@ func newRule(args ...string) (Rule, error) {
 		expectNumArgs = len(args) - 1
 		startArg = 2
 	default:
-		// for backward compatibility
 		ruleType = arg0
 		expectNumArgs = len(args)
 		startArg = 1
 	}
-
 	switch ruleType {
 	case "answer":
 		return nil, fmt.Errorf("response rewrites must begin with a name rule")

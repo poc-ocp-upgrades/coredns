@@ -4,44 +4,22 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/pkg/transport"
 )
 
 func TestHostPortOrFile(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		in        string
-		expected  string
-		shouldErr bool
-	}{
-		{
-			"8.8.8.8",
-			"8.8.8.8:53",
-			false,
-		},
-		{
-			"8.8.8.8:153",
-			"8.8.8.8:153",
-			false,
-		},
-		{
-			"/etc/resolv.conf:53",
-			"",
-			true,
-		},
-		{
-			"resolv.conf",
-			"127.0.0.1:53",
-			false,
-		},
-	}
-
+		in		string
+		expected	string
+		shouldErr	bool
+	}{{"8.8.8.8", "8.8.8.8:53", false}, {"8.8.8.8:153", "8.8.8.8:153", false}, {"/etc/resolv.conf:53", "", true}, {"resolv.conf", "127.0.0.1:53", false}}
 	err := ioutil.WriteFile("resolv.conf", []byte("nameserver 127.0.0.1\n"), 0600)
 	if err != nil {
 		t.Fatalf("Failed to write test resolv.conf")
 	}
 	defer os.Remove("resolv.conf")
-
 	for i, tc := range tests {
 		got, err := HostPortOrFile(tc.in)
 		if err == nil && tc.shouldErr {
@@ -56,21 +34,14 @@ func TestHostPortOrFile(t *testing.T) {
 		}
 	}
 }
-
 func TestParseHostPort(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		in        string
-		expected  string
-		shouldErr bool
-	}{
-		{"8.8.8.8:53", "8.8.8.8:53", false},
-		{"a.a.a.a:153", "", true},
-		{"8.8.8.8", "8.8.8.8:53", false},
-		{"8.8.8.8:", "8.8.8.8:53", false},
-		{"8.8.8.8::53", "", true},
-		{"resolv.conf", "", true},
-	}
-
+		in		string
+		expected	string
+		shouldErr	bool
+	}{{"8.8.8.8:53", "8.8.8.8:53", false}, {"a.a.a.a:153", "", true}, {"8.8.8.8", "8.8.8.8:53", false}, {"8.8.8.8:", "8.8.8.8:53", false}, {"8.8.8.8::53", "", true}, {"resolv.conf", "", true}}
 	for i, tc := range tests {
 		got, err := HostPort(tc.in, transport.Port)
 		if err == nil && tc.shouldErr {

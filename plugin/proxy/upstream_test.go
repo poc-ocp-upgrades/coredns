@@ -4,27 +4,18 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/test"
-
 	"github.com/mholt/caddy"
 )
 
 func TestAllowedDomain(t *testing.T) {
-	upstream := &staticUpstream{
-		from:              "miek.nl.",
-		IgnoredSubDomains: []string{"download.miek.nl.", "static.miek.nl."}, // closing dot mandatory
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	upstream := &staticUpstream{from: "miek.nl.", IgnoredSubDomains: []string{"download.miek.nl.", "static.miek.nl."}}
 	tests := []struct {
-		name     string
-		expected bool
-	}{
-		{"miek.nl.", true},
-		{"download.miek.nl.", false},
-		{"static.miek.nl.", false},
-		{"blaat.miek.nl.", true},
-	}
-
+		name		string
+		expected	bool
+	}{{"miek.nl.", true}, {"download.miek.nl.", false}, {"static.miek.nl.", false}, {"blaat.miek.nl.", true}}
 	for i, test := range tests {
 		isAllowed := upstream.IsAllowedDomain(test.name)
 		if test.expected != isAllowed {
@@ -32,187 +23,77 @@ func TestAllowedDomain(t *testing.T) {
 		}
 	}
 }
-
 func TestProxyParse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rmFunc, cert, key, ca := getPEMFiles(t)
 	defer rmFunc()
-
 	grpc1 := "proxy . 8.8.8.8:53 {\n protocol grpc " + ca + "\n}"
 	grpc2 := "proxy . 8.8.8.8:53 {\n protocol grpc " + cert + " " + key + "\n}"
 	grpc3 := "proxy . 8.8.8.8:53 {\n protocol grpc " + cert + " " + key + " " + ca + "\n}"
 	grpc4 := "proxy . 8.8.8.8:53 {\n protocol grpc " + key + "\n}"
-
 	tests := []struct {
-		inputUpstreams string
-		shouldErr      bool
-	}{
-		{
-			`proxy . 8.8.8.8:53`,
-			false,
-		},
-		{
-			`proxy 10.0.0.0/24 8.8.8.8:53`,
-			false,
-		},
-		{
-			`
+		inputUpstreams	string
+		shouldErr	bool
+	}{{`proxy . 8.8.8.8:53`, false}, {`proxy 10.0.0.0/24 8.8.8.8:53`, false}, {`
 proxy . 8.8.8.8:53 {
     policy round_robin
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
     fail_timeout 5s
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
     max_fails 10
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
     health_check /health:8080
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
     except miek.nl example.org 10.0.0.0/24
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
     spray
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
     error_option
-}`,
-			true,
-		},
-		{
-			`
-proxy . some_bogus_filename`,
-			true,
-		},
-		{
-			`
+}`, true}, {`
+proxy . some_bogus_filename`, true}, {`
 proxy . 8.8.8.8:53 {
 	protocol dns
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
 	protocol grpc
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
 	protocol grpc insecure
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
 	protocol dns force_tcp
-}`,
-			false,
-		},
-		{
-			`
+}`, false}, {`
 proxy . 8.8.8.8:53 {
 	protocol grpc a b c d
-}`,
-			true,
-		},
-		{
-			grpc1,
-			false,
-		},
-		{
-			grpc2,
-			false,
-		},
-		{
-			grpc3,
-			false,
-		},
-		{
-			grpc4,
-			true,
-		},
-		{
-			`
+}`, true}, {grpc1, false}, {grpc2, false}, {grpc3, false}, {grpc4, true}, {`
 proxy . 8.8.8.8:53 {
 	protocol foobar
-}`,
-			true,
-		},
-		{
-			`proxy`,
-			true,
-		},
-		{
-			`
+}`, true}, {`proxy`, true}, {`
 proxy . 8.8.8.8:53 {
 	protocol foobar
-}`,
-			true,
-		},
-		{
-			`
+}`, true}, {`
 proxy . 8.8.8.8:53 {
 	policy
-}`,
-			true,
-		},
-		{
-			`
+}`, true}, {`
 proxy . 8.8.8.8:53 {
 	fail_timeout
-}`,
-			true,
-		},
-		{
-			`
+}`, true}, {`
 proxy . 8.8.8.8:53 {
 	fail_timeout junky
-}`,
-			true,
-		},
-		{
-			`
+}`, true}, {`
 proxy . 8.8.8.8:53 {
 	health_check
-}`,
-			true,
-		},
-		{
-			`
+}`, true}, {`
 proxy . 8.8.8.8:53 {
 	protocol dns force
-}`,
-			true,
-		},
-	}
+}`, true}}
 	for i, test := range tests {
 		c := caddy.NewTestController("dns", test.inputUpstreams)
 		_, err := NewStaticUpstreams(&c.Dispenser)
@@ -221,58 +102,38 @@ proxy . 8.8.8.8:53 {
 		}
 	}
 }
-
 func TestResolvParse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		inputUpstreams string
-		filedata       string
-		shouldErr      bool
-		expected       []string
-	}{
-		{
-			`
+		inputUpstreams	string
+		filedata	string
+		shouldErr	bool
+		expected	[]string
+	}{{`
 proxy . FILE
-`,
-			`
+`, `
 nameserver 1.2.3.4
 nameserver 4.3.2.1
-`,
-			false,
-			[]string{"1.2.3.4:53", "4.3.2.1:53"},
-		},
-		{
-			`
+`, false, []string{"1.2.3.4:53", "4.3.2.1:53"}}, {`
 proxy example.com 1.1.1.1:5000
 proxy . FILE
 proxy example.org 2.2.2.2:1234
-`,
-			`
+`, `
 nameserver 1.2.3.4
-`,
-			false,
-			[]string{"1.1.1.1:5000", "1.2.3.4:53", "2.2.2.2:1234"},
-		},
-		{
-			`
+`, false, []string{"1.1.1.1:5000", "1.2.3.4:53", "2.2.2.2:1234"}}, {`
 proxy example.com 1.1.1.1:5000
 proxy . FILE
 proxy example.org 2.2.2.2:1234
-`,
-			`
+`, `
 junky resolv.conf
-`,
-			false,
-			[]string{"1.1.1.1:5000", "2.2.2.2:1234"},
-		},
-	}
+`, false, []string{"1.1.1.1:5000", "2.2.2.2:1234"}}}
 	for i, tc := range tests {
-
 		path, rm, err := test.TempFile(".", tc.filedata)
 		if err != nil {
 			t.Fatalf("Test %d could not create temp file %v", i, err)
 		}
 		defer rm()
-
 		config := strings.Replace(tc.inputUpstreams, "FILE", path, -1)
 		c := caddy.NewTestController("dns", config)
 		upstreams, err := NewStaticUpstreams(&c.Dispenser)
@@ -302,9 +163,9 @@ junky resolv.conf
 		}
 	}
 }
-
 func TestMaxTo(t *testing.T) {
-	// Has 16 IP addresses.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := `proxy . 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1 1.1.1.1`
 	c := caddy.NewTestController("dns", config)
 	_, err := NewStaticUpstreams(&c.Dispenser)
@@ -312,16 +173,15 @@ func TestMaxTo(t *testing.T) {
 		t.Error("Expected to many TOs configured, but nil")
 	}
 }
-
 func getPEMFiles(t *testing.T) (rmFunc func(), cert, key, ca string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tempDir, rmFunc, err := test.WritePEMFiles("")
 	if err != nil {
 		t.Fatalf("Could not write PEM files: %s", err)
 	}
-
 	cert = filepath.Join(tempDir, "cert.pem")
 	key = filepath.Join(tempDir, "key.pem")
 	ca = filepath.Join(tempDir, "ca.pem")
-
 	return
 }

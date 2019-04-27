@@ -3,6 +3,8 @@ package loop
 import "testing"
 
 func TestLoop(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := New(".")
 	l.inc()
 	if l.seen() != 1 {

@@ -4,21 +4,22 @@ import (
 	"context"
 	"fmt"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/pkg/healthcheck"
 	"github.com/coredns/coredns/plugin/pkg/tls"
 	"github.com/coredns/coredns/plugin/test"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
 	"google.golang.org/grpc/grpclog"
 )
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	grpclog.SetLoggerV2(discardV2{})
 }
-
 func buildPool(size int) ([]*healthcheck.UpstreamHost, func(), error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ups := make([]*healthcheck.UpstreamHost, size)
 	srvs := []*dns.Server{}
 	errs := []error{}
@@ -46,27 +47,19 @@ func buildPool(size int) ([]*healthcheck.UpstreamHost, func(), error) {
 	}
 	return ups, stopIt, nil
 }
-
 func TestGRPCStartupShutdown(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pool, closePool, err := buildPool(2)
 	if err != nil {
 		t.Fatalf("Error creating the pool of upstream for the test : %s", err)
 	}
 	defer closePool()
-
-	upstream := &staticUpstream{
-		from: ".",
-		HealthCheck: healthcheck.HealthCheck{
-			Hosts: pool,
-		},
-	}
+	upstream := &staticUpstream{from: ".", HealthCheck: healthcheck.HealthCheck{Hosts: pool}}
 	g := newGrpcClient(nil, upstream)
 	upstream.ex = g
-
 	p := &Proxy{}
 	p.Upstreams = &[]Upstream{upstream}
-
 	err = g.OnStartup(p)
 	if err != nil {
 		t.Fatalf("Error starting grpc client exchanger: %s", err)
@@ -74,7 +67,6 @@ func TestGRPCStartupShutdown(t *testing.T) {
 	if len(g.clients) != len(pool) {
 		t.Fatalf("Expected %d grpc clients but found %d", len(pool), len(g.clients))
 	}
-
 	err = g.OnShutdown(p)
 	if err != nil {
 		t.Fatalf("Error stopping grpc client exchanger: %s", err)
@@ -86,113 +78,124 @@ func TestGRPCStartupShutdown(t *testing.T) {
 		t.Errorf("Shutdown didn't remove conns, found %d", len(g.conns))
 	}
 }
-
 func TestGRPCRunAQuery(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pool, closePool, err := buildPool(2)
 	if err != nil {
 		t.Fatalf("Error creating the pool of upstream for the test : %s", err)
 	}
 	defer closePool()
-
-	upstream := &staticUpstream{
-		from: ".",
-		HealthCheck: healthcheck.HealthCheck{
-			Hosts: pool,
-		},
-	}
+	upstream := &staticUpstream{from: ".", HealthCheck: healthcheck.HealthCheck{Hosts: pool}}
 	g := newGrpcClient(nil, upstream)
 	upstream.ex = g
-
 	p := &Proxy{}
 	p.Upstreams = &[]Upstream{upstream}
-
 	err = g.OnStartup(p)
 	if err != nil {
 		t.Fatalf("Error starting grpc client exchanger: %s", err)
 	}
-	// verify the client is usable, or an error is properly raised
 	state := request.Request{W: &test.ResponseWriter{}, Req: new(dns.Msg)}
 	g.Exchange(context.TODO(), "localhost:10053", state)
-
-	// verify that you have proper error if the hostname is unknwn or not registered
 	_, err = g.Exchange(context.TODO(), "invalid:10055", state)
 	if err == nil {
 		t.Errorf("Expecting a proper error when querying gRPC client with invalid hostname : %s", err)
 	}
-
 	err = g.OnShutdown(p)
 	if err != nil {
 		t.Fatalf("Error stopping grpc client exchanger: %s", err)
 	}
 }
-
 func TestGRPCRunAQueryOnSecureLinkWithInvalidCert(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pool, closePool, err := buildPool(1)
 	if err != nil {
 		t.Fatalf("Error creating the pool of upstream for the test : %s", err)
 	}
 	defer closePool()
-
-	upstream := &staticUpstream{
-		from: ".",
-		HealthCheck: healthcheck.HealthCheck{
-			Hosts: pool,
-		},
-	}
-
+	upstream := &staticUpstream{from: ".", HealthCheck: healthcheck.HealthCheck{Hosts: pool}}
 	filename, rmFunc, err := test.TempFile("", aCert)
 	if err != nil {
 		t.Errorf("Error saving file : %s", err)
 		return
 	}
 	defer rmFunc()
-
 	tls, _ := tls.NewTLSClientConfig(filename)
-	// ignore error as the certificate is known valid
-
 	g := newGrpcClient(tls, upstream)
 	upstream.ex = g
-
 	p := &Proxy{}
 	p.Upstreams = &[]Upstream{upstream}
-
-	// Although dial will not work, it is not expected to have an error
 	err = g.OnStartup(p)
 	if err != nil {
 		t.Fatalf("Error starting grpc client exchanger: %s", err)
 	}
-
-	// verify that you have proper error if the hostname is unknwn or not registered
 	state := request.Request{W: &test.ResponseWriter{}, Req: new(dns.Msg)}
 	_, err = g.Exchange(context.TODO(), pool[0].Name+"-whatever", state)
 	if err == nil {
 		t.Errorf("Error in Exchange process : %s ", err)
 	}
-
 	err = g.OnShutdown(p)
 	if err != nil {
 		t.Fatalf("Error stopping grpc client exchanger: %s", err)
 	}
 }
 
-// discard is a Logger that outputs nothing.
 type discardV2 struct{}
 
-func (d discardV2) Info(args ...interface{})                    {}
-func (d discardV2) Infoln(args ...interface{})                  {}
-func (d discardV2) Infof(format string, args ...interface{})    {}
-func (d discardV2) Warning(args ...interface{})                 {}
-func (d discardV2) Warningln(args ...interface{})               {}
-func (d discardV2) Warningf(format string, args ...interface{}) {}
-func (d discardV2) Error(args ...interface{})                   {}
-func (d discardV2) Errorln(args ...interface{})                 {}
-func (d discardV2) Errorf(format string, args ...interface{})   {}
-func (d discardV2) Fatal(args ...interface{})                   {}
-func (d discardV2) Fatalln(args ...interface{})                 {}
-func (d discardV2) Fatalf(format string, args ...interface{})   {}
-func (d discardV2) V(l int) bool                                { return true }
+func (d discardV2) Info(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Infoln(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Infof(format string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Warning(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Warningln(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Warningf(format string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Error(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Errorln(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Errorf(format string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Fatal(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Fatalln(args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) Fatalf(format string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (d discardV2) V(l int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return true
+}
 
 const (
 	aCert = `-----BEGIN CERTIFICATE-----

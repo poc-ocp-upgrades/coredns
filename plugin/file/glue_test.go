@@ -4,52 +4,30 @@ import (
 	"context"
 	"strings"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/test"
-
 	"github.com/miekg/dns"
 )
 
-// another personal zone (helps in testing as my secondary is NSD, atoom = atom in English.
-var atoomTestCases = []test.Case{
-	{
-		Qname: atoom, Qtype: dns.TypeNS, Do: true,
-		Answer: []dns.RR{
-			test.NS("atoom.net.		1800	IN	NS	linode.atoom.net."),
-			test.NS("atoom.net.		1800	IN	NS	ns-ext.nlnetlabs.nl."),
-			test.NS("atoom.net.		1800	IN	NS	omval.tednet.nl."),
-			test.RRSIG("atoom.net.		1800	IN	RRSIG	NS 8 2 1800 20170112031301 20161213031301 53289 atoom.net. DLe+G1 jlw="),
-		},
-		Extra: []dns.RR{
-			// test.OPT(4096, true), // added by server, not test in this unit test.
-			test.A("linode.atoom.net.	1800	IN	A	176.58.119.54"),
-			test.AAAA("linode.atoom.net.	1800	IN	AAAA	2a01:7e00::f03c:91ff:fe79:234c"),
-			test.RRSIG("linode.atoom.net.	1800	IN	RRSIG	A 8 3 1800 20170112031301 20161213031301 53289 atoom.net. Z4Ka4OLDoyxj72CL vkI="),
-			test.RRSIG("linode.atoom.net.	1800	IN	RRSIG	AAAA 8 3 1800 20170112031301 20161213031301 53289 atoom.net. l+9Qc914zFH/okG2fzJ1q olQ="),
-		},
-	},
-}
+var atoomTestCases = []test.Case{{Qname: atoom, Qtype: dns.TypeNS, Do: true, Answer: []dns.RR{test.NS("atoom.net.		1800	IN	NS	linode.atoom.net."), test.NS("atoom.net.		1800	IN	NS	ns-ext.nlnetlabs.nl."), test.NS("atoom.net.		1800	IN	NS	omval.tednet.nl."), test.RRSIG("atoom.net.		1800	IN	RRSIG	NS 8 2 1800 20170112031301 20161213031301 53289 atoom.net. DLe+G1 jlw=")}, Extra: []dns.RR{test.A("linode.atoom.net.	1800	IN	A	176.58.119.54"), test.AAAA("linode.atoom.net.	1800	IN	AAAA	2a01:7e00::f03c:91ff:fe79:234c"), test.RRSIG("linode.atoom.net.	1800	IN	RRSIG	A 8 3 1800 20170112031301 20161213031301 53289 atoom.net. Z4Ka4OLDoyxj72CL vkI="), test.RRSIG("linode.atoom.net.	1800	IN	RRSIG	AAAA 8 3 1800 20170112031301 20161213031301 53289 atoom.net. l+9Qc914zFH/okG2fzJ1q olQ=")}}}
 
 func TestLookupGlue(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbAtoomNetSigned), atoom, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expected no error when reading zone, got %q", err)
 	}
-
 	fm := File{Next: test.ErrorHandler(), Zones: Zones{Z: map[string]*Zone{atoom: zone}, Names: []string{atoom}}}
 	ctx := context.TODO()
-
 	for _, tc := range atoomTestCases {
 		m := tc.Msg()
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		_, err := fm.ServeDNS(ctx, rec, m)
 		if err != nil {
 			t.Errorf("Expected no error, got %v\n", err)
 			return
 		}
-
 		resp := rec.Msg
 		test.SortAndCheck(t, resp, tc)
 	}
@@ -248,5 +226,4 @@ linode.atoom.net.	1800	IN A	176.58.119.54
 					ipwX/AmQJNoxTScR3nHt9qDqJ044DPmiuh0l
 					NuIjguyZRANApmKCTA6AoxXIUqToIIjfVzi/
 					PxXE6T3YIPlK7Bxgv1lcCBJ1fmE= )`
-
 const atoom = "atoom.net."

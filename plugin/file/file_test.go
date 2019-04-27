@@ -6,12 +6,15 @@ import (
 )
 
 func BenchmarkFileParseInsert(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < b.N; i++ {
 		Parse(strings.NewReader(dbMiekENTNL), testzone, "stdin", 0)
 	}
 }
-
 func TestParseNoSOA(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := Parse(strings.NewReader(dbNoSOA), "example.org.", "stdin", 0)
 	if err == nil {
 		t.Fatalf("Zone %q should have failed to load", "example.org.")

@@ -1,5 +1,3 @@
-// Package pprof implement a debug endpoint for getting profiles using the
-// go pprof tooling.
 package pprof
 
 import (
@@ -9,34 +7,34 @@ import (
 )
 
 type handler struct {
-	addr string
-	ln   net.Listener
-	mux  *http.ServeMux
+	addr	string
+	ln	net.Listener
+	mux	*http.ServeMux
 }
 
 func (h *handler) Startup() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ln, err := net.Listen("tcp", h.addr)
 	if err != nil {
 		log.Errorf("Failed to start pprof handler: %s", err)
 		return err
 	}
-
 	h.ln = ln
-
 	h.mux = http.NewServeMux()
 	h.mux.HandleFunc(path+"/", pp.Index)
 	h.mux.HandleFunc(path+"/cmdline", pp.Cmdline)
 	h.mux.HandleFunc(path+"/profile", pp.Profile)
 	h.mux.HandleFunc(path+"/symbol", pp.Symbol)
 	h.mux.HandleFunc(path+"/trace", pp.Trace)
-
 	go func() {
 		http.Serve(h.ln, h.mux)
 	}()
 	return nil
 }
-
 func (h *handler) Shutdown() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if h.ln != nil {
 		return h.ln.Close()
 	}

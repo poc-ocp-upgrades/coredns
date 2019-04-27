@@ -2,11 +2,12 @@ package test
 
 import (
 	"testing"
-
 	"github.com/miekg/dns"
 )
 
 func TestTemplateUpstream(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `.:0 {
  		# CNAME
 		template IN ANY cname.example.net. {
@@ -27,12 +28,9 @@ func TestTemplateUpstream(t *testing.T) {
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
 	defer i.Stop()
-
-	// Test that an A query returns a CNAME and an A record
 	m := new(dns.Msg)
 	m.SetQuestion("cname.example.net.", dns.TypeA)
-	m.SetEdns0(4096, true) // need this?
-
+	m.SetEdns0(4096, true)
 	r, err := dns.Exchange(m, udp)
 	if err != nil {
 		t.Fatalf("Could not send msg: %s", err)
@@ -49,12 +47,9 @@ func TestTemplateUpstream(t *testing.T) {
 	if x := r.Answer[1].(*dns.A).A.String(); x != "1.2.3.4" {
 		t.Fatalf("Failed to get address for CNAME, expected 1.2.3.4 got %s", x)
 	}
-
-	// Test that a CNAME query only returns a CNAME
 	m = new(dns.Msg)
 	m.SetQuestion("cname.example.net.", dns.TypeCNAME)
-	m.SetEdns0(4096, true) // need this?
-
+	m.SetEdns0(4096, true)
 	r, err = dns.Exchange(m, udp)
 	if err != nil {
 		t.Fatalf("Could not send msg: %s", err)

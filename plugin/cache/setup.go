@@ -4,26 +4,24 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/metrics"
 	"github.com/coredns/coredns/plugin/pkg/cache"
 	clog "github.com/coredns/coredns/plugin/pkg/log"
-
 	"github.com/mholt/caddy"
 )
 
 var log = clog.NewWithPlugin("cache")
 
 func init() {
-	caddy.RegisterPlugin("cache", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("cache", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ca, err := cacheParse(c)
 	if err != nil {
 		return plugin.Error("cache", err)
@@ -32,37 +30,28 @@ func setup(c *caddy.Controller) error {
 		ca.Next = next
 		return ca
 	})
-
 	c.OnStartup(func() error {
-		metrics.MustRegister(c,
-			cacheSize, cacheHits, cacheMisses,
-			cachePrefetches, cacheDrops)
+		metrics.MustRegister(c, cacheSize, cacheHits, cacheMisses, cachePrefetches, cacheDrops)
 		return nil
 	})
-
 	return nil
 }
-
 func cacheParse(c *caddy.Controller) (*Cache, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ca := New()
-
 	j := 0
 	for c.Next() {
 		if j > 0 {
 			return nil, plugin.ErrOnce
 		}
 		j++
-
-		// cache [ttl] [zones..]
 		origins := make([]string, len(c.ServerBlockKeys))
 		copy(origins, c.ServerBlockKeys)
 		args := c.RemainingArgs()
-
 		if len(args) > 0 {
-			// first args may be just a number, then it is the ttl, if not it is a zone
 			ttl, err := strconv.Atoi(args[0])
 			if err == nil {
-				// Reserve 0 (and smaller for future things)
 				if ttl <= 0 {
 					return nil, fmt.Errorf("cache TTL can not be zero or negative: %d", ttl)
 				}
@@ -74,11 +63,8 @@ func cacheParse(c *caddy.Controller) (*Cache, error) {
 				copy(origins, args)
 			}
 		}
-
-		// Refinements? In an extra block.
 		for c.NextBlock() {
 			switch c.Val() {
-			// first number is cap, second is an new ttl
 			case Success:
 				args := c.RemainingArgs()
 				if len(args) == 0 {
@@ -94,7 +80,6 @@ func cacheParse(c *caddy.Controller) (*Cache, error) {
 					if err != nil {
 						return nil, err
 					}
-					// Reserve 0 (and smaller for future things)
 					if pttl <= 0 {
 						return nil, fmt.Errorf("cache TTL can not be zero or negative: %d", pttl)
 					}
@@ -104,7 +89,6 @@ func cacheParse(c *caddy.Controller) (*Cache, error) {
 						if err != nil {
 							return nil, err
 						}
-						// Reserve < 0
 						if minpttl < 0 {
 							return nil, fmt.Errorf("cache min TTL can not be negative: %d", minpttl)
 						}
@@ -126,7 +110,6 @@ func cacheParse(c *caddy.Controller) (*Cache, error) {
 					if err != nil {
 						return nil, err
 					}
-					// Reserve 0 (and smaller for future things)
 					if nttl <= 0 {
 						return nil, fmt.Errorf("cache TTL can not be zero or negative: %d", nttl)
 					}
@@ -136,7 +119,6 @@ func cacheParse(c *caddy.Controller) (*Cache, error) {
 						if err != nil {
 							return nil, err
 						}
-						// Reserve < 0
 						if minnttl < 0 {
 							return nil, fmt.Errorf("cache min TTL can not be negative: %d", minnttl)
 						}
@@ -156,7 +138,6 @@ func cacheParse(c *caddy.Controller) (*Cache, error) {
 					return nil, fmt.Errorf("prefetch amount should be positive: %d", amount)
 				}
 				ca.prefetch = amount
-
 				if len(args) > 1 {
 					dur, err := time.ParseDuration(args[1])
 					if err != nil {
@@ -170,7 +151,6 @@ func cacheParse(c *caddy.Controller) (*Cache, error) {
 						return nil, fmt.Errorf("last character of percentage should be `%%`, but is: %q", x)
 					}
 					pct = pct[:len(pct)-1]
-
 					num, err := strconv.Atoi(pct)
 					if err != nil {
 						return nil, err
@@ -180,20 +160,16 @@ func cacheParse(c *caddy.Controller) (*Cache, error) {
 					}
 					ca.percentage = num
 				}
-
 			default:
 				return nil, c.ArgErr()
 			}
 		}
-
 		for i := range origins {
 			origins[i] = plugin.Host(origins[i]).Normalize()
 		}
 		ca.Zones = origins
-
 		ca.pcache = cache.New(ca.pcap)
 		ca.ncache = cache.New(ca.ncap)
 	}
-
 	return ca, nil
 }

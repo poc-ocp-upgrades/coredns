@@ -4,25 +4,22 @@ import (
 	"io/ioutil"
 	"testing"
 	"time"
-
 	"github.com/coredns/coredns/plugin/file"
 	"github.com/coredns/coredns/plugin/proxy"
 	"github.com/coredns/coredns/plugin/test"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
 )
 
 func TestZoneReload(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file.TickTime = 1 * time.Second
-
 	name, rm, err := TempFile(".", exampleOrg)
 	if err != nil {
 		t.Fatalf("Failed to create zone: %s", err)
 	}
 	defer rm()
-
-	// Corefile with two stanzas
 	corefile := `example.org:0 {
        file ` + name + ` {
            reload 1s
@@ -38,10 +35,8 @@ example.net:0 {
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
 	defer i.Stop()
-
 	p := proxy.NewLookup([]string{udp})
 	state := request.Request{W: &test.ResponseWriter{}, Req: new(dns.Msg)}
-
 	resp, err := p.Lookup(state, "example.org.", dns.TypeA)
 	if err != nil {
 		t.Fatalf("Expected to receive reply, but didn't: %s", err)
@@ -49,17 +44,12 @@ example.net:0 {
 	if len(resp.Answer) != 2 {
 		t.Fatalf("Expected two RR in answer section got %d", len(resp.Answer))
 	}
-
-	// Remove RR from the Apex
 	ioutil.WriteFile(name, []byte(exampleOrgUpdated), 0644)
-
-	time.Sleep(2 * time.Second) // reload time
-
+	time.Sleep(2 * time.Second)
 	resp, err = p.Lookup(state, "example.org.", dns.TypeA)
 	if err != nil {
 		t.Fatal("Expected to receive reply, but didn't")
 	}
-
 	if len(resp.Answer) != 1 {
 		t.Fatalf("Expected two RR in answer section got %d", len(resp.Answer))
 	}

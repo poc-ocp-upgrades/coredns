@@ -1,16 +1,14 @@
-// Package parse contains functions that can be used in the setup code for plugins.
 package parse
 
 import (
 	"fmt"
-
 	"github.com/coredns/coredns/plugin/pkg/transport"
-
 	"github.com/mholt/caddy"
 )
 
-// Transfer parses transfer statements: 'transfer [to|from] [address...]'.
 func Transfer(c *caddy.Controller, secondary bool) (tos, froms []string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !c.NextArg() {
 		return nil, nil, c.ArgErr()
 	}
@@ -27,7 +25,6 @@ func Transfer(c *caddy.Controller, secondary bool) (tos, froms []string, err err
 				tos[i] = normalized
 			}
 		}
-
 	case "from":
 		if !secondary {
 			return nil, nil, fmt.Errorf("can't use `transfer from` when not being a secondary")

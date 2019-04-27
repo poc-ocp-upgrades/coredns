@@ -2,23 +2,19 @@ package dnstap
 
 import (
 	"testing"
-
 	"github.com/mholt/caddy"
 )
 
 func TestConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		file   string
-		path   string
-		full   bool
-		socket bool
-		fail   bool
-	}{
-		{"dnstap dnstap.sock full", "dnstap.sock", true, true, false},
-		{"dnstap unix://dnstap.sock", "dnstap.sock", false, true, false},
-		{"dnstap tcp://127.0.0.1:6000", "127.0.0.1:6000", false, false, false},
-		{"dnstap", "fail", false, true, true},
-	}
+		file	string
+		path	string
+		full	bool
+		socket	bool
+		fail	bool
+	}{{"dnstap dnstap.sock full", "dnstap.sock", true, true, false}, {"dnstap unix://dnstap.sock", "dnstap.sock", false, true, false}, {"dnstap tcp://127.0.0.1:6000", "127.0.0.1:6000", false, false, false}, {"dnstap", "fail", false, true, true}}
 	for _, c := range tests {
 		cad := caddy.NewTestController("dns", c.file)
 		conf, err := parseConfig(&cad.Dispenser)
@@ -26,9 +22,7 @@ func TestConfig(t *testing.T) {
 			if err == nil {
 				t.Errorf("%s: %s", c.file, err)
 			}
-		} else if err != nil || conf.target != c.path ||
-			conf.full != c.full || conf.socket != c.socket {
-
+		} else if err != nil || conf.target != c.path || conf.full != c.full || conf.socket != c.socket {
 			t.Errorf("Expected: %+v\nhave: %+v\nerror: %s\n", c, conf, err)
 		}
 	}

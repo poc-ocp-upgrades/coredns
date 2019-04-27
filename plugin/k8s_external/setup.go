@@ -2,27 +2,23 @@ package external
 
 import (
 	"strconv"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
-
 	"github.com/mholt/caddy"
 )
 
 func init() {
-	caddy.RegisterPlugin("k8s_external", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("k8s_external", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e, err := parse(c)
 	if err != nil {
 		return plugin.Error("k8s_external", err)
 	}
-
-	// Do this in OnStartup, so all plugins have been initialized.
 	c.OnStartup(func() error {
 		m := dnsserver.GetConfig(c).Handler("kubernetes")
 		if m == nil {
@@ -34,19 +30,17 @@ func setup(c *caddy.Controller) error {
 		}
 		return nil
 	})
-
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
 		e.Next = next
 		return e
 	})
-
 	return nil
 }
-
 func parse(c *caddy.Controller) (*External, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := New()
-
-	for c.Next() { // external
+	for c.Next() {
 		zones := c.RemainingArgs()
 		e.Zones = zones
 		if len(zones) == 0 {

@@ -3,53 +3,25 @@ package chaos
 import (
 	"context"
 	"testing"
-
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/test"
-
 	"github.com/miekg/dns"
 )
 
 func TestChaos(t *testing.T) {
-	em := Chaos{
-		Version: version,
-		Authors: map[string]struct{}{"Miek Gieben": struct{}{}},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	em := Chaos{Version: version, Authors: map[string]struct{}{"Miek Gieben": struct{}{}}}
 	tests := []struct {
-		next          plugin.Handler
-		qname         string
-		qtype         uint16
-		expectedCode  int
-		expectedReply string
-		expectedErr   error
-	}{
-		{
-			next:          test.NextHandler(dns.RcodeSuccess, nil),
-			qname:         "version.bind",
-			expectedCode:  dns.RcodeSuccess,
-			expectedReply: version,
-			expectedErr:   nil,
-		},
-		{
-			next:          test.NextHandler(dns.RcodeSuccess, nil),
-			qname:         "authors.bind",
-			expectedCode:  dns.RcodeSuccess,
-			expectedReply: "Miek Gieben",
-			expectedErr:   nil,
-		},
-		{
-			next:         test.NextHandler(dns.RcodeSuccess, nil),
-			qname:        "authors.bind",
-			qtype:        dns.TypeSRV,
-			expectedCode: dns.RcodeSuccess,
-			expectedErr:  nil,
-		},
-	}
-
+		next		plugin.Handler
+		qname		string
+		qtype		uint16
+		expectedCode	int
+		expectedReply	string
+		expectedErr	error
+	}{{next: test.NextHandler(dns.RcodeSuccess, nil), qname: "version.bind", expectedCode: dns.RcodeSuccess, expectedReply: version, expectedErr: nil}, {next: test.NextHandler(dns.RcodeSuccess, nil), qname: "authors.bind", expectedCode: dns.RcodeSuccess, expectedReply: "Miek Gieben", expectedErr: nil}, {next: test.NextHandler(dns.RcodeSuccess, nil), qname: "authors.bind", qtype: dns.TypeSRV, expectedCode: dns.RcodeSuccess, expectedErr: nil}}
 	ctx := context.TODO()
-
 	for i, tc := range tests {
 		req := new(dns.Msg)
 		if tc.qtype == 0 {
@@ -58,10 +30,8 @@ func TestChaos(t *testing.T) {
 		req.SetQuestion(dns.Fqdn(tc.qname), tc.qtype)
 		req.Question[0].Qclass = dns.ClassCHAOS
 		em.Next = tc.next
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		code, err := em.ServeDNS(ctx, rec, req)
-
 		if err != tc.expectedErr {
 			t.Errorf("Test %d: Expected error %v, but got %v", i, tc.expectedErr, err)
 		}

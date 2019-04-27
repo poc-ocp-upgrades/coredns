@@ -8,24 +8,17 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/dnsutil"
 	clog "github.com/coredns/coredns/plugin/pkg/log"
 	"github.com/coredns/coredns/plugin/pkg/parse"
 	"github.com/coredns/coredns/plugin/pkg/upstream"
-
 	"github.com/mholt/caddy"
 	"github.com/miekg/dns"
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	// Excluding azure because it is failing to compile
-	// pull this in here, because we want it excluded if plugin.cfg doesn't have k8s
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
-	// pull this in here, because we want it excluded if plugin.cfg doesn't have k8s
 	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
-	// pull this in here, because we want it excluded if plugin.cfg doesn't have k8s
 	_ "k8s.io/client-go/plugin/pkg/client/auth/openstack"
 	"k8s.io/client-go/tools/clientcmd"
 )
@@ -33,51 +26,38 @@ import (
 var log = clog.NewWithPlugin("kubernetes")
 
 func init() {
-	// Kubernetes plugin uses the kubernetes library, which uses glog (ugh), we must set this *flag*,
-	// so we don't log to the filesystem, which can fill up and crash CoreDNS indirectly by calling os.Exit().
-	// We also set: os.Stderr = os.Stdout in the setup function below so we output to standard out; as we do for
-	// all CoreDNS logging. We can't do *that* in the init function, because we, when starting, also barf some
-	// things to stderr.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag.Set("logtostderr", "true")
-
-	caddy.RegisterPlugin("kubernetes", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
+	caddy.RegisterPlugin("kubernetes", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
-	// See comment in the init function.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os.Stderr = os.Stdout
-
 	k, err := kubernetesParse(c)
 	if err != nil {
 		return plugin.Error("kubernetes", err)
 	}
-
 	err = k.InitKubeCache()
 	if err != nil {
 		return plugin.Error("kubernetes", err)
 	}
-
 	k.RegisterKubeCache(c)
-
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
 		k.Next = next
 		return k
 	})
-
 	return nil
 }
-
-// RegisterKubeCache registers KubeCache start and stop functions with Caddy
 func (k *Kubernetes) RegisterKubeCache(c *caddy.Controller) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.OnStartup(func() error {
 		go k.APIConn.Run()
 		if k.APIProxy != nil {
 			k.APIProxy.Run()
 		}
-
 		timeout := time.After(5 * time.Second)
 		ticker := time.NewTicker(100 * time.Millisecond)
 		for {
@@ -91,7 +71,6 @@ func (k *Kubernetes) RegisterKubeCache(c *caddy.Controller) {
 			}
 		}
 	})
-
 	c.OnShutdown(func() error {
 		if k.APIProxy != nil {
 			k.APIProxy.Stop()
@@ -99,20 +78,19 @@ func (k *Kubernetes) RegisterKubeCache(c *caddy.Controller) {
 		return k.APIConn.Stop()
 	})
 }
-
 func kubernetesParse(c *caddy.Controller) (*Kubernetes, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
-		k8s *Kubernetes
-		err error
+		k8s	*Kubernetes
+		err	error
 	)
-
 	i := 0
 	for c.Next() {
 		if i > 0 {
 			return nil, plugin.ErrOnce
 		}
 		i++
-
 		k8s, err = ParseStanza(c)
 		if err != nil {
 			return k8s, err
@@ -120,23 +98,15 @@ func kubernetesParse(c *caddy.Controller) (*Kubernetes, error) {
 	}
 	return k8s, nil
 }
-
-// ParseStanza parses a kubernetes stanza
 func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k8s := New([]string{""})
 	k8s.interfaceAddrsFunc = localPodIP
 	k8s.autoPathSearch = searchFromResolvConf()
-
-	opts := dnsControlOpts{
-		initEndpointsCache: true,
-		ignoreEmptyService: false,
-		resyncPeriod:       defaultResyncPeriod,
-	}
+	opts := dnsControlOpts{initEndpointsCache: true, ignoreEmptyService: false, resyncPeriod: defaultResyncPeriod}
 	k8s.opts = opts
-
 	zones := c.RemainingArgs()
-
 	if len(zones) != 0 {
 		k8s.Zones = zones
 		for i := 0; i < len(k8s.Zones); i++ {
@@ -148,7 +118,6 @@ func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
 			k8s.Zones[i] = plugin.Host(c.ServerBlockKeys[i]).Normalize()
 		}
 	}
-
 	k8s.primaryZoneIndex = -1
 	for i, z := range k8s.Zones {
 		if dnsutil.IsReverse(z) > 0 {
@@ -157,11 +126,9 @@ func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
 		k8s.primaryZoneIndex = i
 		break
 	}
-
 	if k8s.primaryZoneIndex == -1 {
 		return nil, errors.New("non-reverse zone name must be used")
 	}
-
 	for c.NextBlock() {
 		switch c.Val() {
 		case "endpoint_pod_names":
@@ -197,7 +164,6 @@ func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
 			if len(args) > 0 {
 				k8s.APIServerList = args
 				if len(args) > 1 {
-					// If multiple endoints specified, then only http allowed
 					for i := range args {
 						parts := strings.SplitN(args[i], "://", 2)
 						if len(parts) == 2 && parts[0] != "http" {
@@ -208,7 +174,7 @@ func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
 				continue
 			}
 			return nil, c.ArgErr()
-		case "tls": // cert key cacertfile
+		case "tls":
 			args := c.RemainingArgs()
 			if len(args) == 3 {
 				k8s.APIClientCert, k8s.APIClientKey, k8s.APICertAuth = args[0], args[1], args[2]
@@ -288,10 +254,7 @@ func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
 		case "kubeconfig":
 			args := c.RemainingArgs()
 			if len(args) == 2 {
-				config := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
-					&clientcmd.ClientConfigLoadingRules{ExplicitPath: args[0]},
-					&clientcmd.ConfigOverrides{CurrentContext: args[1]},
-				)
+				config := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(&clientcmd.ClientConfigLoadingRules{ExplicitPath: args[0]}, &clientcmd.ConfigOverrides{CurrentContext: args[1]})
 				k8s.ClientConfig = config
 				continue
 			}
@@ -300,11 +263,11 @@ func ParseStanza(c *caddy.Controller) (*Kubernetes, error) {
 			return nil, c.Errf("unknown property '%s'", c.Val())
 		}
 	}
-
 	return k8s, nil
 }
-
 func searchFromResolvConf() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rc, err := dns.ClientConfigFromFile("/etc/resolv.conf")
 	if err != nil {
 		return nil

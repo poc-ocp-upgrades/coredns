@@ -4,30 +4,26 @@ import (
 	"fmt"
 	"net"
 	"time"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/metrics"
-
 	"github.com/mholt/caddy"
 )
 
 func init() {
-	caddy.RegisterPlugin("health", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("health", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	addr, lame, err := healthParse(c)
 	if err != nil {
 		return plugin.Error("health", err)
 	}
-
 	h := newHealth(addr)
 	h.lameduck = lame
-
 	c.OnStartup(func() error {
 		plugins := dnsserver.GetConfig(c).Handlers()
 		for _, p := range plugins {
@@ -37,9 +33,7 @@ func setup(c *caddy.Controller) error {
 		}
 		return nil
 	})
-
 	c.OnStartup(func() error {
-		// Poll all middleware every second.
 		h.poll()
 		go func() {
 			for {
@@ -53,26 +47,22 @@ func setup(c *caddy.Controller) error {
 		}()
 		return nil
 	})
-
 	c.OnStartup(func() error {
 		metrics.MustRegister(c, HealthDuration)
 		return nil
 	})
-
 	c.OnStartup(h.OnStartup)
 	c.OnRestart(h.OnRestart)
 	c.OnFinalShutdown(h.OnFinalShutdown)
-
-	// Don't do AddPlugin, as health is not *really* a plugin just a separate webserver running.
 	return nil
 }
-
 func healthParse(c *caddy.Controller) (string, time.Duration, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	addr := ""
 	dur := time.Duration(0)
 	for c.Next() {
 		args := c.RemainingArgs()
-
 		switch len(args) {
 		case 0:
 		case 1:
@@ -83,7 +73,6 @@ func healthParse(c *caddy.Controller) (string, time.Duration, error) {
 		default:
 			return "", 0, c.ArgErr()
 		}
-
 		for c.NextBlock() {
 			switch c.Val() {
 			case "lameduck":

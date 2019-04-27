@@ -4,56 +4,35 @@ import (
 	"context"
 	"strings"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/test"
-
 	"github.com/miekg/dns"
 )
 
-var entTestCases = []test.Case{
-	{
-		Qname: "b.c.miek.nl.", Qtype: dns.TypeA,
-		Ns: []dns.RR{
-			test.SOA("miek.nl.	1800	IN	SOA	linode.atoom.net. miek.miek.nl. 1282630057 14400 3600 604800 14400"),
-		},
-	},
-	{
-		Qname: "b.c.miek.nl.", Qtype: dns.TypeA, Do: true,
-		Ns: []dns.RR{
-			test.NSEC("a.miek.nl.	14400	IN	NSEC	a.b.c.miek.nl. A RRSIG NSEC"),
-			test.RRSIG("a.miek.nl.	14400	IN	RRSIG	NSEC 8 3 14400 20160502144311 20160402144311 12051 miek.nl. d5XZEy6SUpq98ZKUlzqhAfkLI9pQPc="),
-			test.RRSIG("miek.nl.	1800	IN	RRSIG	SOA 8 2 1800 20160502144311 20160402144311 12051 miek.nl. KegoBxA3Tbrhlc4cEdkRiteIkOfsq"),
-			test.SOA("miek.nl.	1800	IN	SOA	linode.atoom.net. miek.miek.nl. 1282630057 14400 3600 604800 14400"),
-		},
-	},
-}
+var entTestCases = []test.Case{{Qname: "b.c.miek.nl.", Qtype: dns.TypeA, Ns: []dns.RR{test.SOA("miek.nl.	1800	IN	SOA	linode.atoom.net. miek.miek.nl. 1282630057 14400 3600 604800 14400")}}, {Qname: "b.c.miek.nl.", Qtype: dns.TypeA, Do: true, Ns: []dns.RR{test.NSEC("a.miek.nl.	14400	IN	NSEC	a.b.c.miek.nl. A RRSIG NSEC"), test.RRSIG("a.miek.nl.	14400	IN	RRSIG	NSEC 8 3 14400 20160502144311 20160402144311 12051 miek.nl. d5XZEy6SUpq98ZKUlzqhAfkLI9pQPc="), test.RRSIG("miek.nl.	1800	IN	RRSIG	SOA 8 2 1800 20160502144311 20160402144311 12051 miek.nl. KegoBxA3Tbrhlc4cEdkRiteIkOfsq"), test.SOA("miek.nl.	1800	IN	SOA	linode.atoom.net. miek.miek.nl. 1282630057 14400 3600 604800 14400")}}}
 
 func TestLookupEnt(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbMiekENTNL), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expect no error when reading zone, got %q", err)
 	}
-
 	fm := File{Next: test.ErrorHandler(), Zones: Zones{Z: map[string]*Zone{testzone: zone}, Names: []string{testzone}}}
 	ctx := context.TODO()
-
 	for _, tc := range entTestCases {
 		m := tc.Msg()
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		_, err := fm.ServeDNS(ctx, rec, m)
 		if err != nil {
 			t.Errorf("Expected no error, got %v\n", err)
 			return
 		}
-
 		resp := rec.Msg
 		test.SortAndCheck(t, resp, tc)
 	}
 }
 
-// fdjfdjkf
 const dbMiekENTNL = `; File written on Sat Apr  2 16:43:11 2016
 ; dnssec_signzone version 9.10.3-P4-Ubuntu
 miek.nl.		1800	IN SOA	linode.atoom.net. miek.miek.nl. (

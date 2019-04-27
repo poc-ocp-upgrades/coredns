@@ -5,6 +5,8 @@ import (
 )
 
 func watchables(zones map[string]*Config) []watch.Watchable {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var w []watch.Watchable
 	for _, config := range zones {
 		plugins := config.Handlers()

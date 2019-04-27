@@ -3,49 +3,28 @@ package whoami
 import (
 	"context"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/test"
-
 	"github.com/miekg/dns"
 )
 
 func TestWhoami(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	wh := Whoami{}
-
 	tests := []struct {
-		qname         string
-		qtype         uint16
-		expectedCode  int
-		expectedReply []string // ownernames for the records in the additional section.
-		expectedErr   error
-	}{
-		{
-			qname:         "example.org",
-			qtype:         dns.TypeA,
-			expectedCode:  dns.RcodeSuccess,
-			expectedReply: []string{"example.org.", "_udp.example.org."},
-			expectedErr:   nil,
-		},
-		// Case insensitive and case preserving
-		{
-			qname:         "Example.ORG",
-			qtype:         dns.TypeA,
-			expectedCode:  dns.RcodeSuccess,
-			expectedReply: []string{"Example.ORG.", "_udp.Example.ORG."},
-			expectedErr:   nil,
-		},
-	}
-
+		qname		string
+		qtype		uint16
+		expectedCode	int
+		expectedReply	[]string
+		expectedErr	error
+	}{{qname: "example.org", qtype: dns.TypeA, expectedCode: dns.RcodeSuccess, expectedReply: []string{"example.org.", "_udp.example.org."}, expectedErr: nil}, {qname: "Example.ORG", qtype: dns.TypeA, expectedCode: dns.RcodeSuccess, expectedReply: []string{"Example.ORG.", "_udp.Example.ORG."}, expectedErr: nil}}
 	ctx := context.TODO()
-
 	for i, tc := range tests {
 		req := new(dns.Msg)
 		req.SetQuestion(dns.Fqdn(tc.qname), tc.qtype)
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		code, err := wh.ServeDNS(ctx, rec, req)
-
 		if err != tc.expectedErr {
 			t.Errorf("Test %d: Expected error %v, but got %v", i, tc.expectedErr, err)
 		}

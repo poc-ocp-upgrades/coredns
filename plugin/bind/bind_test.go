@@ -2,25 +2,18 @@ package bind
 
 import (
 	"testing"
-
 	"github.com/coredns/coredns/core/dnsserver"
-
 	"github.com/mholt/caddy"
 )
 
 func TestSetup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, test := range []struct {
-		config   string
-		expected []string
-		failing  bool
-	}{
-		{`bind 1.2.3.4`, []string{"1.2.3.4"}, false},
-		{`bind`, nil, true},
-		{`bind 1.2.3.invalid`, nil, true},
-		{`bind 1.2.3.4 ::5`, []string{"1.2.3.4", "::5"}, false},
-		{`bind ::1 1.2.3.4 ::5 127.9.9.0`, []string{"::1", "1.2.3.4", "::5", "127.9.9.0"}, false},
-		{`bind ::1 1.2.3.4 ::5 127.9.9.0 noone`, nil, true},
-	} {
+		config		string
+		expected	[]string
+		failing		bool
+	}{{`bind 1.2.3.4`, []string{"1.2.3.4"}, false}, {`bind`, nil, true}, {`bind 1.2.3.invalid`, nil, true}, {`bind 1.2.3.4 ::5`, []string{"1.2.3.4", "::5"}, false}, {`bind ::1 1.2.3.4 ::5 127.9.9.0`, []string{"::1", "1.2.3.4", "::5", "127.9.9.0"}, false}, {`bind ::1 1.2.3.4 ::5 127.9.9.0 noone`, nil, true}} {
 		c := caddy.NewTestController("dns", test.config)
 		err := setup(c)
 		if err != nil {

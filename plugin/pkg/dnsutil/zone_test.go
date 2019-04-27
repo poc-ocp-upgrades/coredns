@@ -3,24 +3,18 @@ package dnsutil
 import (
 	"errors"
 	"testing"
-
 	"github.com/miekg/dns"
 )
 
 func TestTrimZone(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		qname    string
-		zone     string
-		expected string
-		err      error
-	}{
-		{"a.example.org", "example.org", "a", nil},
-		{"a.b.example.org", "example.org", "a.b", nil},
-		{"b.", ".", "b", nil},
-		{"example.org", "example.org", "", errors.New("should err")},
-		{"org", "example.org", "", errors.New("should err")},
-	}
-
+		qname		string
+		zone		string
+		expected	string
+		err		error
+	}{{"a.example.org", "example.org", "a", nil}, {"a.b.example.org", "example.org", "a.b", nil}, {"b.", ".", "b", nil}, {"example.org", "example.org", "", errors.New("should err")}, {"org", "example.org", "", errors.New("should err")}}
 	for i, tc := range tests {
 		got, err := TrimZone(dns.Fqdn(tc.qname), dns.Fqdn(tc.zone))
 		if tc.err != nil && err == nil {

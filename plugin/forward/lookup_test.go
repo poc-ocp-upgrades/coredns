@@ -2,16 +2,16 @@ package forward
 
 import (
 	"testing"
-
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/pkg/transport"
 	"github.com/coredns/coredns/plugin/test"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
 )
 
 func TestLookup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := dnstest.NewServer(func(w dns.ResponseWriter, r *dns.Msg) {
 		ret := new(dns.Msg)
 		ret.SetReply(r)
@@ -19,18 +19,15 @@ func TestLookup(t *testing.T) {
 		w.WriteMsg(ret)
 	})
 	defer s.Close()
-
 	p := NewProxy(s.Addr, transport.DNS)
 	f := New()
 	f.SetProxy(p)
 	defer f.Close()
-
 	state := request.Request{W: &test.ResponseWriter{}, Req: new(dns.Msg)}
 	resp, err := f.Lookup(state, "example.org.", dns.TypeA)
 	if err != nil {
 		t.Fatal("Expected to receive reply, but didn't")
 	}
-	// expect answer section with A record in it
 	if len(resp.Answer) == 0 {
 		t.Fatalf("Expected to at least one RR in the answer section, got none: %s", resp)
 	}

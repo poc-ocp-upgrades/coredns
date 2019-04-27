@@ -2,76 +2,37 @@ package hosts
 
 import (
 	"testing"
-
 	"github.com/coredns/coredns/plugin/pkg/fall"
-
 	"github.com/mholt/caddy"
 )
 
 func TestHostsParse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		inputFileRules      string
-		shouldErr           bool
-		expectedPath        string
-		expectedOrigins     []string
-		expectedFallthrough fall.F
-	}{
-		{
-			`hosts
-`,
-			false, "/etc/hosts", nil, fall.Zero,
-		},
-		{
-			`hosts /tmp`,
-			false, "/tmp", nil, fall.Zero,
-		},
-		{
-			`hosts /etc/hosts miek.nl.`,
-			false, "/etc/hosts", []string{"miek.nl."}, fall.Zero,
-		},
-		{
-			`hosts /etc/hosts miek.nl. pun.gent.`,
-			false, "/etc/hosts", []string{"miek.nl.", "pun.gent."}, fall.Zero,
-		},
-		{
-			`hosts {
+		inputFileRules		string
+		shouldErr		bool
+		expectedPath		string
+		expectedOrigins		[]string
+		expectedFallthrough	fall.F
+	}{{`hosts
+`, false, "/etc/hosts", nil, fall.Zero}, {`hosts /tmp`, false, "/tmp", nil, fall.Zero}, {`hosts /etc/hosts miek.nl.`, false, "/etc/hosts", []string{"miek.nl."}, fall.Zero}, {`hosts /etc/hosts miek.nl. pun.gent.`, false, "/etc/hosts", []string{"miek.nl.", "pun.gent."}, fall.Zero}, {`hosts {
 				fallthrough
-			}`,
-			false, "/etc/hosts", nil, fall.Root,
-		},
-		{
-			`hosts /tmp {
+			}`, false, "/etc/hosts", nil, fall.Root}, {`hosts /tmp {
 				fallthrough
-			}`,
-			false, "/tmp", nil, fall.Root,
-		},
-		{
-			`hosts /etc/hosts miek.nl. {
+			}`, false, "/tmp", nil, fall.Root}, {`hosts /etc/hosts miek.nl. {
 				fallthrough
-			}`,
-			false, "/etc/hosts", []string{"miek.nl."}, fall.Root,
-		},
-		{
-			`hosts /etc/hosts miek.nl 10.0.0.9/8 {
+			}`, false, "/etc/hosts", []string{"miek.nl."}, fall.Root}, {`hosts /etc/hosts miek.nl 10.0.0.9/8 {
 				fallthrough
-			}`,
-			false, "/etc/hosts", []string{"miek.nl.", "10.in-addr.arpa."}, fall.Root,
-		},
-		{
-			`hosts /etc/hosts {
+			}`, false, "/etc/hosts", []string{"miek.nl.", "10.in-addr.arpa."}, fall.Root}, {`hosts /etc/hosts {
 				fallthrough
 			}
 			hosts /etc/hosts {
 				fallthrough
-			}`,
-			true, "/etc/hosts", nil, fall.Root,
-		},
-	}
-
+			}`, true, "/etc/hosts", nil, fall.Root}}
 	for i, test := range tests {
 		c := caddy.NewTestController("dns", test.inputFileRules)
 		h, err := hostsParse(c)
-
 		if err == nil && test.shouldErr {
 			t.Fatalf("Test %d expected errors, but got no error", i)
 		} else if err != nil && !test.shouldErr {
@@ -95,50 +56,23 @@ func TestHostsParse(t *testing.T) {
 		}
 	}
 }
-
 func TestHostsInlineParse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		inputFileRules      string
-		shouldErr           bool
-		expectedbyAddr      map[string][]string
-		expectedFallthrough fall.F
-	}{
-		{
-			`hosts highly_unlikely_to_exist_hosts_file example.org {
+		inputFileRules		string
+		shouldErr		bool
+		expectedbyAddr		map[string][]string
+		expectedFallthrough	fall.F
+	}{{`hosts highly_unlikely_to_exist_hosts_file example.org {
                                 10.0.0.1 example.org
                                 fallthrough
-                        }`,
-			false,
-			map[string][]string{
-				`10.0.0.1`: {
-					`example.org.`,
-				},
-			},
-			fall.Root,
-		},
-		{
-			`hosts highly_unlikely_to_exist_hosts_file example.org {
+                        }`, false, map[string][]string{`10.0.0.1`: {`example.org.`}}, fall.Root}, {`hosts highly_unlikely_to_exist_hosts_file example.org {
 			                                10.0.0.1 example.org
-			                        }`,
-			false,
-			map[string][]string{
-				`10.0.0.1`: {
-					`example.org.`,
-				},
-			},
-			fall.Zero,
-		},
-		{
-			`hosts highly_unlikely_to_exist_hosts_file example.org {
+			                        }`, false, map[string][]string{`10.0.0.1`: {`example.org.`}}, fall.Zero}, {`hosts highly_unlikely_to_exist_hosts_file example.org {
 			                                fallthrough
 			                                10.0.0.1 example.org
-			                        }`,
-			true,
-			map[string][]string{},
-			fall.Root,
-		},
-	}
-
+			                        }`, true, map[string][]string{}, fall.Root}}
 	for i, test := range tests {
 		c := caddy.NewTestController("dns", test.inputFileRules)
 		h, err := hostsParse(c)
@@ -166,5 +100,4 @@ func TestHostsInlineParse(t *testing.T) {
 			}
 		}
 	}
-
 }

@@ -2,44 +2,37 @@ package test
 
 import (
 	"testing"
-
 	"github.com/coredns/coredns/plugin/proxy"
 	"github.com/coredns/coredns/plugin/test"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
 )
 
 func TestLookupWildcard(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	name, rm, err := test.TempFile(".", exampleOrg)
 	if err != nil {
 		t.Fatalf("Failed to create zone: %s", err)
 	}
 	defer rm()
-
 	corefile := `example.org:0 {
        file ` + name + `
 }
 `
-
 	i, udp, _, err := CoreDNSServerAndPorts(corefile)
 	if err != nil {
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
 	defer i.Stop()
-
 	p := proxy.NewLookup([]string{udp})
 	state := request.Request{W: &test.ResponseWriter{}, Req: new(dns.Msg)}
-
 	for _, lookup := range []string{"a.w.example.org.", "a.a.w.example.org."} {
 		resp, err := p.Lookup(state, lookup, dns.TypeTXT)
 		if err != nil || resp == nil {
 			t.Fatalf("Expected to receive reply, but didn't for %s", lookup)
 		}
-
-		// ;; ANSWER SECTION:
-		// a.w.example.org.          1800    IN      TXT     "Wildcard"
 		if resp.Rcode != dns.RcodeSuccess {
 			t.Errorf("Expected NOERROR RCODE, got %s for %s", dns.RcodeToString[resp.Rcode], lookup)
 			continue
@@ -62,15 +55,11 @@ func TestLookupWildcard(t *testing.T) {
 			continue
 		}
 	}
-
 	for _, lookup := range []string{"w.example.org.", "a.w.example.org.", "a.a.w.example.org."} {
 		resp, err := p.Lookup(state, lookup, dns.TypeSRV)
 		if err != nil || resp == nil {
 			t.Fatal("Expected to receive reply, but didn't", lookup)
 		}
-
-		// ;; AUTHORITY SECTION:
-		// example.org.              1800    IN      SOA     linode.atoom.net. miek.miek.nl. 1454960557 14400 3600 604800 14400
 		if resp.Rcode != dns.RcodeSuccess {
 			t.Errorf("Expected NOERROR RCODE, got %s for %s", dns.RcodeToString[resp.Rcode], lookup)
 			continue
@@ -88,5 +77,4 @@ func TestLookupWildcard(t *testing.T) {
 			continue
 		}
 	}
-
 }

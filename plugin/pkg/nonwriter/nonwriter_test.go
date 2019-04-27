@@ -2,11 +2,12 @@ package nonwriter
 
 import (
 	"testing"
-
 	"github.com/miekg/dns"
 )
 
 func TestNonWriter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nw := New(nil)
 	m := new(dns.Msg)
 	m.SetQuestion("example.org.", dns.TypeA)

@@ -3,27 +3,20 @@ package federation
 import (
 	"context"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/kubernetes"
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/test"
-
 	"github.com/miekg/dns"
 )
 
 func TestIsNameFederation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		fed          string
-		qname        string
-		expectedZone string
-	}{
-		{"prod", "nginx.mynamespace.prod.svc.example.com.", "nginx.mynamespace.svc.example.com."},
-		{"prod", "nginx.mynamespace.staging.svc.example.com.", ""},
-		{"prod", "nginx.mynamespace.example.com.", ""},
-		{"prod", "example.com.", ""},
-		{"prod", "com.", ""},
-	}
-
+		fed		string
+		qname		string
+		expectedZone	string
+	}{{"prod", "nginx.mynamespace.prod.svc.example.com.", "nginx.mynamespace.svc.example.com."}, {"prod", "nginx.mynamespace.staging.svc.example.com.", ""}, {"prod", "nginx.mynamespace.example.com.", ""}, {"prod", "example.com.", ""}, {"prod", "com.", ""}}
 	fed := New()
 	for i, tc := range tests {
 		fed.f[tc.fed] = "test-name"
@@ -32,81 +25,44 @@ func TestIsNameFederation(t *testing.T) {
 		}
 	}
 }
-
 func TestFederationKubernetes(t *testing.T) {
-	tests := []test.Case{
-		{
-			// service exists so we return the IP address associated with it.
-			Qname: "svc1.testns.prod.svc.cluster.local.", Qtype: dns.TypeA,
-			Rcode: dns.RcodeSuccess,
-			Answer: []dns.RR{
-				test.A("svc1.testns.prod.svc.cluster.local.      303       IN      A       10.0.0.1"),
-			},
-		},
-		{
-			// service does not exist, do the federation dance.
-			Qname: "svc0.testns.prod.svc.cluster.local.", Qtype: dns.TypeA,
-			Rcode: dns.RcodeSuccess,
-			Answer: []dns.RR{
-				test.CNAME("svc0.testns.prod.svc.cluster.local.  303       IN      CNAME   svc0.testns.prod.svc.fd-az.fd-r.federal.example."),
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	tests := []test.Case{{Qname: "svc1.testns.prod.svc.cluster.local.", Qtype: dns.TypeA, Rcode: dns.RcodeSuccess, Answer: []dns.RR{test.A("svc1.testns.prod.svc.cluster.local.      303       IN      A       10.0.0.1")}}, {Qname: "svc0.testns.prod.svc.cluster.local.", Qtype: dns.TypeA, Rcode: dns.RcodeSuccess, Answer: []dns.RR{test.CNAME("svc0.testns.prod.svc.cluster.local.  303       IN      CNAME   svc0.testns.prod.svc.fd-az.fd-r.federal.example.")}}}
 	k := kubernetes.New([]string{"cluster.local."})
 	k.APIConn = &APIConnFederationTest{zone: "fd-az", region: "fd-r"}
-
 	fed := New()
 	fed.zones = []string{"cluster.local."}
 	fed.Federations = k.Federations
 	fed.Next = k
-	fed.f = map[string]string{
-		"prod": "federal.example.",
-	}
-
+	fed.f = map[string]string{"prod": "federal.example."}
 	ctx := context.TODO()
 	for i, tc := range tests {
 		m := tc.Msg()
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		_, err := fed.ServeDNS(ctx, rec, m)
 		if err != nil {
 			t.Errorf("Test %d, expected no error, got %v\n", i, err)
 			return
 		}
-
 		resp := rec.Msg
 		test.SortAndCheck(t, resp, tc)
 	}
 }
-
 func TestFederationKubernetesMissingLabels(t *testing.T) {
-	tests := []test.Case{
-		{
-			// service does not exist, do the federation dance.
-			Qname: "svc0.testns.prod.svc.cluster.local.", Qtype: dns.TypeA,
-			Rcode: dns.RcodeSuccess,
-			Answer: []dns.RR{
-				test.CNAME("svc0.testns.prod.svc.cluster.local.  303       IN      CNAME   svc0.testns.prod.svc.fd-az.fd-r.federal.example."),
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	tests := []test.Case{{Qname: "svc0.testns.prod.svc.cluster.local.", Qtype: dns.TypeA, Rcode: dns.RcodeSuccess, Answer: []dns.RR{test.CNAME("svc0.testns.prod.svc.cluster.local.  303       IN      CNAME   svc0.testns.prod.svc.fd-az.fd-r.federal.example.")}}}
 	k := kubernetes.New([]string{"cluster.local."})
 	k.APIConn = &APIConnFederationTest{zone: "", region: ""}
-
 	fed := New()
 	fed.zones = []string{"cluster.local."}
 	fed.Federations = k.Federations
 	fed.Next = k
-	fed.f = map[string]string{
-		"prod": "federal.example.",
-	}
-
+	fed.f = map[string]string{"prod": "federal.example."}
 	ctx := context.TODO()
 	for _, tc := range tests {
 		m := tc.Msg()
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		_, err := fed.ServeDNS(ctx, rec, m)
 		if err == nil {

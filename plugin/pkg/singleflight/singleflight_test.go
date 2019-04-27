@@ -1,19 +1,3 @@
-/*
-Copyright 2012 Google Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package singleflight
 
 import (
@@ -26,6 +10,8 @@ import (
 )
 
 func TestDo(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var g Group
 	v, err := g.Do(1, func() (interface{}, error) {
 		return "bar", nil
@@ -37,8 +23,9 @@ func TestDo(t *testing.T) {
 		t.Errorf("Do error = %v", err)
 	}
 }
-
 func TestDoErr(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var g Group
 	someErr := errors.New("Some error")
 	v, err := g.Do(1, func() (interface{}, error) {
@@ -51,8 +38,9 @@ func TestDoErr(t *testing.T) {
 		t.Errorf("Unexpected non-nil value %#v", v)
 	}
 }
-
 func TestDoDupSuppress(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var g Group
 	c := make(chan string)
 	var calls int32
@@ -60,7 +48,6 @@ func TestDoDupSuppress(t *testing.T) {
 		atomic.AddInt32(&calls, 1)
 		return <-c, nil
 	}
-
 	const n = 10
 	var wg sync.WaitGroup
 	for i := 0; i < n; i++ {
@@ -76,7 +63,7 @@ func TestDoDupSuppress(t *testing.T) {
 			wg.Done()
 		}()
 	}
-	time.Sleep(100 * time.Millisecond) // let goroutines above block
+	time.Sleep(100 * time.Millisecond)
 	c <- "bar"
 	wg.Wait()
 	if got := atomic.LoadInt32(&calls); got != 1 {

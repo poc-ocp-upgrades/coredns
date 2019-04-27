@@ -2,41 +2,32 @@ package federation
 
 import (
 	"testing"
-
 	"github.com/mholt/caddy"
 )
 
 func TestSetup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		input            string
-		shouldErr        bool
-		expectedLen      int
-		expectedNameZone []string // contains only entry for now
-	}{
-		// ok
-		{`federation {
+		input			string
+		shouldErr		bool
+		expectedLen		int
+		expectedNameZone	[]string
+	}{{`federation {
 			prod prod.example.org
-		}`, false, 1, []string{"prod", "prod.example.org."}},
-
-		{`federation {
+		}`, false, 1, []string{"prod", "prod.example.org."}}, {`federation {
 			staging staging.example.org
 			prod prod.example.org
-		}`, false, 2, []string{"prod", "prod.example.org."}},
-		{`federation {
+		}`, false, 2, []string{"prod", "prod.example.org."}}, {`federation {
 			staging staging.example.org
 			prod prod.example.org
-		}`, false, 2, []string{"staging", "staging.example.org."}},
-		{`federation example.com {
+		}`, false, 2, []string{"staging", "staging.example.org."}}, {`federation example.com {
 			staging staging.example.org
 			prod prod.example.org
-		}`, false, 2, []string{"staging", "staging.example.org."}},
-		// errors
-		{`federation {
-		}`, true, 0, []string{}},
-		{`federation {
+		}`, false, 2, []string{"staging", "staging.example.org."}}, {`federation {
+		}`, true, 0, []string{}}, {`federation {
 			staging
-		}`, true, 0, []string{}},
-	}
+		}`, true, 0, []string{}}}
 	for i, test := range tests {
 		c := caddy.NewTestController("dns", test.input)
 		fed, err := federationParse(c)
@@ -50,7 +41,6 @@ func TestSetup(t *testing.T) {
 		if test.shouldErr && err != nil {
 			continue
 		}
-
 		if x := len(fed.f); x != test.expectedLen {
 			t.Errorf("Test %v: Expected map length of %d, got: %d", i, test.expectedLen, x)
 		}

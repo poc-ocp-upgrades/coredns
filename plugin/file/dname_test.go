@@ -4,159 +4,76 @@ import (
 	"context"
 	"strings"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/test"
-
 	"github.com/miekg/dns"
 )
 
-// RFC 6672, Section 2.2. Assuming QTYPE != DNAME.
 var dnameSubstitutionTestCases = []struct {
-	qname    string
-	owner    string
-	target   string
-	expected string
-}{
-	{"com.", "example.com.", "example.net.", ""},
-	{"example.com.", "example.com.", "example.net.", ""},
-	{"a.example.com.", "example.com.", "example.net.", "a.example.net."},
-	{"a.b.example.com.", "example.com.", "example.net.", "a.b.example.net."},
-	{"ab.example.com.", "b.example.com.", "example.net.", ""},
-	{"foo.example.com.", "example.com.", "example.net.", "foo.example.net."},
-	{"a.x.example.com.", "x.example.com.", "example.net.", "a.example.net."},
-	{"a.example.com.", "example.com.", "y.example.net.", "a.y.example.net."},
-	{"cyc.example.com.", "example.com.", "example.com.", "cyc.example.com."},
-	{"cyc.example.com.", "example.com.", "c.example.com.", "cyc.c.example.com."},
-	{"shortloop.x.x.", "x.", ".", "shortloop.x."},
-	{"shortloop.x.", "x.", ".", "shortloop."},
-}
+	qname		string
+	owner		string
+	target		string
+	expected	string
+}{{"com.", "example.com.", "example.net.", ""}, {"example.com.", "example.com.", "example.net.", ""}, {"a.example.com.", "example.com.", "example.net.", "a.example.net."}, {"a.b.example.com.", "example.com.", "example.net.", "a.b.example.net."}, {"ab.example.com.", "b.example.com.", "example.net.", ""}, {"foo.example.com.", "example.com.", "example.net.", "foo.example.net."}, {"a.x.example.com.", "x.example.com.", "example.net.", "a.example.net."}, {"a.example.com.", "example.com.", "y.example.net.", "a.y.example.net."}, {"cyc.example.com.", "example.com.", "example.com.", "cyc.example.com."}, {"cyc.example.com.", "example.com.", "c.example.com.", "cyc.c.example.com."}, {"shortloop.x.x.", "x.", ".", "shortloop.x."}, {"shortloop.x.", "x.", ".", "shortloop."}}
 
 func TestDNAMESubstitution(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, tc := range dnameSubstitutionTestCases {
 		result := substituteDNAME(tc.qname, tc.owner, tc.target)
 		if result != tc.expected {
 			if result == "" {
 				result = "<no match>"
 			}
-
 			t.Errorf("Case %d: Expected %s -> %s, got %v", i, tc.qname, tc.expected, result)
 			return
 		}
 	}
 }
 
-var dnameTestCases = []test.Case{
-	{
-		Qname: "dname.miek.nl.", Qtype: dns.TypeDNAME,
-		Answer: []dns.RR{
-			test.DNAME("dname.miek.nl.	1800	IN	DNAME	test.miek.nl."),
-		},
-		Ns: miekAuth,
-	},
-	{
-		Qname: "dname.miek.nl.", Qtype: dns.TypeA,
-		Answer: []dns.RR{
-			test.A("dname.miek.nl.	1800	IN	A	127.0.0.1"),
-		},
-		Ns: miekAuth,
-	},
-	{
-		Qname: "dname.miek.nl.", Qtype: dns.TypeMX,
-		Answer: []dns.RR{},
-		Ns: []dns.RR{
-			test.SOA("miek.nl.	1800	IN	SOA	linode.atoom.net. miek.miek.nl. 1282630057 14400 3600 604800 14400"),
-		},
-	},
-	{
-		Qname: "a.dname.miek.nl.", Qtype: dns.TypeA,
-		Answer: []dns.RR{
-			test.CNAME("a.dname.miek.nl.	1800	IN	CNAME	a.test.miek.nl."),
-			test.A("a.test.miek.nl.	1800	IN	A	139.162.196.78"),
-			test.DNAME("dname.miek.nl.	1800	IN	DNAME	test.miek.nl."),
-		},
-		Ns: miekAuth,
-	},
-	{
-		Qname: "www.dname.miek.nl.", Qtype: dns.TypeA,
-		Answer: []dns.RR{
-			test.A("a.test.miek.nl.	1800	IN	A	139.162.196.78"),
-			test.DNAME("dname.miek.nl.	1800	IN	DNAME	test.miek.nl."),
-			test.CNAME("www.dname.miek.nl.	1800	IN	CNAME	www.test.miek.nl."),
-			test.CNAME("www.test.miek.nl.	1800	IN	CNAME	a.test.miek.nl."),
-		},
-		Ns: miekAuth,
-	},
-}
+var dnameTestCases = []test.Case{{Qname: "dname.miek.nl.", Qtype: dns.TypeDNAME, Answer: []dns.RR{test.DNAME("dname.miek.nl.	1800	IN	DNAME	test.miek.nl.")}, Ns: miekAuth}, {Qname: "dname.miek.nl.", Qtype: dns.TypeA, Answer: []dns.RR{test.A("dname.miek.nl.	1800	IN	A	127.0.0.1")}, Ns: miekAuth}, {Qname: "dname.miek.nl.", Qtype: dns.TypeMX, Answer: []dns.RR{}, Ns: []dns.RR{test.SOA("miek.nl.	1800	IN	SOA	linode.atoom.net. miek.miek.nl. 1282630057 14400 3600 604800 14400")}}, {Qname: "a.dname.miek.nl.", Qtype: dns.TypeA, Answer: []dns.RR{test.CNAME("a.dname.miek.nl.	1800	IN	CNAME	a.test.miek.nl."), test.A("a.test.miek.nl.	1800	IN	A	139.162.196.78"), test.DNAME("dname.miek.nl.	1800	IN	DNAME	test.miek.nl.")}, Ns: miekAuth}, {Qname: "www.dname.miek.nl.", Qtype: dns.TypeA, Answer: []dns.RR{test.A("a.test.miek.nl.	1800	IN	A	139.162.196.78"), test.DNAME("dname.miek.nl.	1800	IN	DNAME	test.miek.nl."), test.CNAME("www.dname.miek.nl.	1800	IN	CNAME	www.test.miek.nl."), test.CNAME("www.test.miek.nl.	1800	IN	CNAME	a.test.miek.nl.")}, Ns: miekAuth}}
 
 func TestLookupDNAME(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbMiekNLDNAME), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expect no error when reading zone, got %q", err)
 	}
-
 	fm := File{Next: test.ErrorHandler(), Zones: Zones{Z: map[string]*Zone{testzone: zone}, Names: []string{testzone}}}
 	ctx := context.TODO()
-
 	for _, tc := range dnameTestCases {
 		m := tc.Msg()
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		_, err := fm.ServeDNS(ctx, rec, m)
 		if err != nil {
 			t.Errorf("Expected no error, got %v\n", err)
 			return
 		}
-
 		resp := rec.Msg
 		test.SortAndCheck(t, resp, tc)
 	}
 }
 
-var dnameDnssecTestCases = []test.Case{
-	{
-		// We have no auth section, because the test zone does not have nameservers.
-		Qname: "ns.example.org.", Qtype: dns.TypeA,
-		Answer: []dns.RR{
-			test.A("ns.example.org.	1800	IN	A	127.0.0.1"),
-		},
-	},
-	{
-		Qname: "dname.example.org.", Qtype: dns.TypeDNAME, Do: true,
-		Answer: []dns.RR{
-			test.DNAME("dname.example.org.	1800	IN	DNAME	test.example.org."),
-			test.RRSIG("dname.example.org.	1800	IN	RRSIG	DNAME 5 3 1800 20170702091734 20170602091734 54282 example.org. HvXtiBM="),
-		},
-	},
-	{
-		Qname: "a.dname.example.org.", Qtype: dns.TypeA, Do: true,
-		Answer: []dns.RR{
-			test.CNAME("a.dname.example.org.	1800	IN	CNAME	a.test.example.org."),
-			test.DNAME("dname.example.org.	1800	IN	DNAME	test.example.org."),
-			test.RRSIG("dname.example.org.	1800	IN	RRSIG	DNAME 5 3 1800 20170702091734 20170602091734 54282 example.org. HvXtiBM="),
-		},
-	},
-}
+var dnameDnssecTestCases = []test.Case{{Qname: "ns.example.org.", Qtype: dns.TypeA, Answer: []dns.RR{test.A("ns.example.org.	1800	IN	A	127.0.0.1")}}, {Qname: "dname.example.org.", Qtype: dns.TypeDNAME, Do: true, Answer: []dns.RR{test.DNAME("dname.example.org.	1800	IN	DNAME	test.example.org."), test.RRSIG("dname.example.org.	1800	IN	RRSIG	DNAME 5 3 1800 20170702091734 20170602091734 54282 example.org. HvXtiBM=")}}, {Qname: "a.dname.example.org.", Qtype: dns.TypeA, Do: true, Answer: []dns.RR{test.CNAME("a.dname.example.org.	1800	IN	CNAME	a.test.example.org."), test.DNAME("dname.example.org.	1800	IN	DNAME	test.example.org."), test.RRSIG("dname.example.org.	1800	IN	RRSIG	DNAME 5 3 1800 20170702091734 20170602091734 54282 example.org. HvXtiBM=")}}}
 
 func TestLookupDNAMEDNSSEC(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zone, err := Parse(strings.NewReader(dbExampleDNAMESigned), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expect no error when reading zone, got %q", err)
 	}
-
 	fm := File{Next: test.ErrorHandler(), Zones: Zones{Z: map[string]*Zone{"example.org.": zone}, Names: []string{"example.org."}}}
 	ctx := context.TODO()
-
 	for _, tc := range dnameDnssecTestCases {
 		m := tc.Msg()
-
 		rec := dnstest.NewRecorder(&test.ResponseWriter{})
 		_, err := fm.ServeDNS(ctx, rec, m)
 		if err != nil {
 			t.Errorf("Expected no error, got %v\n", err)
 			return
 		}
-
 		resp := rec.Msg
 		test.SortAndCheck(t, resp, tc)
 	}
@@ -189,7 +106,6 @@ dname           IN      DNAME   test
 dname           IN      A       127.0.0.1
 a.dname         IN      A       127.0.0.1
 `
-
 const dbExampleDNAMESigned = `
 ; File written on Fri Jun  2 10:17:34 2017
 ; dnssec_signzone version 9.10.3-P4-Debian

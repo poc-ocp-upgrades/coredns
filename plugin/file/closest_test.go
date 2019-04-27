@@ -6,23 +6,13 @@ import (
 )
 
 func TestClosestEncloser(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z, err := Parse(strings.NewReader(dbMiekNL), testzone, "stdin", 0)
 	if err != nil {
 		t.Fatalf("Expect no error when reading zone, got %q", err)
 	}
-
-	tests := []struct {
-		in, out string
-	}{
-		{"miek.nl.", "miek.nl."},
-		{"www.miek.nl.", "www.miek.nl."},
-
-		{"blaat.miek.nl.", "miek.nl."},
-		{"blaat.www.miek.nl.", "www.miek.nl."},
-		{"www.blaat.miek.nl.", "miek.nl."},
-		{"blaat.a.miek.nl.", "a.miek.nl."},
-	}
-
+	tests := []struct{ in, out string }{{"miek.nl.", "miek.nl."}, {"www.miek.nl.", "www.miek.nl."}, {"blaat.miek.nl.", "miek.nl."}, {"blaat.www.miek.nl.", "www.miek.nl."}, {"www.blaat.miek.nl.", "miek.nl."}, {"blaat.a.miek.nl.", "a.miek.nl."}}
 	for _, tc := range tests {
 		ce, _ := z.ClosestEncloser(tc.in)
 		if ce == nil {

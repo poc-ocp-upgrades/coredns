@@ -2,23 +2,22 @@ package erratic
 
 import (
 	"testing"
-
 	"github.com/mholt/caddy"
 )
 
 func TestSetup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := caddy.NewTestController("dns", `erratic {
 		drop
 	}`)
 	if err := setup(c); err != nil {
 		t.Fatalf("Test 1, expected no errors, but got: %q", err)
 	}
-
 	c = caddy.NewTestController("dns", `erratic`)
 	if err := setup(c); err != nil {
 		t.Fatalf("Test 2, expected no errors, but got: %q", err)
 	}
-
 	c = caddy.NewTestController("dns", `erratic {
 		drop -1
 	}`)
@@ -26,55 +25,42 @@ func TestSetup(t *testing.T) {
 		t.Fatalf("Test 4, expected errors, but got: %q", err)
 	}
 }
-
 func TestParseErratic(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		input     string
-		shouldErr bool
-		drop      uint64
-		delay     uint64
-		truncate  uint64
-	}{
-		// oks
-		{`erratic`, false, 2, 0, 0},
-		{`erratic {
+		input		string
+		shouldErr	bool
+		drop		uint64
+		delay		uint64
+		truncate	uint64
+	}{{`erratic`, false, 2, 0, 0}, {`erratic {
 			drop 2
 			delay 3 1ms
 
-		}`, false, 2, 3, 0},
-		{`erratic {
+		}`, false, 2, 3, 0}, {`erratic {
 			truncate 2
 			delay 3 1ms
 
-		}`, false, 0, 3, 2},
-		{`erraric {
+		}`, false, 0, 3, 2}, {`erraric {
 			drop 3
 			delay
-		}`, false, 3, 2, 0},
-		// fails
-		{`erratic {
+		}`, false, 3, 2, 0}, {`erratic {
 			drop -1
-		}`, true, 0, 0, 0},
-		{`erratic {
+		}`, true, 0, 0, 0}, {`erratic {
 			delay -1
-		}`, true, 0, 0, 0},
-		{`erratic {
+		}`, true, 0, 0, 0}, {`erratic {
 			delay 1 2 4
-		}`, true, 0, 0, 0},
-		{`erratic {
+		}`, true, 0, 0, 0}, {`erratic {
 			delay 15.a
-		}`, true, 0, 0, 0},
-		{`erraric {
+		}`, true, 0, 0, 0}, {`erraric {
 			drop 3
 			delay 3 bla
-		}`, true, 0, 0, 0},
-		{`erraric {
+		}`, true, 0, 0, 0}, {`erraric {
 			truncate 15.a
-		}`, true, 0, 0, 0},
-		{`erraric {
+		}`, true, 0, 0, 0}, {`erraric {
 			something-else
-		}`, true, 0, 0, 0},
-	}
+		}`, true, 0, 0, 0}}
 	for i, test := range tests {
 		c := caddy.NewTestController("dns", test.input)
 		e, err := parseErratic(c)
@@ -85,11 +71,9 @@ func TestParseErratic(t *testing.T) {
 			t.Errorf("Test %v: Expected no error but found error: %v", i, err)
 			continue
 		}
-
 		if test.shouldErr {
 			continue
 		}
-
 		if test.delay != e.delay {
 			t.Errorf("Test %v: Expected delay %d but found: %d", i, test.delay, e.delay)
 		}

@@ -3,11 +3,12 @@ package test
 import (
 	"bytes"
 	"testing"
-
 	"github.com/miekg/dns"
 )
 
 func TestRewrite(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	corefile := `.:0 {
        rewrite type MX a
@@ -16,28 +17,23 @@ func TestRewrite(t *testing.T) {
 	drop 0
 	}
 }`
-
 	i, udp, _, err := CoreDNSServerAndPorts(corefile)
 	if err != nil {
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
-
 	defer i.Stop()
-
 	testMX(t, udp)
 	testEdns0(t, udp)
 }
-
 func testMX(t *testing.T, server string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("example.com.", dns.TypeMX)
-
 	r, err := dns.Exchange(m, server)
 	if err != nil {
 		t.Fatalf("Expected to receive reply, but didn't: %s", err)
 	}
-
-	// expect answer section with A record in it
 	if len(r.Answer) == 0 {
 		t.Error("Expected to at least one RR in the answer section, got none")
 	}
@@ -48,17 +44,15 @@ func testMX(t *testing.T, server string) {
 		t.Errorf("Expected 192.0.2.53, got: %s", r.Answer[0].(*dns.A).A.String())
 	}
 }
-
 func testEdns0(t *testing.T, server string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("example.com.", dns.TypeA)
-
 	r, err := dns.Exchange(m, server)
 	if err != nil {
 		t.Fatalf("Expected to receive reply, but didn't: %s", err)
 	}
-
-	// expect answer section with A record in it
 	if len(r.Answer) == 0 {
 		t.Error("Expected to at least one RR in the answer section, got none")
 	}

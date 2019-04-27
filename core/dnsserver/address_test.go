@@ -3,32 +3,13 @@ package dnsserver
 import "testing"
 
 func TestNormalizeZone(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, test := range []struct {
-		input     string
-		expected  string
-		shouldErr bool
-	}{
-		{".", "dns://.:53", false},
-		{".:54", "dns://.:54", false},
-		{"..", "://:", true},
-		{".:", "://:", true},
-		{"dns://.", "dns://.:53", false},
-		{"dns://.:5353", "dns://.:5353", false},
-		{"dns://..", "://:", true},
-		{"dns://.:", "://:", true},
-		{"tls://.", "tls://.:853", false},
-		{"tls://.:8953", "tls://.:8953", false},
-		{"tls://..", "://:", true},
-		{"tls://.:", "://:", true},
-		{"grpc://.", "grpc://.:443", false},
-		{"grpc://.:8443", "grpc://.:8443", false},
-		{"grpc://..", "://:", true},
-		{"grpc://.:", "://:", true},
-		{"https://.", "https://.:443", false},
-		{"https://.:8443", "https://.:8443", false},
-		{"https://..", "://:", true},
-		{"https://.:", "://:", true},
-	} {
+		input		string
+		expected	string
+		shouldErr	bool
+	}{{".", "dns://.:53", false}, {".:54", "dns://.:54", false}, {"..", "://:", true}, {".:", "://:", true}, {"dns://.", "dns://.:53", false}, {"dns://.:5353", "dns://.:5353", false}, {"dns://..", "://:", true}, {"dns://.:", "://:", true}, {"tls://.", "tls://.:853", false}, {"tls://.:8953", "tls://.:8953", false}, {"tls://..", "://:", true}, {"tls://.:", "://:", true}, {"grpc://.", "grpc://.:443", false}, {"grpc://.:8443", "grpc://.:8443", false}, {"grpc://..", "://:", true}, {"grpc://.:", "://:", true}, {"https://.", "https://.:443", false}, {"https://.:8443", "https://.:8443", false}, {"https://..", "://:", true}, {"https://.:", "://:", true}} {
 		addr, err := normalizeZone(test.input)
 		actual := addr.String()
 		if test.shouldErr && err == nil {
@@ -42,29 +23,14 @@ func TestNormalizeZone(t *testing.T) {
 		}
 	}
 }
-
 func TestNormalizeZoneReverse(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, test := range []struct {
-		input     string
-		expected  string
-		shouldErr bool
-	}{
-		{"2003::1/64", "dns://0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.2.ip6.arpa.:53", false},
-		{"2003::1/64.", "dns://2003::1/64.:53", false}, // OK, with closing dot the parse will fail.
-		{"2003::1/64:53", "dns://0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.2.ip6.arpa.:53", false},
-		{"2003::1/64.:53", "dns://2003::1/64.:53", false},
-
-		{"10.0.0.0/24", "dns://0.0.10.in-addr.arpa.:53", false},
-		{"10.0.0.0/24.", "dns://10.0.0.0/24.:53", false},
-		{"10.0.0.0/24:53", "dns://0.0.10.in-addr.arpa.:53", false},
-		{"10.0.0.0/24.:53", "dns://10.0.0.0/24.:53", false},
-
-		// non %8==0 netmasks
-		{"2003::53/67", "dns://0.0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.2.ip6.arpa.:53", false},
-		{"10.0.0.0/25.", "dns://10.0.0.0/25.:53", false}, // has dot
-		{"10.0.0.0/25", "dns://0.0.10.in-addr.arpa.:53", false},
-		{"fd00:77:30::0/110", "dns://0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.7.7.0.0.0.0.d.f.ip6.arpa.:53", false},
-	} {
+		input		string
+		expected	string
+		shouldErr	bool
+	}{{"2003::1/64", "dns://0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.2.ip6.arpa.:53", false}, {"2003::1/64.", "dns://2003::1/64.:53", false}, {"2003::1/64:53", "dns://0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.2.ip6.arpa.:53", false}, {"2003::1/64.:53", "dns://2003::1/64.:53", false}, {"10.0.0.0/24", "dns://0.0.10.in-addr.arpa.:53", false}, {"10.0.0.0/24.", "dns://10.0.0.0/24.:53", false}, {"10.0.0.0/24:53", "dns://0.0.10.in-addr.arpa.:53", false}, {"10.0.0.0/24.:53", "dns://10.0.0.0/24.:53", false}, {"2003::53/67", "dns://0.0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.2.ip6.arpa.:53", false}, {"10.0.0.0/25.", "dns://10.0.0.0/25.:53", false}, {"10.0.0.0/25", "dns://0.0.10.in-addr.arpa.:53", false}, {"fd00:77:30::0/110", "dns://0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.3.0.0.7.7.0.0.0.0.d.f.ip6.arpa.:53", false}} {
 		addr, err := normalizeZone(test.input)
 		actual := addr.String()
 		if test.shouldErr && err == nil {
@@ -78,27 +44,16 @@ func TestNormalizeZoneReverse(t *testing.T) {
 		}
 	}
 }
-
 func TestSplitProtocolHostPort(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, test := range []struct {
-		input     string
-		proto     string
-		ip        string
-		port      string
-		shouldErr bool
-	}{
-		{"dns://:53", "dns", "", "53", false},
-		{"dns://127.0.0.1:4005", "dns", "127.0.0.1", "4005", false},
-		{"[ffe0:34ab:1]:4005", "", "ffe0:34ab:1", "4005", false},
-
-		// port part is mandatory
-		{"dns://", "dns", "", "", true},
-		{"dns://127.0.0.1", "dns", "127.0.0.1", "", true},
-		// cannot be empty
-		{"", "", "", "", true},
-		// invalid format with twice ://
-		{"dns://127.0.0.1://53", "", "", "", true},
-	} {
+		input		string
+		proto		string
+		ip		string
+		port		string
+		shouldErr	bool
+	}{{"dns://:53", "dns", "", "53", false}, {"dns://127.0.0.1:4005", "dns", "127.0.0.1", "4005", false}, {"[ffe0:34ab:1]:4005", "", "ffe0:34ab:1", "4005", false}, {"dns://", "dns", "", "", true}, {"dns://127.0.0.1", "dns", "127.0.0.1", "", true}, {"", "", "", "", true}, {"dns://127.0.0.1://53", "", "", "", true}} {
 		proto, ip, port, err := SplitProtocolHostPort(test.input)
 		if test.shouldErr && err == nil {
 			t.Errorf("Test %d: (address = %s) expected error, but there wasn't any", i, test.input)
@@ -120,56 +75,21 @@ func TestSplitProtocolHostPort(t *testing.T) {
 		if port != test.port {
 			t.Errorf("Test %d: (address = %s) expected port with value %s but got %s", i, test.input, test.port, port)
 		}
-
 	}
 }
 
 type checkCall struct {
-	zone       zoneAddr
-	same       bool
-	overlap    bool
-	overlapKey string
+	zone		zoneAddr
+	same		bool
+	overlap		bool
+	overlapKey	string
 }
-
-type checkTest struct {
-	sequence []checkCall
-}
+type checkTest struct{ sequence []checkCall }
 
 func TestOverlapAddressChecker(t *testing.T) {
-	for i, test := range []checkTest{
-		{sequence: []checkCall{
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, true, false, ""},
-		},
-		},
-		{sequence: []checkCall{
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, true, "dns://.:53"},
-		},
-		},
-		{sequence: []checkCall{
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, true, false, ""},
-		},
-		},
-		{sequence: []checkCall{
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "128.0.0.1", Port: "53"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "129.0.0.1", Port: "53"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, true, "dns://.:53 on 129.0.0.1"},
-		},
-		},
-		{sequence: []checkCall{
-			{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: "com.", Address: "127.0.0.1", Port: "53"}, false, false, ""},
-			{zoneAddr{Transport: "dns", Zone: "com.", Address: "", Port: "53"}, false, true, "dns://com.:53 on 127.0.0.1"},
-		},
-		},
-	} {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	for i, test := range []checkTest{{sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, true, false, ""}}}, {sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, true, "dns://.:53"}}}, {sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, true, false, ""}}}, {sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "54"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "128.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "129.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: ".", Address: "", Port: "53"}, false, true, "dns://.:53 on 129.0.0.1"}}}, {sequence: []checkCall{{zoneAddr{Transport: "dns", Zone: ".", Address: "127.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: "com.", Address: "127.0.0.1", Port: "53"}, false, false, ""}, {zoneAddr{Transport: "dns", Zone: "com.", Address: "", Port: "53"}, false, true, "dns://com.:53 on 127.0.0.1"}}}} {
 		checker := newOverlapZone()
 		for _, call := range test.sequence {
 			same, overlap := checker.registerAndCheck(call.zone)
@@ -185,10 +105,8 @@ func TestOverlapAddressChecker(t *testing.T) {
 					if overlap.String() != call.overlapKey {
 						t.Errorf("Test %d: error, for zone %s, 'overlap Key' (%v) has not the expected value (%v)", i, sZone, overlap.String(), call.overlapKey)
 					}
-
 				}
 			}
-
 		}
 	}
 }

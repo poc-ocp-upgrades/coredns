@@ -5,11 +5,12 @@ import (
 )
 
 func localPodIP() net.IP {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		return nil
 	}
-
 	for _, addr := range addrs {
 		ip, _, _ := net.ParseCIDR(addr.String())
 		ip = ip.To4()
@@ -20,14 +21,13 @@ func localPodIP() net.IP {
 	}
 	return nil
 }
-
 func (k *Kubernetes) localNodeName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localIP := k.interfaceAddrsFunc()
 	if localIP == nil {
 		return ""
 	}
-
-	// Find endpoint matching localIP
 	for _, ep := range k.APIConn.EpIndexReverse(localIP.String()) {
 		for _, eps := range ep.Subsets {
 			for _, addr := range eps.Addresses {

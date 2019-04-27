@@ -3,25 +3,20 @@ package file
 import (
 	"fmt"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/test"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
 )
 
-// TODO(miek): should test notifies as well, ie start test server (a real coredns one)...
-// setup other test server that sends notify, see if CoreDNS comes calling for a zone
-// transfer
-
 func TestLess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
-		min  = 0
-		max  = 4294967295
-		low  = 12345
-		high = 4000000000
+		min	= 0
+		max	= 4294967295
+		low	= 12345
+		high	= 4000000000
 	)
-
 	if less(min, max) {
 		t.Fatalf("Less: should be false")
 	}
@@ -36,11 +31,11 @@ func TestLess(t *testing.T) {
 	}
 }
 
-type soa struct {
-	serial uint32
-}
+type soa struct{ serial uint32 }
 
 func (s *soa) Handler(w dns.ResponseWriter, req *dns.Msg) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetReply(req)
 	switch req.Question[0].Qtype {
@@ -57,8 +52,9 @@ func (s *soa) Handler(w dns.ResponseWriter, req *dns.Msg) {
 		w.WriteMsg(m)
 	}
 }
-
 func (s *soa) TransferHandler(w dns.ResponseWriter, req *dns.Msg) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetReply(req)
 	m.Answer = make([]dns.RR, 1)
@@ -69,22 +65,19 @@ func (s *soa) TransferHandler(w dns.ResponseWriter, req *dns.Msg) {
 const testZone = "secondary.miek.nl."
 
 func TestShouldTransfer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	soa := soa{250}
-
 	dns.HandleFunc(testZone, soa.Handler)
 	defer dns.HandleRemove(testZone)
-
 	s, addrstr, err := test.TCPServer("127.0.0.1:0")
 	if err != nil {
 		t.Fatalf("Unable to run test server: %v", err)
 	}
 	defer s.Shutdown()
-
 	z := new(Zone)
 	z.origin = testZone
 	z.TransferFrom = []string{addrstr}
-
-	// when we have a nil SOA (initial state)
 	should, err := z.shouldTransfer()
 	if err != nil {
 		t.Fatalf("Unable to run shouldTransfer: %v", err)
@@ -92,7 +85,6 @@ func TestShouldTransfer(t *testing.T) {
 	if !should {
 		t.Fatalf("ShouldTransfer should return true for serial: %d", soa.serial)
 	}
-	// Serial smaller
 	z.Apex.SOA = test.SOA(fmt.Sprintf("%s IN SOA bla. bla. %d 0 0 0 0 ", testZone, soa.serial-1))
 	should, err = z.shouldTransfer()
 	if err != nil {
@@ -101,7 +93,6 @@ func TestShouldTransfer(t *testing.T) {
 	if !should {
 		t.Fatalf("ShouldTransfer should return true for serial: %q", soa.serial-1)
 	}
-	// Serial equal
 	z.Apex.SOA = test.SOA(fmt.Sprintf("%s IN SOA bla. bla. %d 0 0 0 0 ", testZone, soa.serial))
 	should, err = z.shouldTransfer()
 	if err != nil {
@@ -111,24 +102,21 @@ func TestShouldTransfer(t *testing.T) {
 		t.Fatalf("ShouldTransfer should return false for serial: %d", soa.serial)
 	}
 }
-
 func TestTransferIn(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	soa := soa{250}
-
 	dns.HandleFunc(testZone, soa.Handler)
 	defer dns.HandleRemove(testZone)
-
 	s, addrstr, err := test.TCPServer("127.0.0.1:0")
 	if err != nil {
 		t.Fatalf("Unable to run test server: %v", err)
 	}
 	defer s.Shutdown()
-
 	z := new(Zone)
 	z.Expired = new(bool)
 	z.origin = testZone
 	z.TransferFrom = []string{addrstr}
-
 	err = z.TransferIn()
 	if err != nil {
 		t.Fatalf("Unable to run TransferIn: %v", err)
@@ -137,16 +125,15 @@ func TestTransferIn(t *testing.T) {
 		t.Fatalf("Unknown SOA transferred")
 	}
 }
-
 func TestIsNotify(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z := new(Zone)
 	z.Expired = new(bool)
 	z.origin = testZone
 	state := newRequest(testZone, dns.TypeSOA)
-	// need to set opcode
 	state.Req.Opcode = dns.OpcodeNotify
-
-	z.TransferFrom = []string{"10.240.0.1:53"} // IP from from testing/responseWriter
+	z.TransferFrom = []string{"10.240.0.1:53"}
 	if !z.isNotify(state) {
 		t.Fatal("Should have been valid notify")
 	}
@@ -155,8 +142,9 @@ func TestIsNotify(t *testing.T) {
 		t.Fatal("Should have been invalid notify")
 	}
 }
-
 func newRequest(zone string, qtype uint16) request.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetQuestion("example.com.", dns.TypeA)
 	m.SetEdns0(4097, true)

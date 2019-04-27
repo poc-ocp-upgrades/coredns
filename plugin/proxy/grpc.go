@@ -4,11 +4,9 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
-
 	"github.com/coredns/coredns/pb"
 	"github.com/coredns/coredns/plugin/pkg/trace"
 	"github.com/coredns/coredns/request"
-
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"github.com/miekg/dns"
 	opentracing "github.com/opentracing/opentracing-go"
@@ -17,31 +15,31 @@ import (
 )
 
 type grpcClient struct {
-	dialOpts []grpc.DialOption
-	clients  map[string]pb.DnsServiceClient
-	conns    []*grpc.ClientConn
-	upstream *staticUpstream
+	dialOpts	[]grpc.DialOption
+	clients		map[string]pb.DnsServiceClient
+	conns		[]*grpc.ClientConn
+	upstream	*staticUpstream
 }
 
 func newGrpcClient(tls *tls.Config, u *staticUpstream) *grpcClient {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := &grpcClient{upstream: u}
-
 	if tls == nil {
 		g.dialOpts = append(g.dialOpts, grpc.WithInsecure())
 	} else {
 		g.dialOpts = append(g.dialOpts, grpc.WithTransportCredentials(credentials.NewTLS(tls)))
 	}
 	g.clients = map[string]pb.DnsServiceClient{}
-
 	return g
 }
-
 func (g *grpcClient) Exchange(ctx context.Context, addr string, state request.Request) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	msg, err := state.Req.Pack()
 	if err != nil {
 		return nil, err
 	}
-
 	if cl, ok := g.clients[addr]; ok {
 		reply, err := cl.Query(ctx, &pb.DnsPacket{Msg: msg})
 		if err != nil {
@@ -56,12 +54,19 @@ func (g *grpcClient) Exchange(ctx context.Context, addr string, state request.Re
 	}
 	return nil, fmt.Errorf("grpc exchange - no connection available for host: %s ", addr)
 }
-
-func (g *grpcClient) Transport() string { return "tcp" }
-
-func (g *grpcClient) Protocol() string { return "grpc" }
-
+func (g *grpcClient) Transport() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return "tcp"
+}
+func (g *grpcClient) Protocol() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return "grpc"
+}
 func (g *grpcClient) OnShutdown(p *Proxy) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.clients = map[string]pb.DnsServiceClient{}
 	for i, conn := range g.conns {
 		err := conn.Close()
@@ -72,8 +77,9 @@ func (g *grpcClient) OnShutdown(p *Proxy) error {
 	g.conns = []*grpc.ClientConn{}
 	return nil
 }
-
 func (g *grpcClient) OnStartup(p *Proxy) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dialOpts := g.dialOpts
 	if p.Trace != nil {
 		if t, ok := p.Trace.(trace.Trace); ok {

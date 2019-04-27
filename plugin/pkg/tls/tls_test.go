@@ -3,52 +3,50 @@ package tls
 import (
 	"path/filepath"
 	"testing"
-
 	"github.com/coredns/coredns/plugin/test"
 )
 
 func getPEMFiles(t *testing.T) (rmFunc func(), cert, key, ca string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tempDir, rmFunc, err := test.WritePEMFiles("")
 	if err != nil {
 		t.Fatalf("Could not write PEM files: %s", err)
 	}
-
 	cert = filepath.Join(tempDir, "cert.pem")
 	key = filepath.Join(tempDir, "key.pem")
 	ca = filepath.Join(tempDir, "ca.pem")
-
 	return
 }
-
 func TestNewTLSConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rmFunc, cert, key, ca := getPEMFiles(t)
 	defer rmFunc()
-
 	_, err := NewTLSConfig(cert, key, ca)
 	if err != nil {
 		t.Errorf("Failed to create TLSConfig: %s", err)
 	}
 }
-
 func TestNewTLSClientConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rmFunc, _, _, ca := getPEMFiles(t)
 	defer rmFunc()
-
 	_, err := NewTLSClientConfig(ca)
 	if err != nil {
 		t.Errorf("Failed to create TLSConfig: %s", err)
 	}
 }
-
 func TestNewTLSConfigFromArgs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rmFunc, cert, key, ca := getPEMFiles(t)
 	defer rmFunc()
-
 	_, err := NewTLSConfigFromArgs()
 	if err != nil {
 		t.Errorf("Failed to create TLSConfig: %s", err)
 	}
-
 	c, err := NewTLSConfigFromArgs(ca)
 	if err != nil {
 		t.Errorf("Failed to create TLSConfig: %s", err)
@@ -56,7 +54,6 @@ func TestNewTLSConfigFromArgs(t *testing.T) {
 	if c.RootCAs == nil {
 		t.Error("RootCAs should not be nil when one arg passed")
 	}
-
 	c, err = NewTLSConfigFromArgs(cert, key)
 	if err != nil {
 		t.Errorf("Failed to create TLSConfig: %s", err)
@@ -79,21 +76,19 @@ func TestNewTLSConfigFromArgs(t *testing.T) {
 		t.Error("Certificateis should have a single entry when three args passed")
 	}
 }
-
 func TestNewHTTPSTransport(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rmFunc, _, _, ca := getPEMFiles(t)
 	defer rmFunc()
-
 	cc, err := NewTLSClientConfig(ca)
 	if err != nil {
 		t.Errorf("Failed to create TLSConfig: %s", err)
 	}
-
 	tr := NewHTTPSTransport(cc)
 	if tr == nil {
 		t.Errorf("Failed to create https transport with cc")
 	}
-
 	tr = NewHTTPSTransport(nil)
 	if tr == nil {
 		t.Errorf("Failed to create https transport without cc")

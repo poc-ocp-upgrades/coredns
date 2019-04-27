@@ -1,5 +1,3 @@
-// +build etcd
-
 package test
 
 import (
@@ -7,32 +5,29 @@ import (
 	"encoding/json"
 	"testing"
 	"time"
-
 	"github.com/coredns/coredns/plugin/etcd"
 	"github.com/coredns/coredns/plugin/etcd/msg"
 	"github.com/coredns/coredns/plugin/proxy"
 	"github.com/coredns/coredns/plugin/test"
 	"github.com/coredns/coredns/request"
-
 	etcdcv3 "github.com/coreos/etcd/clientv3"
 	"github.com/miekg/dns"
 )
 
 func etcdPlugin() *etcd.Etcd {
-	etcdCfg := etcdcv3.Config{
-		Endpoints: []string{"http://localhost:2379"},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	etcdCfg := etcdcv3.Config{Endpoints: []string{"http://localhost:2379"}}
 	cli, _ := etcdcv3.New(etcdCfg)
 	return &etcd.Etcd{Client: cli, PathPrefix: "/skydns"}
 }
-
-// This test starts two coredns servers (and needs etcd). Configure a stubzones in both (that will loop) and
-// will then test if we detect this loop.
 func TestEtcdStubLoop(t *testing.T) {
-	// TODO(miek)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func TestEtcdStubAndProxyLookup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corefile := `.:0 {
     etcd skydns.local {
         stubzones
@@ -43,22 +38,18 @@ func TestEtcdStubAndProxyLookup(t *testing.T) {
     }
     proxy . 8.8.8.8:53
 }`
-
 	ex, udp, _, err := CoreDNSServerAndPorts(corefile)
 	if err != nil {
 		t.Fatalf("Could not get CoreDNS serving instance: %s", err)
 	}
 	defer ex.Stop()
-
 	etc := etcdPlugin()
-
 	var ctx = context.TODO()
-	for _, serv := range servicesStub { // adds example.{net,org} as stubs
+	for _, serv := range servicesStub {
 		set(ctx, t, etc, serv.Key, 0, serv)
 		defer delete(ctx, t, etc, serv.Key)
 	}
-
-	p := proxy.NewLookup([]string{udp}) // use udp port from the server
+	p := proxy.NewLookup([]string{udp})
 	state := request.Request{W: &test.ResponseWriter{}, Req: new(dns.Msg)}
 	resp, err := p.Lookup(state, "example.com.", dns.TypeA)
 	if err != nil {
@@ -75,16 +66,11 @@ func TestEtcdStubAndProxyLookup(t *testing.T) {
 	}
 }
 
-var servicesStub = []*msg.Service{
-	// Two tests, ask a question that should return servfail because remote it no accessible
-	// and one with edns0 option added, that should return refused.
-	{Host: "127.0.0.1", Port: 666, Key: "b.example.org.stub.dns.skydns.test."},
-	// Actual test that goes out to the internet.
-	{Host: "199.43.132.53", Key: "a.example.net.stub.dns.skydns.test."},
-}
+var servicesStub = []*msg.Service{{Host: "127.0.0.1", Port: 666, Key: "b.example.org.stub.dns.skydns.test."}, {Host: "199.43.132.53", Key: "a.example.net.stub.dns.skydns.test."}}
 
-// Copied from plugin/etcd/setup_test.go
 func set(ctx context.Context, t *testing.T, e *etcd.Etcd, k string, ttl time.Duration, m *msg.Service) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b, err := json.Marshal(m)
 	if err != nil {
 		t.Fatal(err)
@@ -92,9 +78,9 @@ func set(ctx context.Context, t *testing.T, e *etcd.Etcd, k string, ttl time.Dur
 	path, _ := msg.PathWithWildcard(k, e.PathPrefix)
 	e.Client.KV.Put(ctx, path, string(b))
 }
-
-// Copied from plugin/etcd/setup_test.go
 func delete(ctx context.Context, t *testing.T, e *etcd.Etcd, k string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	path, _ := msg.PathWithWildcard(k, e.PathPrefix)
 	e.Client.Delete(ctx, path)
 }

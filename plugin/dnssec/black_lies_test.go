@@ -3,18 +3,17 @@ package dnssec
 import (
 	"testing"
 	"time"
-
 	"github.com/coredns/coredns/plugin/test"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
 )
 
 func TestZoneSigningBlackLies(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"miek.nl."})
 	defer rm1()
 	defer rm2()
-
 	m := testNxdomainMsg()
 	state := request.Request{Req: m, Zone: "miek.nl."}
 	m = d.Sign(state, time.Now().UTC(), server)
@@ -40,20 +39,18 @@ func TestZoneSigningBlackLies(t *testing.T) {
 		t.Errorf("Expected %s, got %s", "\\000.ww.miek.nl.", nsec.NextDomain)
 	}
 }
-
 func TestBlackLiesNoError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d, rm1, rm2 := newDnssec(t, []string{"miek.nl."})
 	defer rm1()
 	defer rm2()
-
 	m := testSuccessMsg()
 	state := request.Request{Req: m, Zone: "miek.nl."}
 	m = d.Sign(state, time.Now().UTC(), server)
-
 	if m.Rcode != dns.RcodeSuccess {
 		t.Errorf("Expected rcode %d, got %d", dns.RcodeSuccess, m.Rcode)
 	}
-
 	if len(m.Answer) != 2 {
 		t.Errorf("Answer section should have 2 RRs")
 	}
@@ -70,17 +67,13 @@ func TestBlackLiesNoError(t *testing.T) {
 		t.Errorf("Expected RRSIG and TXT in answer section")
 	}
 }
-
 func testNxdomainMsg() *dns.Msg {
-	return &dns.Msg{MsgHdr: dns.MsgHdr{Rcode: dns.RcodeNameError},
-		Question: []dns.Question{{Name: "ww.miek.nl.", Qclass: dns.ClassINET, Qtype: dns.TypeTXT}},
-		Ns: []dns.RR{test.SOA("miek.nl.	1800	IN	SOA	linode.atoom.net. miek.miek.nl. 1461471181 14400 3600 604800 14400")},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &dns.Msg{MsgHdr: dns.MsgHdr{Rcode: dns.RcodeNameError}, Question: []dns.Question{{Name: "ww.miek.nl.", Qclass: dns.ClassINET, Qtype: dns.TypeTXT}}, Ns: []dns.RR{test.SOA("miek.nl.	1800	IN	SOA	linode.atoom.net. miek.miek.nl. 1461471181 14400 3600 604800 14400")}}
 }
-
 func testSuccessMsg() *dns.Msg {
-	return &dns.Msg{MsgHdr: dns.MsgHdr{Rcode: dns.RcodeSuccess},
-		Question: []dns.Question{{Name: "www.miek.nl.", Qclass: dns.ClassINET, Qtype: dns.TypeTXT}},
-		Answer: []dns.RR{test.TXT(`www.miek.nl.	1800	IN	TXT	"response"`)},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &dns.Msg{MsgHdr: dns.MsgHdr{Rcode: dns.RcodeSuccess}, Question: []dns.Question{{Name: "www.miek.nl.", Qclass: dns.ClassINET, Qtype: dns.TypeTXT}}, Answer: []dns.RR{test.TXT(`www.miek.nl.	1800	IN	TXT	"response"`)}}
 }

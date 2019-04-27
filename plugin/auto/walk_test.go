@@ -19,6 +19,8 @@ www IN A 127.0.0.1
 `
 
 func TestWalk(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tempdir, err := createFiles()
 	if err != nil {
 		if tempdir != "" {
@@ -27,63 +29,40 @@ func TestWalk(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer os.RemoveAll(tempdir)
-
-	ldr := loader{
-		directory: tempdir,
-		re:        regexp.MustCompile(`db\.(.*)`),
-		template:  `${1}`,
-	}
-
-	a := Auto{
-		loader: ldr,
-		Zones:  &Zones{},
-	}
-
+	ldr := loader{directory: tempdir, re: regexp.MustCompile(`db\.(.*)`), template: `${1}`}
+	a := Auto{loader: ldr, Zones: &Zones{}}
 	a.Walk()
-
-	// db.example.org and db.example.com should be here (created in createFiles)
 	for _, name := range []string{"example.com.", "example.org."} {
 		if _, ok := a.Zones.Z[name]; !ok {
 			t.Errorf("%s should have been added", name)
 		}
 	}
 }
-
 func TestWalkNonExistent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nonExistingDir := "highly_unlikely_to_exist_dir"
-
-	ldr := loader{
-		directory: nonExistingDir,
-		re:        regexp.MustCompile(`db\.(.*)`),
-		template:  `${1}`,
-	}
-
-	a := Auto{
-		loader: ldr,
-		Zones:  &Zones{},
-	}
-
+	ldr := loader{directory: nonExistingDir, re: regexp.MustCompile(`db\.(.*)`), template: `${1}`}
+	a := Auto{loader: ldr, Zones: &Zones{}}
 	a.Walk()
 }
-
 func createFiles() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dir, err := ioutil.TempDir(os.TempDir(), "coredns")
 	if err != nil {
 		return dir, err
 	}
-
 	for _, name := range dbFiles {
 		if err := ioutil.WriteFile(filepath.Join(dir, name), []byte(zoneContent), 0644); err != nil {
 			return dir, err
 		}
 	}
-	// symlinks
 	if err = os.Symlink(filepath.Join(dir, "db.example.org"), filepath.Join(dir, "db.example.com")); err != nil {
 		return dir, err
 	}
 	if err = os.Symlink(filepath.Join(dir, "db.example.org"), filepath.Join(dir, "aa.example.com")); err != nil {
 		return dir, err
 	}
-
 	return dir, nil
 }
