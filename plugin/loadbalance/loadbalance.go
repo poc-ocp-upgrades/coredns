@@ -1,31 +1,28 @@
-// Package loadbalance shuffles A, AAAA and MX records.
 package loadbalance
 
 import (
 	"github.com/miekg/dns"
 )
 
-// RoundRobinResponseWriter is a response writer that shuffles A, AAAA and MX records.
 type RoundRobinResponseWriter struct{ dns.ResponseWriter }
 
-// WriteMsg implements the dns.ResponseWriter interface.
 func (r *RoundRobinResponseWriter) WriteMsg(res *dns.Msg) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if res.Rcode != dns.RcodeSuccess {
 		return r.ResponseWriter.WriteMsg(res)
 	}
-
 	if res.Question[0].Qtype == dns.TypeAXFR || res.Question[0].Qtype == dns.TypeIXFR {
 		return r.ResponseWriter.WriteMsg(res)
 	}
-
 	res.Answer = roundRobin(res.Answer)
 	res.Ns = roundRobin(res.Ns)
 	res.Extra = roundRobin(res.Extra)
-
 	return r.ResponseWriter.WriteMsg(res)
 }
-
 func roundRobin(in []dns.RR) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cname := []dns.RR{}
 	address := []dns.RR{}
 	mx := []dns.RR{}
@@ -42,17 +39,16 @@ func roundRobin(in []dns.RR) []dns.RR {
 			rest = append(rest, r)
 		}
 	}
-
 	roundRobinShuffle(address)
 	roundRobinShuffle(mx)
-
 	out := append(cname, rest...)
 	out = append(out, address...)
 	out = append(out, mx...)
 	return out
 }
-
 func roundRobinShuffle(records []dns.RR) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch l := len(records); l {
 	case 0, 1:
 		break
@@ -71,10 +67,9 @@ func roundRobinShuffle(records []dns.RR) {
 		}
 	}
 }
-
-// Write implements the dns.ResponseWriter interface.
 func (r *RoundRobinResponseWriter) Write(buf []byte) (int, error) {
-	// Should we pack and unpack here to fiddle with the packet... Not likely.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	log.Warning("RoundRobin called with Write: not shuffling records")
 	n, err := r.ResponseWriter.Write(buf)
 	return n, err

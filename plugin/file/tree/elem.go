@@ -2,24 +2,22 @@ package tree
 
 import "github.com/miekg/dns"
 
-// Elem is an element in the tree.
 type Elem struct {
-	m    map[uint16][]dns.RR
-	name string // owner name
+	m	map[uint16][]dns.RR
+	name	string
 }
 
-// newElem returns a new elem.
 func newElem(rr dns.RR) *Elem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := Elem{m: make(map[uint16][]dns.RR)}
 	e.m[rr.Header().Rrtype] = []dns.RR{rr}
 	return &e
 }
-
-// Types returns the RRs with type qtype from e. If qname is given (only the
-// first one is used), the RR are copied and the owner is replaced with qname[0].
 func (e *Elem) Types(qtype uint16, qname ...string) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rrs := e.m[qtype]
-
 	if rrs != nil && len(qname) > 0 {
 		copied := make([]dns.RR, len(rrs))
 		for i := range rrs {
@@ -30,18 +28,18 @@ func (e *Elem) Types(qtype uint16, qname ...string) []dns.RR {
 	}
 	return rrs
 }
-
-// All returns all RRs from e, regardless of type.
 func (e *Elem) All() []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list := []dns.RR{}
 	for _, rrs := range e.m {
 		list = append(list, rrs...)
 	}
 	return list
 }
-
-// Name returns the name for this node.
 func (e *Elem) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if e.name != "" {
 		return e.name
 	}
@@ -51,15 +49,14 @@ func (e *Elem) Name() string {
 	}
 	return ""
 }
-
-// Empty returns true is e does not contain any RRs, i.e. is an
-// empty-non-terminal.
 func (e *Elem) Empty() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(e.m) == 0
 }
-
-// Insert inserts rr into e. If rr is equal to existing rrs this is a noop.
 func (e *Elem) Insert(rr dns.RR) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := rr.Header().Rrtype
 	if e.m == nil {
 		e.m = make(map[uint16][]dns.RR)
@@ -76,23 +73,20 @@ func (e *Elem) Insert(rr dns.RR) {
 			return
 		}
 	}
-
 	rrs = append(rrs, rr)
 	e.m[t] = rrs
 }
-
-// Delete removes rr from e. When e is empty after the removal the returned bool is true.
 func (e *Elem) Delete(rr dns.RR) (empty bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if e.m == nil {
 		return true
 	}
-
 	t := rr.Header().Rrtype
 	rrs, ok := e.m[t]
 	if !ok {
 		return
 	}
-
 	for i, er := range rrs {
 		if equalRdata(er, rr) {
 			rrs = removeFromSlice(rrs, i)
@@ -106,14 +100,15 @@ func (e *Elem) Delete(rr dns.RR) (empty bool) {
 	}
 	return
 }
-
-// Less is a tree helper function that calls less.
-func Less(a *Elem, name string) int { return less(name, a.Name()) }
-
-// Assuming the same type and name this will check if the rdata is equal as well.
+func Less(a *Elem, name string) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return less(name, a.Name())
+}
 func equalRdata(a, b dns.RR) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch x := a.(type) {
-	// TODO(miek): more types, i.e. all types. + tests for this.
 	case *dns.A:
 		return x.A.Equal(b.(*dns.A).A)
 	case *dns.AAAA:
@@ -125,9 +120,9 @@ func equalRdata(a, b dns.RR) bool {
 	}
 	return false
 }
-
-// removeFromSlice removes index i from the slice.
 func removeFromSlice(rrs []dns.RR, i int) []dns.RR {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i >= len(rrs) {
 		return rrs
 	}

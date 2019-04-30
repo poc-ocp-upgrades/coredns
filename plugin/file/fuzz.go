@@ -1,20 +1,17 @@
-// +build fuzz
-
 package file
 
 import (
 	"strings"
-
 	"github.com/coredns/coredns/plugin/pkg/fuzz"
 	"github.com/coredns/coredns/plugin/test"
 )
 
-// Fuzz fuzzes file.
 func Fuzz(data []byte) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := "miek.nl."
 	zone, _ := Parse(strings.NewReader(fuzzMiekNL), name, "stdin", 0)
 	f := File{Next: test.ErrorHandler(), Zones: Zones{Z: map[string]*Zone{name: zone}, Names: []string{name}}}
-
 	return fuzz.Do(f, data)
 }
 

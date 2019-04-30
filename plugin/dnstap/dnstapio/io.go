@@ -4,9 +4,7 @@ import (
 	"net"
 	"sync/atomic"
 	"time"
-
 	clog "github.com/coredns/coredns/plugin/pkg/log"
-
 	tap "github.com/dnstap/golang-dnstap"
 	fs "github.com/farsightsec/golang-framestream"
 )
@@ -14,37 +12,28 @@ import (
 var log = clog.NewWithPlugin("dnstap")
 
 const (
-	tcpWriteBufSize = 1024 * 1024
-	tcpTimeout      = 4 * time.Second
-	flushTimeout    = 1 * time.Second
-	queueSize       = 10000
+	tcpWriteBufSize	= 1024 * 1024
+	tcpTimeout	= 4 * time.Second
+	flushTimeout	= 1 * time.Second
+	queueSize	= 10000
 )
 
 type dnstapIO struct {
-	endpoint string
-	socket   bool
-	conn     net.Conn
-	enc      *dnstapEncoder
-	queue    chan tap.Dnstap
-	dropped  uint32
-	quit     chan struct{}
+	endpoint	string
+	socket		bool
+	conn		net.Conn
+	enc		*dnstapEncoder
+	queue		chan tap.Dnstap
+	dropped		uint32
+	quit		chan struct{}
 }
 
-// New returns a new and initialized DnstapIO.
 func New(endpoint string, socket bool) DnstapIO {
-	return &dnstapIO{
-		endpoint: endpoint,
-		socket:   socket,
-		enc: newDnstapEncoder(&fs.EncoderOptions{
-			ContentType:   []byte("protobuf:dnstap.Dnstap"),
-			Bidirectional: true,
-		}),
-		queue: make(chan tap.Dnstap, queueSize),
-		quit:  make(chan struct{}),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &dnstapIO{endpoint: endpoint, socket: socket, enc: newDnstapEncoder(&fs.EncoderOptions{ContentType: []byte("protobuf:dnstap.Dnstap"), Bidirectional: true}), queue: make(chan tap.Dnstap, queueSize), quit: make(chan struct{})}
 }
 
-// DnstapIO interface
 type DnstapIO interface {
 	Connect()
 	Dnstap(payload tap.Dnstap)
@@ -52,6 +41,8 @@ type DnstapIO interface {
 }
 
 func (dio *dnstapIO) newConnect() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	if dio.socket {
 		if dio.conn, err = net.Dial("unix", dio.endpoint); err != nil {
@@ -66,48 +57,48 @@ func (dio *dnstapIO) newConnect() error {
 			tcpConn.SetNoDelay(false)
 		}
 	}
-
 	return dio.enc.resetWriter(dio.conn)
 }
-
-// Connect connects to the dnstop endpoint.
 func (dio *dnstapIO) Connect() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := dio.newConnect(); err != nil {
 		log.Error("No connection to dnstap endpoint")
 	}
 	go dio.serve()
 }
-
-// Dnstap enqueues the payload for log.
 func (dio *dnstapIO) Dnstap(payload tap.Dnstap) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	select {
 	case dio.queue <- payload:
 	default:
 		atomic.AddUint32(&dio.dropped, 1)
 	}
 }
-
 func (dio *dnstapIO) closeConnection() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dio.enc.close()
 	if dio.conn != nil {
 		dio.conn.Close()
 		dio.conn = nil
 	}
 }
-
-// Close waits until the I/O routine is finished to return.
 func (dio *dnstapIO) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(dio.quit)
 }
-
 func (dio *dnstapIO) flushBuffer() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if dio.conn == nil {
 		if err := dio.newConnect(); err != nil {
 			return
 		}
 		log.Info("Reconnected to dnstap")
 	}
-
 	if err := dio.enc.flushBuffer(); err != nil {
 		log.Warningf("Connection lost: %s", err)
 		dio.closeConnection()
@@ -118,14 +109,16 @@ func (dio *dnstapIO) flushBuffer() {
 		}
 	}
 }
-
 func (dio *dnstapIO) write(payload *tap.Dnstap) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := dio.enc.writeMsg(payload); err != nil {
 		atomic.AddUint32(&dio.dropped, 1)
 	}
 }
-
 func (dio *dnstapIO) serve() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeout := time.After(flushTimeout)
 	for {
 		select {

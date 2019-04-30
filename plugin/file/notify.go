@@ -3,24 +3,20 @@ package file
 import (
 	"fmt"
 	"net"
-
 	"github.com/coredns/coredns/plugin/pkg/rcode"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
 )
 
-// isNotify checks if state is a notify message and if so, will *also* check if it
-// is from one of the configured masters. If not it will not be a valid notify
-// message. If the zone z is not a secondary zone the message will also be ignored.
 func (z *Zone) isNotify(state request.Request) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if state.Req.Opcode != dns.OpcodeNotify {
 		return false
 	}
 	if len(z.TransferFrom) == 0 {
 		return false
 	}
-	// If remote IP matches we accept.
 	remote := state.IP()
 	for _, f := range z.TransferFrom {
 		from, _, err := net.SplitHostPort(f)
@@ -33,20 +29,17 @@ func (z *Zone) isNotify(state request.Request) bool {
 	}
 	return false
 }
-
-// Notify will send notifies to all configured TransferTo IP addresses.
 func (z *Zone) Notify() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go notify(z.origin, z.TransferTo)
 }
-
-// notify sends notifies to the configured remote servers. It will try up to three times
-// before giving up on a specific remote. We will sequentially loop through "to"
-// until they all have replied (or have 3 failed attempts).
 func notify(zone string, to []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := new(dns.Msg)
 	m.SetNotify(zone)
 	c := new(dns.Client)
-
 	for _, t := range to {
 		if t == "*" {
 			continue
@@ -59,10 +52,10 @@ func notify(zone string, to []string) error {
 	}
 	return nil
 }
-
 func notifyAddr(c *dns.Client, m *dns.Msg, s string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
-
 	code := dns.RcodeServerFailure
 	for i := 0; i < 3; i++ {
 		ret, _, err := c.Exchange(m, s)

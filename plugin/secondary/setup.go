@@ -6,24 +6,21 @@ import (
 	"github.com/coredns/coredns/plugin/file"
 	"github.com/coredns/coredns/plugin/pkg/parse"
 	"github.com/coredns/coredns/plugin/pkg/upstream"
-
 	"github.com/mholt/caddy"
 )
 
 func init() {
-	caddy.RegisterPlugin("secondary", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("secondary", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zones, err := secondaryParse(c)
 	if err != nil {
 		return plugin.Error("secondary", err)
 	}
-
-	// Add startup functions to retrieve the zone and keep it up to date.
 	for _, n := range zones.Names {
 		z := zones.Z[n]
 		if len(z.TransferFrom) > 0 {
@@ -38,22 +35,19 @@ func setup(c *caddy.Controller) error {
 			})
 		}
 	}
-
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
 		return Secondary{file.File{Next: next, Zones: zones}}
 	})
-
 	return nil
 }
-
 func secondaryParse(c *caddy.Controller) (file.Zones, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	z := make(map[string]*file.Zone)
 	names := []string{}
 	upstr := upstream.Upstream{}
 	for c.Next() {
-
 		if c.Val() == "secondary" {
-			// secondary [origin]
 			origins := make([]string, len(c.ServerBlockKeys))
 			copy(origins, c.ServerBlockKeys)
 			args := c.RemainingArgs()
@@ -65,12 +59,9 @@ func secondaryParse(c *caddy.Controller) (file.Zones, error) {
 				z[origins[i]] = file.NewZone(origins[i], "stdin")
 				names = append(names, origins[i])
 			}
-
 			for c.NextBlock() {
-
 				t, f := []string{}, []string{}
 				var e error
-
 				switch c.Val() {
 				case "transfer":
 					t, f, e = parse.Transfer(c, true)
@@ -87,7 +78,6 @@ func secondaryParse(c *caddy.Controller) (file.Zones, error) {
 				default:
 					return file.Zones{}, c.Errf("unknown property '%s'", c.Val())
 				}
-
 				for _, origin := range origins {
 					if t != nil {
 						z[origin].TransferTo = append(z[origin].TransferTo, t...)

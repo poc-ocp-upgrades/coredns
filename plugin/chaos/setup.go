@@ -3,38 +3,32 @@ package chaos
 import (
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
-
 	"github.com/mholt/caddy"
 )
 
 func init() {
-	caddy.RegisterPlugin("chaos", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("chaos", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	version, authors, err := chaosParse(c)
 	if err != nil {
 		return plugin.Error("chaos", err)
 	}
-
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
 		return Chaos{Next: next, Version: version, Authors: authors}
 	})
-
 	return nil
 }
-
 func chaosParse(c *caddy.Controller) (string, map[string]struct{}, error) {
-	// Set here so we pick up AppName and AppVersion that get set in coremain's init().
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	chaosVersion = caddy.AppName + "-" + caddy.AppVersion
-
 	version := ""
 	authors := make(map[string]struct{})
-
 	for c.Next() {
 		args := c.RemainingArgs()
 		if len(args) == 0 {

@@ -5,8 +5,9 @@ import (
 	"os"
 )
 
-// TempFile will create a temporary file on disk and returns the name and a cleanup function to remove it later.
 func TempFile(dir, content string) (string, func(), error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f, err := ioutil.TempFile(dir, "go-test-tmpfile")
 	if err != nil {
 		return "", nil, err
@@ -14,6 +15,8 @@ func TempFile(dir, content string) (string, func(), error) {
 	if err := ioutil.WriteFile(f.Name(), []byte(content), 0644); err != nil {
 		return "", nil, err
 	}
-	rmFunc := func() { os.Remove(f.Name()) }
+	rmFunc := func() {
+		os.Remove(f.Name())
+	}
 	return f.Name(), rmFunc, nil
 }

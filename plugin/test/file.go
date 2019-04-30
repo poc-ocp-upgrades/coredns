@@ -6,8 +6,9 @@ import (
 	"path/filepath"
 )
 
-// TempFile will create a temporary file on disk and returns the name and a cleanup function to remove it later.
 func TempFile(dir, content string) (string, func(), error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f, err := ioutil.TempFile(dir, "go-test-tmpfile")
 	if err != nil {
 		return "", nil, err
@@ -15,17 +16,18 @@ func TempFile(dir, content string) (string, func(), error) {
 	if err := ioutil.WriteFile(f.Name(), []byte(content), 0644); err != nil {
 		return "", nil, err
 	}
-	rmFunc := func() { os.Remove(f.Name()) }
+	rmFunc := func() {
+		os.Remove(f.Name())
+	}
 	return f.Name(), rmFunc, nil
 }
-
-// WritePEMFiles creates a tmp dir with ca.pem, cert.pem, and key.pem and the func to remove it
 func WritePEMFiles(dir string) (string, func(), error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tempDir, err := ioutil.TempDir(dir, "go-test-pemfiles")
 	if err != nil {
 		return "", nil, err
 	}
-
 	data := `-----BEGIN CERTIFICATE-----
 MIIC9zCCAd+gAwIBAgIJALGtqdMzpDemMA0GCSqGSIb3DQEBCwUAMBIxEDAOBgNV
 BAMMB2t1YmUtY2EwHhcNMTYxMDE5MTU1NDI0WhcNNDQwMzA2MTU1NDI0WjASMRAw
@@ -69,7 +71,6 @@ qeg10RdFnw==
 	if err = ioutil.WriteFile(path, []byte(data), 0644); err != nil {
 		return "", nil, err
 	}
-
 	data = `-----BEGIN RSA PRIVATE KEY-----
 MIIEpgIBAAKCAQEAxPBrvAIWiIJp383ndpRF+OuZ74pHsVLTJ/lSv05H+gzcGhL2
 y1i7kWXOvfmgvlPq3kZzZ7LvyZSz8KzTumyeNR0ofnlsOklJ0bvNb2Zc3J4vAh58
@@ -101,7 +102,8 @@ E/WObVJXDnBdViu0L9abE9iaTToBVri4cmlDlZagLuKVR+TFTCN/DSlVZTDkqkLI
 	if err = ioutil.WriteFile(path, []byte(data), 0644); err != nil {
 		return "", nil, err
 	}
-
-	rmFunc := func() { os.RemoveAll(tempDir) }
+	rmFunc := func() {
+		os.RemoveAll(tempDir)
+	}
 	return tempDir, rmFunc, nil
 }
