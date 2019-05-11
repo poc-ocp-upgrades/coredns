@@ -5,7 +5,6 @@ import (
 	"net"
 	"strconv"
 	"time"
-
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/healthcheck"
 	"github.com/coredns/coredns/plugin/pkg/parse"
@@ -15,17 +14,15 @@ import (
 )
 
 type staticUpstream struct {
-	from string
-
+	from	string
 	healthcheck.HealthCheck
-
-	IgnoredSubDomains []string
-	ex                Exchanger
+	IgnoredSubDomains	[]string
+	ex					Exchanger
 }
 
-// NewStaticUpstreams parses the configuration input and sets up
-// static upstreams for the proxy plugin.
 func NewStaticUpstreams(c *caddyfile.Dispenser) ([]Upstream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var upstreams []Upstream
 	for c.Next() {
 		u, err := NewStaticUpstream(c)
@@ -36,61 +33,41 @@ func NewStaticUpstreams(c *caddyfile.Dispenser) ([]Upstream, error) {
 	}
 	return upstreams, nil
 }
-
-// NewStaticUpstream parses the configuration of a single upstream
-// starting from the FROM
 func NewStaticUpstream(c *caddyfile.Dispenser) (Upstream, error) {
-	upstream := &staticUpstream{
-		from: ".",
-		HealthCheck: healthcheck.HealthCheck{
-			FailTimeout: 5 * time.Second,
-			MaxFails:    3,
-		},
-		ex: newDNSEx(),
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	upstream := &staticUpstream{from: ".", HealthCheck: healthcheck.HealthCheck{FailTimeout: 5 * time.Second, MaxFails: 3}, ex: newDNSEx()}
 	if !c.Args(&upstream.from) {
 		return upstream, c.ArgErr()
 	}
 	upstream.from = plugin.Host(upstream.from).Normalize()
-
 	to := c.RemainingArgs()
 	if len(to) == 0 {
 		return upstream, c.ArgErr()
 	}
-
-	// process the host list, substituting in any nameservers in files
 	toHosts, err := parse.HostPortOrFile(to...)
 	if err != nil {
 		return upstream, err
 	}
-
 	if len(toHosts) > max {
 		return upstream, fmt.Errorf("more than %d TOs configured: %d", max, len(toHosts))
 	}
-
 	for c.NextBlock() {
 		if err := parseBlock(c, upstream); err != nil {
 			return upstream, err
 		}
 	}
-
 	upstream.Hosts = make([]*healthcheck.UpstreamHost, len(toHosts))
-
 	for i, host := range toHosts {
-		uh := &healthcheck.UpstreamHost{
-			Name:        host,
-			FailTimeout: upstream.FailTimeout,
-			CheckDown:   checkDownFunc(upstream),
-		}
+		uh := &healthcheck.UpstreamHost{Name: host, FailTimeout: upstream.FailTimeout, CheckDown: checkDownFunc(upstream)}
 		upstream.Hosts[i] = uh
 	}
 	upstream.Start()
-
 	return upstream, nil
 }
-
 func parseBlock(c *caddyfile.Dispenser, u *staticUpstream) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch c.Val() {
 	case "policy":
 		if !c.NextArg() {
@@ -177,18 +154,17 @@ func parseBlock(c *caddyfile.Dispenser, u *staticUpstream) error {
 		default:
 			return fmt.Errorf("%s: %s", errInvalidProtocol, encArgs[0])
 		}
-
 	default:
 		return c.Errf("unknown property '%s'", c.Val())
 	}
 	return nil
 }
-
 func (u *staticUpstream) IsAllowedDomain(name string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if dns.Name(name) == dns.Name(u.From()) {
 		return true
 	}
-
 	for _, ignoredSubDomain := range u.IgnoredSubDomains {
 		if plugin.Name(ignoredSubDomain).Matches(name) {
 			return false
@@ -196,8 +172,15 @@ func (u *staticUpstream) IsAllowedDomain(name string) bool {
 	}
 	return true
 }
-
-func (u *staticUpstream) Exchanger() Exchanger { return u.ex }
-func (u *staticUpstream) From() string         { return u.from }
+func (u *staticUpstream) Exchanger() Exchanger {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return u.ex
+}
+func (u *staticUpstream) From() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return u.from
+}
 
 const max = 15

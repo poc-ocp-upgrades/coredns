@@ -1,4 +1,3 @@
-// Package trace implements OpenTracing-based tracing
 package trace
 
 import (
@@ -7,15 +6,12 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
-
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/metrics"
 	"github.com/coredns/coredns/plugin/pkg/dnstest"
 	"github.com/coredns/coredns/plugin/pkg/rcode"
-	// Plugin the trace package.
 	_ "github.com/coredns/coredns/plugin/pkg/trace"
 	"github.com/coredns/coredns/request"
-
 	ddtrace "github.com/DataDog/dd-trace-go/opentracing"
 	"github.com/miekg/dns"
 	ot "github.com/opentracing/opentracing-go"
@@ -23,30 +19,32 @@ import (
 )
 
 const (
-	tagName  = "coredns.io/name"
-	tagType  = "coredns.io/type"
-	tagRcode = "coredns.io/rcode"
+	tagName		= "coredns.io/name"
+	tagType		= "coredns.io/type"
+	tagRcode	= "coredns.io/rcode"
 )
 
 type trace struct {
-	Next            plugin.Handler
-	Endpoint        string
-	EndpointType    string
-	tracer          ot.Tracer
-	serviceEndpoint string
-	serviceName     string
-	clientServer    bool
-	every           uint64
-	count           uint64
-	Once            sync.Once
+	Next			plugin.Handler
+	Endpoint		string
+	EndpointType	string
+	tracer			ot.Tracer
+	serviceEndpoint	string
+	serviceName		string
+	clientServer	bool
+	every			uint64
+	count			uint64
+	Once			sync.Once
 }
 
 func (t *trace) Tracer() ot.Tracer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.tracer
 }
-
-// OnStartup sets up the tracer
 func (t *trace) OnStartup() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	t.Once.Do(func() {
 		switch t.EndpointType {
@@ -60,45 +58,42 @@ func (t *trace) OnStartup() error {
 	})
 	return err
 }
-
 func (t *trace) setupZipkin() error {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	collector, err := zipkin.NewHTTPCollector(t.Endpoint)
 	if err != nil {
 		return err
 	}
-
 	recorder := zipkin.NewRecorder(collector, false, t.serviceEndpoint, t.serviceName)
 	t.tracer, err = zipkin.NewTracer(recorder, zipkin.ClientServerSameSpan(t.clientServer))
-
 	return err
 }
-
 func (t *trace) setupDatadog() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := ddtrace.NewConfiguration()
 	config.ServiceName = t.serviceName
-
 	host := strings.Split(t.Endpoint, ":")
 	config.AgentHostname = host[0]
-
 	if len(host) == 2 {
 		config.AgentPort = host[1]
 	}
-
 	tracer, _, err := ddtrace.NewTracer(config)
 	t.tracer = tracer
 	return err
 }
-
-// Name implements the Handler interface.
-func (t *trace) Name() string { return "trace" }
-
-// ServeDNS implements the plugin.Handle interface.
+func (t *trace) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return "trace"
+}
 func (t *trace) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	trace := false
 	if t.every > 0 {
 		queryNr := atomic.AddUint64(&t.count, 1)
-
 		if queryNr%t.every == 0 {
 			trace = true
 		}
@@ -107,22 +102,19 @@ func (t *trace) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 	if !trace || span != nil {
 		return plugin.NextOrFailure(t.Name(), t.Next, ctx, w, r)
 	}
-
 	req := request.Request{W: w, Req: r}
 	span = t.Tracer().StartSpan(spanName(ctx, req))
 	defer span.Finish()
-
 	rw := dnstest.NewRecorder(w)
 	ctx = ot.ContextWithSpan(ctx, span)
 	status, err := plugin.NextOrFailure(t.Name(), t.Next, ctx, rw, r)
-
 	span.SetTag(tagName, req.Name())
 	span.SetTag(tagType, req.Type())
 	span.SetTag(tagRcode, rcode.ToString(rw.Rcode))
-
 	return status, err
 }
-
 func spanName(ctx context.Context, req request.Request) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "servedns:" + metrics.WithServer(ctx) + " " + req.Name()
 }

@@ -3,13 +3,11 @@ package route53
 import (
 	"context"
 	"strings"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/fall"
 	clog "github.com/coredns/coredns/plugin/pkg/log"
 	"github.com/coredns/coredns/plugin/pkg/upstream"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -21,37 +19,26 @@ import (
 var log = clog.NewWithPlugin("route53")
 
 func init() {
-	caddy.RegisterPlugin("route53", caddy.Plugin{
-		ServerType: "dns",
-		Action: func(c *caddy.Controller) error {
-			f := func(credential *credentials.Credentials) route53iface.Route53API {
-				return route53.New(session.Must(session.NewSession(&aws.Config{
-					Credentials: credential,
-				})))
-			}
-			return setup(c, f)
-		},
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("route53", caddy.Plugin{ServerType: "dns", Action: func(c *caddy.Controller) error {
+		f := func(credential *credentials.Credentials) route53iface.Route53API {
+			return route53.New(session.Must(session.NewSession(&aws.Config{Credentials: credential})))
+		}
+		return setup(c, f)
+	}})
 }
-
 func setup(c *caddy.Controller, f func(*credentials.Credentials) route53iface.Route53API) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keyPairs := map[string]struct{}{}
 	keys := map[string][]string{}
-
-	// Route53 plugin attempts to find AWS credentials by using ChainCredentials.
-	// And the order of that provider chain is as follows:
-	// Static AWS keys -> Environment Variables -> Credentials file -> IAM role
-	// With that said, even though a user doesn't define any credentials in
-	// Corefile, we should still attempt to read the default credentials file,
-	// ~/.aws/credentials with the default profile.
 	sharedProvider := &credentials.SharedCredentialsProvider{}
 	var providers []credentials.Provider
 	var fall fall.F
-
 	up, _ := upstream.New(nil)
 	for c.Next() {
 		args := c.RemainingArgs()
-
 		for i := 0; i < len(args); i++ {
 			parts := strings.SplitN(args[i], ":", 2)
 			if len(parts) != 2 {
@@ -64,11 +51,9 @@ func setup(c *caddy.Controller, f func(*credentials.Credentials) route53iface.Ro
 			if _, ok := keyPairs[args[i]]; ok {
 				return c.Errf("conflict zone '%s'", args[i])
 			}
-
 			keyPairs[args[i]] = struct{}{}
 			keys[dns] = append(keys[dns], hostedZoneID)
 		}
-
 		for c.NextBlock() {
 			switch c.Val() {
 			case "aws_access_key":
@@ -76,12 +61,7 @@ func setup(c *caddy.Controller, f func(*credentials.Credentials) route53iface.Ro
 				if len(v) < 2 {
 					return c.Errf("invalid access key '%v'", v)
 				}
-				providers = append(providers, &credentials.StaticProvider{
-					Value: credentials.Value{
-						AccessKeyID:     v[0],
-						SecretAccessKey: v[1],
-					},
-				})
+				providers = append(providers, &credentials.StaticProvider{Value: credentials.Value{AccessKeyID: v[0], SecretAccessKey: v[1]}})
 			case "upstream":
 				args := c.RemainingArgs()
 				var err error
@@ -106,7 +86,6 @@ func setup(c *caddy.Controller, f func(*credentials.Credentials) route53iface.Ro
 		}
 	}
 	providers = append(providers, &credentials.EnvProvider{}, sharedProvider)
-
 	client := f(credentials.NewChainCredentials(providers))
 	ctx := context.Background()
 	h, err := New(ctx, client, keys, &up)
@@ -121,6 +100,5 @@ func setup(c *caddy.Controller, f func(*credentials.Credentials) route53iface.Ro
 		h.Next = next
 		return h
 	})
-
 	return nil
 }

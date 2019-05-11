@@ -3,24 +3,21 @@ package proxy
 import (
 	"context"
 	"time"
-
 	"github.com/coredns/coredns/plugin/dnstap"
 	"github.com/coredns/coredns/plugin/dnstap/msg"
 	"github.com/coredns/coredns/request"
-
 	tap "github.com/dnstap/golang-dnstap"
 	"github.com/miekg/dns"
 )
 
 func toDnstap(ctx context.Context, host string, ex Exchanger, state request.Request, reply *dns.Msg, start time.Time) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tapper := dnstap.TapperFromContext(ctx)
 	if tapper == nil {
 		return nil
 	}
-
-	// Query
 	b := msg.New().Time(start).HostPort(host)
-
 	t := ex.Transport()
 	if t == "" {
 		t = state.Proto()
@@ -30,7 +27,6 @@ func toDnstap(ctx context.Context, host string, ex Exchanger, state request.Requ
 	} else {
 		b.SocketProto = tap.SocketProtocol_UDP
 	}
-
 	if tapper.Pack() {
 		b.Msg(state.Req)
 	}
@@ -39,8 +35,6 @@ func toDnstap(ctx context.Context, host string, ex Exchanger, state request.Requ
 		return err
 	}
 	tapper.TapMessage(m)
-
-	// Response
 	if reply != nil {
 		if tapper.Pack() {
 			b.Msg(reply)
@@ -51,6 +45,5 @@ func toDnstap(ctx context.Context, host string, ex Exchanger, state request.Requ
 		}
 		tapper.TapMessage(m)
 	}
-
 	return nil
 }

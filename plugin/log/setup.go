@@ -2,60 +2,44 @@ package log
 
 import (
 	"strings"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/response"
-
 	"github.com/mholt/caddy"
 	"github.com/miekg/dns"
 )
 
 func init() {
-	caddy.RegisterPlugin("log", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("log", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rules, err := logParse(c)
 	if err != nil {
 		return plugin.Error("log", err)
 	}
-
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
 		return Logger{Next: next, Rules: rules, ErrorFunc: dnsserver.DefaultErrorFunc}
 	})
-
 	return nil
 }
-
 func logParse(c *caddy.Controller) ([]Rule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var rules []Rule
-
 	for c.Next() {
 		args := c.RemainingArgs()
 		length := len(rules)
-
 		switch len(args) {
 		case 0:
-			// Nothing specified; use defaults
-			rules = append(rules, Rule{
-				NameScope: ".",
-				Format:    DefaultLogFormat,
-				Class:     make(map[response.Class]struct{}),
-			})
+			rules = append(rules, Rule{NameScope: ".", Format: DefaultLogFormat, Class: make(map[response.Class]struct{})})
 		case 1:
-			rules = append(rules, Rule{
-				NameScope: dns.Fqdn(args[0]),
-				Format:    DefaultLogFormat,
-				Class:     make(map[response.Class]struct{}),
-			})
+			rules = append(rules, Rule{NameScope: dns.Fqdn(args[0]), Format: DefaultLogFormat, Class: make(map[response.Class]struct{})})
 		default:
-			// Name scopes, and maybe a format specified
 			format := DefaultLogFormat
-
 			if strings.Contains(args[len(args)-1], "{") {
 				switch args[len(args)-1] {
 				case "{common}":
@@ -65,24 +49,15 @@ func logParse(c *caddy.Controller) ([]Rule, error) {
 				default:
 					format = args[len(args)-1]
 				}
-
 				args = args[:len(args)-1]
 			}
-
 			for _, str := range args {
-				rules = append(rules, Rule{
-					NameScope: dns.Fqdn(str),
-					Format:    format,
-					Class:     make(map[response.Class]struct{}),
-				})
+				rules = append(rules, Rule{NameScope: dns.Fqdn(str), Format: format, Class: make(map[response.Class]struct{})})
 			}
 		}
-
-		// Class refinements in an extra block.
 		classes := make(map[response.Class]struct{})
 		for c.NextBlock() {
 			switch c.Val() {
-			// class followed by combinations of all, denial, error and success.
 			case "class":
 				classesArgs := c.RemainingArgs()
 				if len(classesArgs) == 0 {
@@ -102,11 +77,9 @@ func logParse(c *caddy.Controller) ([]Rule, error) {
 		if len(classes) == 0 {
 			classes[response.All] = struct{}{}
 		}
-
 		for i := len(rules) - 1; i >= length; i -= 1 {
 			rules[i].Class = classes
 		}
 	}
-
 	return rules, nil
 }

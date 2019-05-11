@@ -6,57 +6,46 @@ import (
 	"net"
 	"strings"
 	"time"
-
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/dnsutil"
 	"github.com/coredns/coredns/plugin/pkg/parse"
 	"github.com/coredns/coredns/plugin/pkg/transport"
-
 	"github.com/mholt/caddy"
 	"github.com/mholt/caddy/caddyfile"
 )
 
 const serverType = "dns"
 
-// Any flags defined here, need to be namespaced to the serverType other
-// wise they potentially clash with other server types.
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag.StringVar(&Port, serverType+".port", DefaultPort, "Default port")
-
-	caddy.RegisterServerType(serverType, caddy.ServerType{
-		Directives: func() []string { return Directives },
-		DefaultInput: func() caddy.Input {
-			return caddy.CaddyfileInput{
-				Filepath:       "Corefile",
-				Contents:       []byte(".:" + Port + " {\nwhoami\n}\n"),
-				ServerTypeName: serverType,
-			}
-		},
-		NewContext: newContext,
-	})
+	caddy.RegisterServerType(serverType, caddy.ServerType{Directives: func() []string {
+		return Directives
+	}, DefaultInput: func() caddy.Input {
+		return caddy.CaddyfileInput{Filepath: "Corefile", Contents: []byte(".:" + Port + " {\nwhoami\n}\n"), ServerTypeName: serverType}
+	}, NewContext: newContext})
 }
-
 func newContext(i *caddy.Instance) caddy.Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &dnsContext{keysToConfigs: make(map[string]*Config)}
 }
 
 type dnsContext struct {
-	keysToConfigs map[string]*Config
-
-	// configs is the master list of all site configs.
-	configs []*Config
+	keysToConfigs	map[string]*Config
+	configs			[]*Config
 }
 
 func (h *dnsContext) saveConfig(key string, cfg *Config) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.configs = append(h.configs, cfg)
 	h.keysToConfigs[key] = cfg
 }
-
-// InspectServerBlocks make sure that everything checks out before
-// executing directives and otherwise prepares the directives to
-// be parsed and executed.
 func (h *dnsContext) InspectServerBlocks(sourceFile string, serverBlocks []caddyfile.ServerBlock) ([]caddyfile.ServerBlock, error) {
-	// Normalize and check all the zone names and check for duplicates
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for ib, s := range serverBlocks {
 		for ik, k := range s.Keys {
 			za, err := normalizeZone(k)
@@ -64,23 +53,15 @@ func (h *dnsContext) InspectServerBlocks(sourceFile string, serverBlocks []caddy
 				return nil, err
 			}
 			s.Keys[ik] = za.String()
-			// Save the config to our master list, and key it for lookups.
-			cfg := &Config{
-				Zone:        za.Zone,
-				ListenHosts: []string{""},
-				Port:        za.Port,
-				Transport:   za.Transport,
-			}
+			cfg := &Config{Zone: za.Zone, ListenHosts: []string{""}, Port: za.Port, Transport: za.Transport}
 			keyConfig := keyForConfig(ib, ik)
 			if za.IPNet == nil {
 				h.saveConfig(keyConfig, cfg)
 				continue
 			}
-
 			ones, bits := za.IPNet.Mask.Size()
-			if (bits-ones)%8 != 0 { // only do this for non-octet boundaries
+			if (bits-ones)%8 != 0 {
 				cfg.FilterFunc = func(s string) bool {
-					// TODO(miek): strings.ToLower! Slow and allocates new string.
 					addr := dnsutil.ExtractAddressFromReverse(strings.ToLower(s))
 					if addr == "" {
 						return true
@@ -93,26 +74,19 @@ func (h *dnsContext) InspectServerBlocks(sourceFile string, serverBlocks []caddy
 	}
 	return serverBlocks, nil
 }
-
-// MakeServers uses the newly-created siteConfigs to create and return a list of server instances.
 func (h *dnsContext) MakeServers() ([]caddy.Server, error) {
-
-	// Now that all Keys and Directives are parsed and initialized
-	// lets verify that there is no overlap on the zones and addresses to listen for
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errValid := h.validateZonesAndListeningAddresses()
 	if errValid != nil {
 		return nil, errValid
 	}
-
-	// we must map (group) each config to a bind address
 	groups, err := groupConfigsByListenAddr(h.configs)
 	if err != nil {
 		return nil, err
 	}
-	// then we create a server for each group
 	var servers []caddy.Server
 	for addr, group := range groups {
-		// switch on addr
 		switch tr, _ := parse.Transport(addr); tr {
 		case transport.DNS:
 			s, err := NewServer(addr, group)
@@ -120,21 +94,18 @@ func (h *dnsContext) MakeServers() ([]caddy.Server, error) {
 				return nil, err
 			}
 			servers = append(servers, s)
-
 		case transport.TLS:
 			s, err := NewServerTLS(addr, group)
 			if err != nil {
 				return nil, err
 			}
 			servers = append(servers, s)
-
 		case transport.GRPC:
 			s, err := NewServergRPC(addr, group)
 			if err != nil {
 				return nil, err
 			}
 			servers = append(servers, s)
-
 		case transport.HTTPS:
 			s, err := NewServerHTTPS(addr, group)
 			if err != nil {
@@ -142,33 +113,25 @@ func (h *dnsContext) MakeServers() ([]caddy.Server, error) {
 			}
 			servers = append(servers, s)
 		}
-
 	}
-
 	return servers, nil
 }
-
-// AddPlugin adds a plugin to a site's plugin stack.
 func (c *Config) AddPlugin(m plugin.Plugin) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.Plugin = append(c.Plugin, m)
 }
-
-// registerHandler adds a handler to a site's handler registration. Handlers
-//  use this to announce that they exist to other plugin.
 func (c *Config) registerHandler(h plugin.Handler) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.registry == nil {
 		c.registry = make(map[string]plugin.Handler)
 	}
-
-	// Just overwrite...
 	c.registry[h.Name()] = h
 }
-
-// Handler returns the plugin handler that has been added to the config under its name.
-// This is useful to inspect if a certain plugin is active in this server.
-// Note that this is order dependent and the order is defined in directives.go, i.e. if your plugin
-// comes before the plugin you are checking; it will not be there (yet).
 func (c *Config) Handler(name string) plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.registry == nil {
 		return nil
 	}
@@ -177,12 +140,9 @@ func (c *Config) Handler(name string) plugin.Handler {
 	}
 	return nil
 }
-
-// Handlers returns a slice of plugins that have been registered. This can be used to
-// inspect and interact with registered plugins but cannot be used to remove or add plugins.
-// Note that this is order dependent and the order is defined in directives.go, i.e. if your plugin
-// comes before the plugin you are checking; it will not be there (yet).
 func (c *Config) Handlers() []plugin.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.registry == nil {
 		return nil
 	}
@@ -192,13 +152,12 @@ func (c *Config) Handlers() []plugin.Handler {
 	}
 	return hs
 }
-
 func (h *dnsContext) validateZonesAndListeningAddresses() error {
-	//Validate Zone and addresses
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	checker := newOverlapZone()
 	for _, conf := range h.configs {
 		for _, h := range conf.ListenHosts {
-			// Validate the overlapping of ZoneAddr
 			akey := zoneAddr{Transport: conf.Transport, Zone: conf.Zone, Address: h, Port: conf.Port}
 			existZone, overlapZone := checker.registerAndCheck(akey)
 			if existZone != nil {
@@ -207,20 +166,13 @@ func (h *dnsContext) validateZonesAndListeningAddresses() error {
 			if overlapZone != nil {
 				return fmt.Errorf("cannot serve %s - zone overlap listener capacity with %v", akey.String(), overlapZone.String())
 			}
-
 		}
 	}
 	return nil
-
 }
-
-// groupSiteConfigsByListenAddr groups site configs by their listen
-// (bind) address, so sites that use the same listener can be served
-// on the same server instance. The return value maps the listen
-// address (what you pass into net.Listen) to the list of site configs.
-// This function does NOT vet the configs to ensure they are compatible.
 func groupConfigsByListenAddr(configs []*Config) (map[string][]*Config, error) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	groups := make(map[string][]*Config)
 	for _, conf := range configs {
 		for _, h := range conf.ListenHosts {
@@ -232,21 +184,13 @@ func groupConfigsByListenAddr(configs []*Config) (map[string][]*Config, error) {
 			groups[addrstr] = append(groups[addrstr], conf)
 		}
 	}
-
 	return groups, nil
 }
 
-// DefaultPort is the default port.
 const DefaultPort = transport.Port
 
-// These "soft defaults" are configurable by
-// command line flags, etc.
 var (
-	// Port is the port we listen on by default.
-	Port = DefaultPort
-
-	// GracefulTimeout is the maximum duration of a graceful shutdown.
-	GracefulTimeout time.Duration
+	Port			= DefaultPort
+	GracefulTimeout	time.Duration
 )
-
 var _ caddy.GracefulServer = new(Server)

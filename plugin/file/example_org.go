@@ -1,7 +1,5 @@
 package file
 
-// exampleOrgSigned is a fake signed example.org zone with two delegations,
-// one signed (with DSs) and one "normal".
 const exampleOrgSigned = `
 example.org.		1800	IN SOA	a.iana-servers.net. devnull.example.org. (
 					1282630057 ; serial

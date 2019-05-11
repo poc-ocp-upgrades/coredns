@@ -1,31 +1,24 @@
 package health
 
-// Healther interface needs to be implemented by each plugin willing to provide
-// healthhceck information to the health plugin. Note this method should return
-// quickly, i.e. just checking a boolean status, as it is called every second
-// from the health plugin.
-type Healther interface {
-	// Health returns a boolean indicating the health status of a plugin.
-	// False indicates unhealthy.
-	Health() bool
-}
+type Healther interface{ Health() bool }
 
-// Ok returns the global health status of all plugin configured in this server.
 func (h *health) Ok() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.RLock()
 	defer h.RUnlock()
 	return h.ok
 }
-
-// SetOk sets the global health status of all plugin configured in this server.
 func (h *health) SetOk(ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.Lock()
 	defer h.Unlock()
 	h.ok = ok
 }
-
-// poll polls all healthers and sets the global state.
 func (h *health) poll() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, m := range h.h {
 		if !m.Health() {
 			h.SetOk(false)

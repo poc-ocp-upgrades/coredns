@@ -4,60 +4,49 @@ import (
 	"fmt"
 	"io"
 	"sync"
-
 	"github.com/miekg/dns"
-
 	"github.com/coredns/coredns/pb"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/log"
 	"github.com/coredns/coredns/request"
 )
 
-// Watcher handles watch creation, cancellation, and processing.
 type Watcher interface {
-	// Watch monitors a client stream and creates and cancels watches.
 	Watch(pb.DnsService_WatchServer) error
-
-	// Stop cancels open watches and stops the watch processing go routine.
 	Stop()
 }
-
-// Manager contains all the data needed to manage watches
 type Manager struct {
-	changes Chan
-	stopper chan bool
-	counter int64
-	watches map[string]watchlist
-	plugins []Watchable
-	mutex   sync.Mutex
+	changes	Chan
+	stopper	chan bool
+	counter	int64
+	watches	map[string]watchlist
+	plugins	[]Watchable
+	mutex	sync.Mutex
 }
-
 type watchlist map[int64]pb.DnsService_WatchServer
 
-// NewWatcher creates a Watcher, which is used to manage watched names.
 func NewWatcher(plugins []Watchable) *Manager {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := &Manager{changes: make(Chan), stopper: make(chan bool), watches: make(map[string]watchlist), plugins: plugins}
-
 	for _, p := range plugins {
 		p.SetWatchChan(w.changes)
 	}
-
 	go w.process()
 	return w
 }
-
 func (w *Manager) nextID() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.mutex.Lock()
-
 	w.counter++
 	id := w.counter
-
 	w.mutex.Unlock()
 	return id
 }
-
-// Watch monitors a client stream and creates and cancels watches.
 func (w *Manager) Watch(stream pb.DnsService_WatchServer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		in, err := stream.Recv()
 		if err == io.EOF {
@@ -77,20 +66,15 @@ func (w *Manager) Watch(stream pb.DnsService_WatchServer) error {
 			}
 			id := w.nextID()
 			if err := stream.Send(&pb.WatchResponse{WatchId: id, Created: true}); err != nil {
-				// if we fail to notify client of watch creation, don't create the watch
 				continue
 			}
-
-			// Normalize qname
 			qname := (&request.Request{Req: msg}).Name()
-
 			w.mutex.Lock()
 			if _, ok := w.watches[qname]; !ok {
 				w.watches[qname] = make(watchlist)
 			}
 			w.watches[qname][id] = stream
 			w.mutex.Unlock()
-
 			for _, p := range w.plugins {
 				err := p.Watch(qname)
 				if err != nil {
@@ -100,7 +84,6 @@ func (w *Manager) Watch(stream pb.DnsService_WatchServer) error {
 			}
 			continue
 		}
-
 		cancel := in.GetCancelRequest()
 		if cancel != nil {
 			w.mutex.Lock()
@@ -109,24 +92,16 @@ func (w *Manager) Watch(stream pb.DnsService_WatchServer) error {
 				if !ok {
 					continue
 				}
-
-				// only allow cancels from the client that started it
-				// TODO: test what happens if a stream tries to cancel a watchID that it doesn't own
 				if ws != stream {
 					continue
 				}
-
 				delete(wl, cancel.WatchId)
-
-				// if there are no more watches for this qname, we should tell the plugins
 				if len(wl) == 0 {
 					for _, p := range w.plugins {
 						p.StopWatching(qname)
 					}
 					delete(w.watches, qname)
 				}
-
-				// let the client know we canceled the watch
 				stream.Send(&pb.WatchResponse{WatchId: cancel.WatchId, Canceled: true})
 			}
 			w.mutex.Unlock()
@@ -134,8 +109,9 @@ func (w *Manager) Watch(stream pb.DnsService_WatchServer) error {
 		}
 	}
 }
-
 func (w *Manager) process() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		select {
 		case <-w.stopper:
@@ -159,9 +135,9 @@ func (w *Manager) process() {
 		}
 	}
 }
-
-// Stop cancels open watches and stops the watch processing go routine.
 func (w *Manager) Stop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.stopper <- true
 	w.mutex.Lock()
 	for wn, wl := range w.watches {

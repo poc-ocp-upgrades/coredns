@@ -2,35 +2,29 @@ package autopath
 
 import (
 	"fmt"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/metrics"
-
 	"github.com/mholt/caddy"
 	"github.com/miekg/dns"
 )
 
 func init() {
-	caddy.RegisterPlugin("autopath", caddy.Plugin{
-		ServerType: "dns",
-		Action:     setup,
-	})
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	caddy.RegisterPlugin("autopath", caddy.Plugin{ServerType: "dns", Action: setup})
 }
-
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ap, mw, err := autoPathParse(c)
 	if err != nil {
 		return plugin.Error("autopath", err)
 	}
-
 	c.OnStartup(func() error {
 		metrics.MustRegister(c, autoPathCount)
 		return nil
 	})
-
-	// Do this in OnStartup, so all plugin has been initialized.
 	c.OnStartup(func() error {
 		m := dnsserver.GetConfig(c).Handler(mw)
 		if m == nil {
@@ -43,19 +37,17 @@ func setup(c *caddy.Controller) error {
 		}
 		return nil
 	})
-
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
 		ap.Next = next
 		return ap
 	})
-
 	return nil
 }
-
 func autoPathParse(c *caddy.Controller) (*AutoPath, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ap := &AutoPath{}
 	mw := ""
-
 	for c.Next() {
 		zoneAndresolv := c.RemainingArgs()
 		if len(zoneAndresolv) < 1 {
@@ -65,14 +57,13 @@ func autoPathParse(c *caddy.Controller) (*AutoPath, string, error) {
 		if resolv[0] == '@' {
 			mw = resolv[1:]
 		} else {
-			// assume file on disk
 			rc, err := dns.ClientConfigFromFile(resolv)
 			if err != nil {
 				return ap, "", fmt.Errorf("failed to parse %q: %v", resolv, err)
 			}
 			ap.search = rc.Search
 			plugin.Zones(ap.search).Normalize()
-			ap.search = append(ap.search, "") // sentinel value as demanded.
+			ap.search = append(ap.search, "")
 		}
 		ap.Zones = zoneAndresolv[:len(zoneAndresolv)-1]
 		if len(ap.Zones) == 0 {

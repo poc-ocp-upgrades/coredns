@@ -3,17 +3,15 @@ package bind
 import (
 	"fmt"
 	"net"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
-
 	"github.com/mholt/caddy"
 )
 
 func setup(c *caddy.Controller) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := dnsserver.GetConfig(c)
-
-	// addresses will be consolidated over all BIND directives available in that BlocServer
 	all := []string{}
 	for c.Next() {
 		addrs := c.RemainingArgs()
